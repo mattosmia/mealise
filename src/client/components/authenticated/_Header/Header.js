@@ -28,6 +28,7 @@ export default function Header() {
                 <li><Link to="/ingredients"><span className="nav__icon" aria-hidden="true"></span>Ingredients</Link></li>
                 <li><Link to="/shopping-lists"><span className="nav__icon" aria-hidden="true"></span>Shopping lists</Link></li>
                 <li><Link to="/account-settings"><span className="nav__icon" aria-hidden="true"></span>Account settings</Link></li>
+                <li><Link to="/logout"><span className="nav__icon" aria-hidden="true"></span>Log out</Link></li>
             </ul>
         </nav>
     </header>
