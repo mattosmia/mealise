@@ -2,19 +2,20 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 
 import './App.scss';
 
-import Header from '../components/authenticated/_Header/Header';
-import Footer from '../components/authenticated/_Footer/Footer';
-import Planner from '../components/authenticated/Planner/Planner';
-import Ingredients from '../components/authenticated/Ingredients/Ingredients';
-import Recipes from '../components/authenticated/Recipes/Recipes';
-import Meals from '../components/authenticated/Meals/Meals';
-import ShoppingLists from '../components/authenticated/ShoppingLists/ShoppingLists';
-import AccountSettings from '../components/authenticated/AccountSettings/AccountSettings';
+import Header from '../authenticated/_Header/Header';
+import Footer from '../authenticated/_Footer/Footer';
+import Planner from '../authenticated/Planner/Planner';
+import Ingredients from '../authenticated/Ingredients/Ingredients';
+import Recipes from '../authenticated/Recipes/Recipes';
+import Meals from '../authenticated/Meals/Meals';
+import ShoppingLists from '../authenticated/ShoppingLists/ShoppingLists';
+import AccountSettings from '../authenticated/AccountSettings/AccountSettings';
 
 export default function App() {
   return (
@@ -23,6 +24,9 @@ export default function App() {
       <main>
         <Switch>
           <Route exact path="/">
+            <Redirect to="/planner" />
+          </Route>
+          <Route path="/planner">
             <Planner />
           </Route>
           <Route path="/meals">

@@ -23,7 +23,13 @@ app.use(bodyParser.json())
 app.use(express.static('dist'));
 
 // app.use("/api/", endpoints)
-
+app.get('/*', function(req, res) {
+	res.sendFile('index.html', { root: './dist' }), function(err) {
+		if (err) {
+		res.status(500).send(err)
+		}
+	}
+});
 
 app.listen(port, () => console.log("Server started on port " + port))
 
