@@ -43,6 +43,7 @@ module.exports = {
           { loader: 'file-loader' },
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
+          { loader: 'resolve-url-loader' },
           {
             loader: 'sass-loader',
             options: {
@@ -52,8 +53,8 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|woff|ttf|svg)$/,
-        loader: 'url-loader?limit=100000'
+        test: /\.(png|svg|otf|ttf)$/,
+        loader: 'url-loader?limit=100000&name=[name]-[hash].[ext]'
       }
     ]
   },
