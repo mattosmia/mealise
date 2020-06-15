@@ -20,14 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(bodyParser.json())
 
-app.use(express.static(path.join('client', 'build')))
+app.use(express.static('dist'));
 
 // app.use("/api/", endpoints)
 
-
-// app.get('/*', (request, response) => {
-// 	response.sendFile('index.html', { root: './client/build' })
-// })
 
 app.listen(port, () => console.log("Server started on port " + port))
 
@@ -45,9 +41,4 @@ app.get('/sendgridtest', (request, response) => {
 	  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 	};
 	sgMail.send(msg);
-})
-
-// 404 if URL not found
-app.all("*", function(req, res) {	
-	return endpointResp.notFound(res, "Page not found")
 })
