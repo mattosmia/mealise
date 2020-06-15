@@ -1,0 +1,41 @@
+// variables
+$black: hsl(184, 100%, 3%);
+$white: hsl(300, 100%, 99%);
+$purple: hsl(272, 49%, 19%);
+$violet: hsl(272, 50%, 70%);
+$pink: hsl(347, 82%, 70%);
+$orange: hsl(18, 84%, 61%);
+$yellow: hsl(39, 91%, 60%);
+$green: hsl(88, 44%, 55%);
+$blue: hsl(219, 43%, 66%);
+
+$white20: hsla(300, 100%, 99%, 0.2);
+$white40: hsla(300, 100%, 99%, 0.4);
+$white90: hsla(300, 100%, 99%, 0.9);
+
+$violet50: hsla(272, 50%, 70%, 0.5);
+$pink50: hsla(347, 82%, 70%, 0.5);
+$orange50: hsla(18, 84%, 61%, 0.5);
+$yellow50: hsla(39, 91%, 60%, 0.5);
+$green50: hsla(88, 44%, 55%, 0.5);
+$blue50: hsla(219, 43%, 66%, 0.5);
+
+$font-heading: 'Museo Slab', sans-serif;
+$font-body: 'Museo Sans', sans-serif;
+
+$transition-duration: 0.25s;
+
+$border-circle: 50%;
+$border-rounded: 0.5rem;
+
+// navigation
+$mininav-width: 80px;
+$fullnav-width: 350px;
+
+// order of menu items
+$planner-nth-child: 1;
+$meals-nth-child: 2;
+$recipes-nth-child: 3;
+$ingredients-nth-child: 4;
+$shoppinglists-nth-child: 5;
+$accountsettings-nth-child: 6;

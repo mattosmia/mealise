@@ -1,0 +1,27 @@
+@import '../../../variables.scss';
+
+footer {
+  padding: 3rem;
+  background: $black;
+  color: $white;
+  text-align: right;
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    li {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      cursor: pointer;
+      padding: 0 2rem;
+      white-space: nowrap;
+      &:not(:last-of-type) {
+        border-right: 1px solid $white;
+      }
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
