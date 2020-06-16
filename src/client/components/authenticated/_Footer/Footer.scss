@@ -4,23 +4,28 @@ footer {
   padding: 3rem;
   background: $black;
   color: $white;
+  text-align: center;
+  @include desktop {
   text-align: right;
+}
   ul {
     display: flex;
-    flex-direction: row;
+    list-style: none;
+    flex-direction: column;
+    @include desktop {
     justify-content: flex-end;
-    li {
-      display: flex;
-      align-items: center;
-      list-style: none;
-      cursor: pointer;
-      padding: 0 2rem;
-      white-space: nowrap;
-      &:not(:last-of-type) {
-        border-right: 1px solid $white;
-      }
-      &:hover {
-        text-decoration: underline;
+      flex-direction: row;
+    }
+      li {
+        padding: 1rem 2rem;
+        @include desktop {
+        display: flex;
+        align-items: center;
+        padding: 0 2rem;
+        white-space: nowrap;
+        &:not(:last-of-type) {
+          border-right: 1px solid $white;
+        }
       }
     }
   }

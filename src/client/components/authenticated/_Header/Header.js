@@ -14,21 +14,29 @@ const themeClasses = {
 
 export default function Header() {
   const thisPage = useLocation();
+
+  const toggleMobileNav = () => {
+    document.getElementById('main-nav').classList.toggle('show');
+  }
+  const closeMobileNav = () => {
+    document.getElementById('main-nav').classList.remove('show');
+  }
   return (
     <header className={themeClasses[thisPage.pathname] || null}>
         <h1 className="header__logo">
-            <span className="nav__icon" aria-hidden="true"></span>
+            <span className="logo-icon" aria-hidden="true"></span>
             <span className="vh">Mealise</span>
+            <button className="mobile-nav" onClick={toggleMobileNav}></button>
         </h1>
-        <nav>
+        <nav id="main-nav">
             <ul>
-                <li><Link to="/planner"><span className="nav__icon" aria-hidden="true"></span>Planner</Link></li>
-                <li><Link to="/meals"><span className="nav__icon" aria-hidden="true"></span>Meals</Link></li>
-                <li><Link to="/recipes"><span className="nav__icon" aria-hidden="true"></span>Recipes</Link></li>
-                <li><Link to="/ingredients"><span className="nav__icon" aria-hidden="true"></span>Ingredients</Link></li>
-                <li><Link to="/shopping-lists"><span className="nav__icon" aria-hidden="true"></span>Shopping lists</Link></li>
-                <li><Link to="/account-settings"><span className="nav__icon" aria-hidden="true"></span>Account settings</Link></li>
-                <li><Link to="/logout"><span className="nav__icon" aria-hidden="true"></span>Log out</Link></li>
+                <li><Link to="/planner" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Planner</Link></li>
+                <li><Link to="/meals" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Meals</Link></li>
+                <li><Link to="/recipes" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Recipes</Link></li>
+                <li><Link to="/ingredients" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Ingredients</Link></li>
+                <li><Link to="/shopping-lists" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Shopping lists</Link></li>
+                <li><Link to="/account-settings" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Account settings</Link></li>
+                <li><Link to="/logout" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Log out</Link></li>
             </ul>
         </nav>
     </header>

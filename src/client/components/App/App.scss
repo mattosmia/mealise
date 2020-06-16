@@ -23,7 +23,11 @@ html {
 
 body {
   font-size: 1.8rem;
-  margin-left: $mininav-width;
+  margin-top: $mininav-width;
+  @include desktop {
+    margin-top: 0;
+    margin-left: $mininav-width;
+  }
 }
 
 #app {

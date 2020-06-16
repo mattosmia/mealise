@@ -13,11 +13,18 @@ $white20: hsla(300, 100%, 99%, 0.2);
 $white40: hsla(300, 100%, 99%, 0.4);
 $white90: hsla(300, 100%, 99%, 0.9);
 
+$violet10: hsla(272, 48%, 36%, 0.1);
 $violet50: hsla(272, 50%, 70%, 0.5);
+$pink10: hsla(347, 82%, 70%, 0.1);
 $pink50: hsla(347, 82%, 70%, 0.5);
+$orange10: hsla(18, 84%, 61%, 0.1);
 $orange50: hsla(18, 84%, 61%, 0.5);
+$orange10: hsla(18, 84%, 61%, 0.1);
+$yellow10: hsla(39, 91%, 60%, 0.1);
 $yellow50: hsla(39, 91%, 60%, 0.5);
+$green10: hsla(88, 44%, 55%, 0.1);
 $green50: hsla(88, 44%, 55%, 0.5);
+$blue10: hsla(219, 43%, 66%, 0.1);
 $blue50: hsla(219, 43%, 66%, 0.5);
 
 $font-heading: 'Museo Slab', sans-serif;
@@ -40,3 +47,12 @@ $ingredients-nth-child: 4;
 $shoppinglists-nth-child: 5;
 $accountsettings-nth-child: 6;
 $logout-nth-child: 7;
+
+$breakpoint-desktop: 1024px;
+
+// Small devices
+@mixin desktop {
+    @media (min-width: #{$breakpoint-desktop}) {
+        @content;
+    }
+ }
