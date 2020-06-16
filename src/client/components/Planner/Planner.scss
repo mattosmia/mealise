@@ -4,4 +4,9 @@
     h1 {
       text-shadow: 2px 2px 0 $violet50;
     }
+    &__wrapper {
+      border: 1px solid $black;
+      border-radius: $border-rounded;
+      display: flex;
+    }
 }

@@ -139,3 +139,11 @@ button {
     }
   }
 }
+
+input {
+  border: 1px solid $black;
+  border-bottom-width: 2px;
+  border-radius: $border-rounded;
+  display: block;
+  padding: 0.75rem 1rem;
+}
