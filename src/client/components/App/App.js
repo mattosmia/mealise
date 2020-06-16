@@ -8,14 +8,15 @@ import {
 
 import './App.scss';
 
-import Header from '../authenticated/_Header/Header';
-import Footer from '../authenticated/_Footer/Footer';
-import Planner from '../authenticated/Planner/Planner';
-import Ingredients from '../authenticated/Ingredients/Ingredients';
-import Recipes from '../authenticated/Recipes/Recipes';
-import Meals from '../authenticated/Meals/Meals';
-import ShoppingLists from '../authenticated/ShoppingLists/ShoppingLists';
-import AccountSettings from '../authenticated/AccountSettings/AccountSettings';
+import Header from '../_Header/Header';
+import Footer from '../_Footer/Footer';
+import Planner from '../Planner/Planner';
+import Ingredients from '../Ingredients/Ingredients';
+import Recipes from '../Recipes/Recipes';
+import Meals from '../Meals/Meals';
+import ShoppingLists from '../ShoppingLists/ShoppingLists';
+import AccountSettings from '../AccountSettings/AccountSettings';
+import CookieNotice from '../CookieNotice/CookieNotice';
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         </Switch>
       </main>
       <Footer/>
+      <CookieNotice />
     </Router>
   )
 }

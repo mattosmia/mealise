@@ -108,3 +108,34 @@ h6 {
   }
 }
 
+a {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+button {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border: 1px solid $purple;
+  color: $white;
+  background-color: $purple;
+  border-radius: $border-rounded;
+  white-space: nowrap;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.button--ghost {
+    color: $purple;
+    background-color: transparent;
+  }
+  &.button--white {
+    border-color: $white;
+    background-color: $purple;
+    color: $white;
+    &.button--ghost {
+      background-color: transparent;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '../variables.scss';
 
 footer {
   background: $black;
@@ -29,9 +29,6 @@ footer {
         }
         a {
           text-transform: capitalize;
-          &:hover {
-            text-decoration: none;
-          }
         }
       }
     }
