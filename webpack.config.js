@@ -53,7 +53,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|otf|ttf)$/,
+        test: /\.(png|svg|woff)$/,
         loader: 'url-loader?limit=100000&name=[name]-[hash].[ext]'
       }
     ]

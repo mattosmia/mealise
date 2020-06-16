@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import './Footer.scss';
 
 export default function Footer() {
@@ -6,11 +8,11 @@ export default function Footer() {
     <footer>
       <nav>
         <ul>
-          <li>About Us</li>
-          <li>Terms & Conditions</li>
-          <li>Privacy Policy</li>
-          <li>Cookie Policy</li>
-          <li>Contact Us</li>
+          <li><Link to="/about-us">About us</Link></li>
+          <li><Link to="/terms-conditions">Terms & conditions</Link></li>
+          <li><Link to="/privacy-policy">Privacy policy</Link></li>
+          <li><Link to="/cookie-policy">Cookie policy</Link></li>
+          <li><Link to="/contact-us">Contact us</Link></li>
         </ul> 
       </nav>
     </footer>
