@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
  
 import './Planner.scss';
 import PlannerDay from './PlannerDay';
+import Spinner from '../Spinner/Spinner';
 
 export default function Planner() {
   const initialEndDate = new Date();
@@ -11,6 +12,7 @@ export default function Planner() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(initialEndDate);
   const [plannerRange, setPlannerRange] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
     const newDateRange = [];
@@ -22,8 +24,10 @@ export default function Planner() {
 
   return (
     <section className="planner">
+      { isLoading && <Spinner /> }
       <h1>Planner</h1>
       <div className="planner__datepicker">
+        <label><span>From:</span>
         <DatePicker
           selected={startDate}
           onChange={date => setStartDate(date)}
@@ -33,7 +37,8 @@ export default function Planner() {
           maxDate={endDate}
           todayButton="Today"
           dateFormat="dd/MM/yyyy"
-        />
+        /></label>
+        <label><span>To:</span>
         <DatePicker
           selected={endDate}
           onChange={date => setEndDate(date)}
@@ -43,7 +48,7 @@ export default function Planner() {
           minDate={startDate}
           todayButton="Today"
           dateFormat="dd/MM/yyyy"
-        />
+        /></label>
       </div>
       <div className="planner__wrapper">
         { !plannerRange.length?
