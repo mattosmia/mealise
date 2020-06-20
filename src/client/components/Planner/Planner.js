@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from "react-datepicker";
  
 import './Planner.scss';
-import PlannerDay from './PlannerDay';
+import PlannerDayCard from './PlannerDayCard';
 import Spinner from '../Spinner/Spinner';
 
 export default function Planner() {
@@ -53,7 +53,7 @@ export default function Planner() {
       <div className="planner__wrapper">
         { !plannerRange.length?
           <>Nothing to see here!</> :
-          plannerRange.map(i => <PlannerDay key={i} date={i} />)
+          plannerRange.map(i => <PlannerDayCard key={i.getTime()} date={i} />)
         }
       </div>
     </section>
