@@ -17,6 +17,7 @@ import Meals from '../Meals/Meals';
 import ShoppingLists from '../ShoppingLists/ShoppingLists';
 import AccountSettings from '../AccountSettings/AccountSettings';
 import CookieNotice from '../CookieNotice/CookieNotice';
+import Landing from '../Landing/Landing';
 
 export default function App() {
   return (
@@ -25,7 +26,8 @@ export default function App() {
       <main>
         <Switch>
           <Route exact path="/">
-            <Redirect to="/planner" />
+            {/* <Redirect to="/planner" /> */}
+            <Landing />
           </Route>
           <Route path="/planner">
             <Planner />
