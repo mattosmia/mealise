@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import './Planner.scss';
 import PlannerDayCard from './PlannerDayCard';
 import Spinner from '../Spinner/Spinner';
+import AlertMessage from '../_AlertMessage/AlertMessage';
 
 export default function Planner() {
   const initialEndDate = new Date();
@@ -52,7 +53,7 @@ export default function Planner() {
       </div>
       <div className="planner__wrapper">
         { !plannerRange.length?
-          <>Nothing to see here!</> :
+          <AlertMessage>Nothing to see here. This is likely an error.</AlertMessage> :
           plannerRange.map(i => <PlannerDayCard key={i.getTime()} date={i} />)
         }
       </div>
