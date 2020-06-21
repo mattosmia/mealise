@@ -8,8 +8,6 @@ import {
 
 import './App.scss';
 
-import Header from '../_Header/Header';
-import Footer from '../_Footer/Footer';
 import Planner from '../Planner/Planner';
 import Ingredients from '../Ingredients/Ingredients';
 import Recipes from '../Recipes/Recipes';
@@ -18,38 +16,41 @@ import ShoppingLists from '../ShoppingLists/ShoppingLists';
 import AccountSettings from '../AccountSettings/AccountSettings';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import Landing from '../Landing/Landing';
+import AuthorisedView from './AuthorisedView';
+import BrochureView from './BrochureView';
+import NotFound from '../NotFound/NotFound';
 
 export default function App() {
   return (
     <Router>
-      <Header />
-      <main>
         <Switch>
           <Route exact path="/">
             {/* <Redirect to="/planner" /> */}
-            <Landing />
+            <BrochureView><Landing /></BrochureView>
           </Route>
           <Route path="/planner">
-            <Planner />
+            <AuthorisedView><Planner /></AuthorisedView>
           </Route>
           <Route path="/meals">
-            <Meals />
+            <AuthorisedView><Meals /></AuthorisedView>
           </Route>
           <Route path="/recipes">
-            <Recipes />
+            <AuthorisedView><Recipes /></AuthorisedView>
           </Route>
           <Route path="/ingredients">
-            <Ingredients />
+            <AuthorisedView><Ingredients /></AuthorisedView>
           </Route>
           <Route path="/shopping-lists">
-            <ShoppingLists />
+            <AuthorisedView><ShoppingLists /></AuthorisedView>
           </Route>
           <Route path="/account-settings">
-            <AccountSettings />
+            <AuthorisedView><AccountSettings /></AuthorisedView>
+          </Route>
+					{/* 404 */}
+					<Route>
+            <BrochureView><NotFound /></BrochureView>
           </Route>
         </Switch>
-      </main>
-      <Footer/>
       <CookieNotice />
     </Router>
   )

@@ -18,15 +18,17 @@ export default function Header() {
   const toggleMobileNav = () => {
     document.getElementById('main-nav').classList.toggle('show');
   }
+
   const closeMobileNav = () => {
     document.getElementById('main-nav').classList.remove('show');
   }
+
   return (
-    <header className={themeClasses[thisPage.pathname] || null}>
+    <header className={`auth ${themeClasses[thisPage.pathname]?themeClasses[thisPage.pathname]:''}`}>
         <h1 className="header__logo">
             <span className="logo-icon" aria-hidden="true"></span>
             <span className="vh">Mealise</span>
-            <button className="mobile-nav" onClick={toggleMobileNav}></button>
+            <button className="mobile-nav" onClick={toggleMobileNav}><span className="vh">Main navigation</span></button>
         </h1>
         <nav id="main-nav">
             <ul>

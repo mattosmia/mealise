@@ -8,6 +8,9 @@ footer {
   @include desktop {
     padding: 3rem;
     text-align: right;
+    &.auth {
+      margin-left: $mininav-width;
+    }
   }
   ul {
     display: flex;

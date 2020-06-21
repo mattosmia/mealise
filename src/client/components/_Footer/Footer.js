@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './Footer.scss';
 
-export default function Footer() {
+export default function Footer({ isAuth }) {
   return (
-    <footer>
+    <footer className={isAuth && 'auth'}>
       <ul>
         <li><Link to="/about-us">About us</Link></li>
         <li><Link to="/terms-conditions">Terms & conditions</Link></li>
