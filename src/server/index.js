@@ -1,7 +1,8 @@
-const express = require("express")
-const secure = require("ssl-express-www")
+const express = require("express");
+const app = express();
 
-const app = express()
+const sslRedirect = require('heroku-ssl-redirect');
+app.use(sslRedirect());
 
 const path = require("path")
 
