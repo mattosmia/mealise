@@ -1,16 +1,44 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import AuthNavItem from './AuthNavItem';
+
 import './Header.scss';
 
-const themeClasses = {
-  '/planner': 'in-planner',
-  '/meals': 'in-meals',
-  '/recipes': 'in-recipes',
-  '/ingredients': 'in-ingredients',
-  '/shopping-lists': 'in-shoppinglists',
-  '/account-settings': 'in-accountsettings'
-}
+const navItems = [
+  {
+    path: '/planner',
+    name: 'Planner',
+    themeCls: 'in-planner'
+  },
+  {
+    path: '/meals',
+    name: 'Meals',
+    themeCls: 'in-meals'
+  },
+  {
+    path: '/recipes',
+    name: 'Recipes',
+    themeCls: 'in-recipes'
+  },
+  {
+    path: '/ingredients',
+    name: 'Ingredients',
+    themeCls: 'in-ingredients'
+  },  {
+    path: '/shopping-lists',
+    name: 'Shopping lists',
+    themeCls: 'in-shoppinglists'
+  },  {
+    path: '/account-settings',
+    name: 'Account settings',
+    themeCls: 'in-accountsettings'
+  },  {
+    path: '/logout',
+    name: 'Log out',
+    themeCls: null
+  },
+]
 
 export default function Header() {
   const thisPage = useLocation();
@@ -19,26 +47,20 @@ export default function Header() {
     document.getElementById('main-nav').classList.toggle('show');
   }
 
-  const closeMobileNav = () => {
-    document.getElementById('main-nav').classList.remove('show');
-  }
+  const selectedNavItem = navItems.find(navItem => navItem.path === thisPage.pathname);
 
   return (
-    <header className={`auth ${themeClasses[thisPage.pathname]?themeClasses[thisPage.pathname]:''}`}>
+    <header className={`auth ${selectedNavItem.themeCls || ''}`}>
         <h1 className="header__logo">
-            <span className="logo-icon" aria-hidden="true"></span>
-            <span className="vh">Mealise</span>
-            <button className="mobile-nav" onClick={toggleMobileNav}><span className="vh">Main navigation</span></button>
+          <span className="logo-icon" aria-hidden="true"></span>
+          <span className="vh">Mealise</span>
+          <button className="mobile-nav" onClick={toggleMobileNav}><span className="vh">Main navigation</span></button>
         </h1>
         <nav id="main-nav">
             <ul>
-                <li><Link to="/planner" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Planner</Link></li>
-                <li><Link to="/meals" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Meals</Link></li>
-                <li><Link to="/recipes" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Recipes</Link></li>
-                <li><Link to="/ingredients" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Ingredients</Link></li>
-                <li><Link to="/shopping-lists" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Shopping lists</Link></li>
-                <li><Link to="/account-settings" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Account settings</Link></li>
-                <li><Link to="/logout" onClick={closeMobileNav}><span className="nav__icon" aria-hidden="true"></span>Log out</Link></li>
+              { navItems.map((navItem,i) => 
+                <AuthNavItem key={i} name={navItem.name} path={navItem.path} />
+              )}
             </ul>
         </nav>
     </header>

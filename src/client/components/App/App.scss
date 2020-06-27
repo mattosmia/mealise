@@ -14,7 +14,7 @@
 
 *:focus {
   outline: 1px solid $black;
-  outline-offset: 0;
+  outline-offset: -1px;
 }
 
 footer *:focus {
@@ -66,6 +66,10 @@ main {
       margin-top: 0px;
     }
   }
+}
+
+section {
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -121,6 +125,10 @@ h6 {
   }
 }
 
+p {
+  line-height: 1.5;
+}
+
 a {
   text-decoration: underline;
   &:hover {
@@ -129,6 +137,7 @@ a {
 }
 
 button {
+  display: inline-block;
   padding: 0.75rem 1rem;
   cursor: pointer;
   border: 1px solid $black;
