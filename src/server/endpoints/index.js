@@ -1,12 +1,16 @@
-var express = require("express")
-var app = express()
+const express = require("express");
+const app = express();
 
-var mealRouter = require("./meals")
-var recipeRouter = require("./recipes")
-var ingredientRouter = require("./ingredients")
+const userRouter = require("./user");
+const plannerRouter = require("./planner");
+const mealRouter = require("./meal");
+const recipeRouter = require("./recipe");
+const ingredientRouter = require("./ingredient");
 
-app.use("/meals", mealRouter)
-app.use("/recipes", recipeRouter)
-app.use("/ingredients", ingredientRouter)
+app.use("/user", userRouter);
+app.use("/planner", plannerRouter);
+app.use("/meal", mealRouter);
+app.use("/recipe", recipeRouter);
+app.use("/ingredient", ingredientRouter);
 
 module.exports = app
