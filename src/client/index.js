@@ -7,9 +7,9 @@ if (process.env.NODE_ENV !== 'production') {
   import('react-axe').then(axe => {
     axe.default(React, ReactDOM, 1000);
     ReactDOM.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>,
+      // <React.StrictMode>
+        <App />,
+      // </React.StrictMode>,
       document.getElementById('app')
     )
   });
