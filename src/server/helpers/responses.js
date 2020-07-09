@@ -28,7 +28,7 @@ exports.badRequest = (resp, message, data)  => resp.status(400).json(
   }
 )
 
-exports.unauthorized = (resp, message) => resp.status(401).json(
+exports.unauthorised = (resp, message) => resp.status(401).json(
   {
     success: false,
     message

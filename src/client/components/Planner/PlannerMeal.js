@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../elements/Button';
 
 export default function PlannerMeal({ plannedMeal }) {
   const handleAddMeal = () => {
@@ -12,9 +13,9 @@ export default function PlannerMeal({ plannedMeal }) {
           {plannedMeal.recipeName}
         </div>
       :
-        <button onClick={handleAddMeal} className="planner__wrapper__card__meal__add-button">
+        <Button handleClick={handleAddMeal} classes="planner__wrapper__card__meal__add-button">
           <span className="vh">Plan meal</span>
-        </button>
+        </Button>
       }
     </div>
   )

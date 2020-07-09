@@ -1,8 +1,9 @@
-var express = require("express");
-const IngredientController = require("../controllers/ingredient");
+const express = require('express');
+const auth = require('../middleware/auth');
+const IngredientController = require('../controllers/ingredient');
 
-var router = express.Router();
+const router = express.Router();
 
-router.get("/", IngredientController.getIngredient);
+router.get('/', auth, IngredientController.getIngredient);
 
 module.exports = router;

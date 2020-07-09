@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -28,50 +28,67 @@ import CookieNotice from '../CookieNotice/CookieNotice';
 
 import NotFound from '../NotFound/NotFound';
 
+import Spinner from '../Spinner/Spinner';
+
+import UserContext from '../../helpers/userContext';
+import { isAuth } from '../../helpers/auth';
+
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    isAuth()
+      .then(res => setUser(res.data))        
+      .finally(() => { setIsLoading(false) })
+  }, []);
+
   return (
-    <Router>
-        <Switch>
-          <Route exact path="/">
-            {/* <Redirect to="/planner" /> */}
-            <BrochureView><Landing /></BrochureView>
-          </Route>
-          <Route exact path="/about-us">
-            <BrochureView><AboutUs /></BrochureView>
-          </Route>
-          <Route exact path="/login">
-            <BrochureView><Login /></BrochureView>
-          </Route>
-          <Route exact path="/logout">
-            <BrochureView><Logout /></BrochureView>
-          </Route>
-          <Route exact path="/register">
-            <BrochureView><Register /></BrochureView>
-          </Route>
-          <Route exact path="/planner">
-            <AuthorisedView><Planner /></AuthorisedView>
-          </Route>
-          <Route exact path="/meals">
-            <AuthorisedView><Meals /></AuthorisedView>
-          </Route>
-          <Route exact path="/recipes">
-            <AuthorisedView><Recipes /></AuthorisedView>
-          </Route>
-          <Route exact path="/ingredients">
-            <AuthorisedView><Ingredients /></AuthorisedView>
-          </Route>
-          <Route exact path="/shopping-lists">
-            <AuthorisedView><ShoppingLists /></AuthorisedView>
-          </Route>
-          <Route exact path="/account-settings">
-            <AuthorisedView><AccountSettings /></AuthorisedView>
-          </Route>
-					{/* 404 */}
-					<Route>
-            <BrochureView><NotFound /></BrochureView>
-          </Route>
-        </Switch>
-      <CookieNotice />
-    </Router>
+    <UserContext.Provider value={user}>
+    { isLoading && <Spinner /> }
+      <Router>
+          <Switch>
+            <Route exact path="/">
+              {/* <Redirect to="/planner" /> */}
+              <BrochureView><Landing /></BrochureView>
+            </Route>
+            <Route exact path="/about-us">
+              <BrochureView><AboutUs /></BrochureView>
+            </Route>
+            <Route exact path="/login">
+              <BrochureView><Login /></BrochureView>
+            </Route>
+            <Route exact path="/logout">
+              <BrochureView><Logout /></BrochureView>
+            </Route>
+            <Route exact path="/register">
+              <BrochureView><Register /></BrochureView>
+            </Route>
+            <Route exact path="/planner">
+              <AuthorisedView><Planner /></AuthorisedView>
+            </Route>
+            <Route exact path="/meals">
+              <AuthorisedView><Meals /></AuthorisedView>
+            </Route>
+            <Route exact path="/recipes">
+              <AuthorisedView><Recipes /></AuthorisedView>
+            </Route>
+            <Route exact path="/ingredients">
+              <AuthorisedView><Ingredients /></AuthorisedView>
+            </Route>
+            <Route exact path="/shopping-lists">
+              <AuthorisedView><ShoppingLists /></AuthorisedView>
+            </Route>
+            <Route exact path="/account-settings">
+              <AuthorisedView><AccountSettings /></AuthorisedView>
+            </Route>
+            {/* 404 */}
+            <Route>
+              <BrochureView><NotFound /></BrochureView>
+            </Route>
+          </Switch>
+        <CookieNotice />
+      </Router>
+    </UserContext.Provider>
   )
 }

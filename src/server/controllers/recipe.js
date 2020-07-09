@@ -1,7 +1,7 @@
-const Recipe = require("../models/recipe");
-const apiResponse = require("../endpoints/responses");
-// const { body,validationResult } = require("express-validator");
-// const { sanitizeBody } = require("express-validator");
+const Recipe = require('../models/recipe');
+const apiResponse = require('../helpers/responses');
+// const { body,validationResult } = require('express-validator');
+// const { sanitizeBody } = require('express-validator');
 
 // Recipe Schema
 function RecipeData(data) {
@@ -17,7 +17,7 @@ exports.getRecipe = [
 			const rows = {
 
 			}
-            return apiResponse.success(res, "Success", rows);
+            return apiResponse.success(res, 'Success', rows);
 		} catch (err) {
 			return apiResponse.serverError(res, err);
 		}

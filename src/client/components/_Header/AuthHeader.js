@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import AuthNavItem from './AuthNavItem';
 
 import './Header.scss';
+import Button from '../elements/Button';
 
 const navItems = [
   {
@@ -54,7 +55,7 @@ export default function Header() {
         <h1 className="header__logo">
           <span className="logo-icon" aria-hidden="true"></span>
           <span className="vh">Mealise</span>
-          <button className="mobile-nav" onClick={toggleMobileNav}><span className="vh">Main navigation</span></button>
+          <Button classes="mobile-nav" handleClick={toggleMobileNav}><span className="vh">Main navigation</span></Button>
         </h1>
         <nav id="main-nav">
             <ul>

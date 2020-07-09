@@ -1,7 +1,7 @@
-const Planner = require("../models/planner");
-const apiResponse = require("../endpoints/responses");
-// const { body,validationResult } = require("express-validator");
-// const { sanitizeBody } = require("express-validator");
+const Planner = require('../models/planner');
+const apiResponse = require('../helpers/responses');
+// const { body,validationResult } = require('express-validator');
+// const { sanitizeBody } = require('express-validator');
 
 // Planner Schema
 function PlannerData(data) {
@@ -17,7 +17,7 @@ exports.getPlanner = [
 			const rows = {
 
 			}
-            return apiResponse.success(res, "Success", rows);
+            return apiResponse.success(res, 'Success', rows);
 		} catch (err) {
 			return apiResponse.serverError(res, err);
 		}

@@ -1,8 +1,9 @@
-var express = require("express");
-const ShoppingListController = require("../controllers/shoppinglist");
+const express = require('express');
+const auth = require('../middleware/auth');
+const ShoppingListController = require('../controllers/shoppinglist');
 
-var router = express.Router();
+const router = express.Router();
 
-router.get("/", ShoppingListController.getShoppingList);
+router.get('/', auth, ShoppingListController.getShoppingList);
 
 module.exports = router;

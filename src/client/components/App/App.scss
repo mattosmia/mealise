@@ -127,6 +127,22 @@ h6 {
 
 p {
   line-height: 1.5;
+  &.p--error {
+    padding: 1rem;
+    background-color: $error-bg;
+    color: $error-fg;
+    border: 1px solid $error-fg;
+    border-radius: $border-rounded;
+    display: inline-block;
+  }
+  &.p--success {
+    padding: 1rem;
+    background-color: $success-bg;
+    color: $success-fg;
+    border: 1px solid $success-fg;
+    border-radius: $border-rounded;
+    display: inline-block;
+  }
 }
 
 a {
@@ -162,6 +178,41 @@ button {
       background-color: transparent;
     }
   }
+  &.button--icon {
+    background-color: transparent;
+    border-color: transparent;
+    background-size: cover;
+  }
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.7;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.side-form {
+  width: 100%;
+  padding: 2rem 0;
+  border-top: 1px solid $black;
+  @include desktop {
+    width: 38rem;
+    margin-left: 3rem;
+    padding: 2rem;
+    border: 1px solid $black;
+    box-shadow: 2px 2px 0 $violet50;
+    border-radius: $border-rounded;
+  }
+  button {
+    display: block;
+    @include desktop {
+      width: 100%;
+      &:not(:last-of-type) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
 }
 
 input {
@@ -171,6 +222,11 @@ input {
   background-color: $whiter;
   display: block;
   padding: 0.75rem 1rem;
+  &.input--error {
+    color: $error-fg;
+    background-color: $error-bg;
+    box-shadow: -2px -2px 0px $error-fg, 2px 2px 0px $error-fg, 2px -2px 0px $error-fg, -2px 2px 0px $error-fg;
+  }
 }
 
 .add-new {

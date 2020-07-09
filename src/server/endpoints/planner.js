@@ -1,8 +1,9 @@
-var express = require("express");
-const PlannerController = require("../controllers/planner");
+const express = require('express');
+const auth = require('../middleware/auth');
+const PlannerController = require('../controllers/planner');
 
-var router = express.Router();
+const router = express.Router();
 
-router.get("/", PlannerController.getPlanner);
+router.get('/', auth, PlannerController.getPlanner);
 
 module.exports = router;
