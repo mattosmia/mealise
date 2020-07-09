@@ -9,7 +9,7 @@ export const formFieldsSchema = {
   passwordConfirmation: { value: '', error: '', isValid: false },
   acceptOver18: { value: '', error: '', isValid: false },
   acceptTerms: { value: '', error: '', isValid: false },
-  acceptMkt: { value: '', error: '', isValid: false },
+  acceptMkt: { value: '', error: '', isValid: true },
 }
 
 export const formValidationSchema = {
