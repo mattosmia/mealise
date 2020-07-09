@@ -13,7 +13,6 @@ export default function Planner() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(initialEndDate);
   const [plannerRange, setPlannerRange] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
     const newDateRange = [];
@@ -25,7 +24,6 @@ export default function Planner() {
 
   return (
     <section className="planner">
-      { isLoading && <Spinner /> }
       <h1>Planner</h1>
       <div className="planner__datepicker">
         <label><span>From:</span>

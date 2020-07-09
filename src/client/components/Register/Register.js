@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
 import { formFieldsSchema, formValidationSchema } from './Register.validation';
 import formValidation from '../../helpers/formValidation';
-
-import Spinner from '../Spinner/Spinner';
+import PageContext from '../../helpers/pageContext';
 
 import './Register.scss';
 import Button from '../elements/Button';
 
 export default function Register() {
+  const page = useContext(PageContext);
 
-	const submitCallback = formFields => {
-		setIsLoading(true);
+  const submitCallback = formFields => {
+		page.setIsLoading(true);
 		setIsFormSubmitted(true);
     setRequestStatus('');
     
@@ -26,18 +26,16 @@ export default function Register() {
         setIsFormSubmitted(false);
         setUserExists(err.response && err.response.data && err.response.data.message && err.response.data.message.error && err.response.data.message.error.email && err.response.data.message.error.email.kind === 'unique');
       }).finally(() =>
-        setIsLoading(false)
+        page.setIsLoading(false)
       )
 	}
   const { formFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
-  const [isLoading, setIsLoading] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [userExists, setUserExists] = useState(false);
   const [requestStatus, setRequestStatus] = useState('');
 
   return (
       <section className="register">
-        { isLoading && <Spinner /> }
         <h1>Sign up</h1>
         <p>If you already have an account, please <Link to="/login">log in here</Link>.</p>
         { userExists && <p className="p--error">This email address is already registered with Mealise - <Link to="/login">log in instead</Link> or use another email address below</p>}

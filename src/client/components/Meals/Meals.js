@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import axios from 'axios';
 import { CirclePicker } from 'react-color';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -12,12 +12,12 @@ import Button from '../elements/Button';
 
 import mealsReducer from './Meals.reducer';
 import SidebarForm from '../elements/SidebarForm';
-import Spinner from '../Spinner/Spinner';
+import PageContext from '../../helpers/pageContext';
 
 const initialColour = { hex: '#f44336' };
 
 export default function Meals() {
-  const [isLoading, setIsLoading] = useState(true);
+  const page = useContext(PageContext);
   const [editState, setEditState] = useState(false);
   const [showReorder, setShowReorder] = useState(false);
 
@@ -41,7 +41,7 @@ export default function Meals() {
     }).catch(err => 
       console.log('Error fetching meals', err)
     ).finally(() =>
-      setIsLoading(false)
+      page.setIsLoading(false)
     )
   }, []);
 
@@ -57,7 +57,7 @@ export default function Meals() {
   }, [colour]);
 
   const submitCallback = formData => {
-    setIsLoading(true)
+    page.setIsLoading(true);
     axios.post(`/api/meal/${formData._id ? 'edit' : 'add'}`, formData, authHeaders())
       .then(res =>
         dispatch({
@@ -68,7 +68,7 @@ export default function Meals() {
       ).catch(err => 
         console.log('error adding meal', err)
       ).finally(() =>
-        setIsLoading(false),
+        page.setIsLoading(false),
         setEditState(false)
       );
   }
@@ -125,8 +125,7 @@ export default function Meals() {
   return (
     <section className="meals">
       <h1>Meals</h1>
-      { isLoading && <Spinner />}
-      {! isLoading && 
+      {! page.isLoading && 
       <div className="meals__wrapper">
         <div className="meals__main">
           { mealsState.length > 0 ? <>

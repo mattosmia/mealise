@@ -7,12 +7,15 @@ import { authHeaders } from '../../helpers/auth';
 import './Logout.scss';
 
 import { jwtCookieName } from '../../helpers/cookies';
+import PageContext from '../../helpers/pageContext';
 
 export default function Logout() {
-  const [isLoading, setIsLoading] = useState(false);
+  const page = useContext(PageContext);
   const [requestStatus, setRequestStatus] = useState('');
 
   const history = useHistory();
+  
+  page.setIsLoading(true);
   
   useEffect(() => {
     axios.post('/api/user/logout', {}, authHeaders())
@@ -21,7 +24,7 @@ export default function Logout() {
       ).catch(err => 
         setRequestStatus('error')
       ).finally(() =>
-        setIsLoading(false)
+        page.setIsLoading(false)
       );
   }, [])
 

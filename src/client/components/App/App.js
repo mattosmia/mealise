@@ -30,8 +30,8 @@ import NotFound from '../NotFound/NotFound';
 
 import Spinner from '../Spinner/Spinner';
 
-import UserContext from '../../helpers/userContext';
 import { isAuth } from '../../helpers/auth';
+import AppProvider from './App.provider';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,8 +44,8 @@ export default function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
-    { isLoading && <Spinner /> }
+    <AppProvider user={user} isLoading={isLoading} setIsLoading={setIsLoading}>
+      <Spinner />
       <Router>
           <Switch>
             <Route exact path="/">
@@ -89,6 +89,6 @@ export default function App() {
           </Switch>
         <CookieNotice />
       </Router>
-    </UserContext.Provider>
+    </AppProvider>
   )
 }

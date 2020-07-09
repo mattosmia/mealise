@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import cookie from 'react-cookies';
@@ -7,9 +7,10 @@ import './Login.scss';
 import Button from '../elements/Button';
 
 import { jwtCookieName } from '../../helpers/cookies';
+import PageContext from '../../helpers/pageContext';
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(false);
+  const page = useContext(PageContext);
   const [requestStatus, setRequestStatus] = useState('');
   const [formFieldValues, setFormFieldValues] = useState({});
 
@@ -36,7 +37,7 @@ export default function Login() {
     })
   }
   const handleSubmit = () => {
-    setIsLoading(true);
+    page.setIsLoading(true);
     axios.post('/api/user/login', formFieldValues)
 			.then(res => {
 				cookie.save(jwtCookieName, res.data.data.token, { path: '/' });
@@ -44,7 +45,7 @@ export default function Login() {
       }).catch(err => 
         setRequestStatus('error')
 			).finally(() => 
-        setIsLoading(false)
+        page.setIsLoading(false)
       )
   }
   
@@ -57,17 +58,17 @@ export default function Login() {
   }, [requestStatus])
 
   return (
-      <section className="login">
-        <h1>Log in</h1>
-        <label>
-            <span>Email</span>
-            <input type="email" name="email" onChange={handleChange} />
-        </label>
-        <label>
-            <span>Password</span>
-            <input type="password" name="password" onChange={handleChange} />
-        </label>
-        <Button handleClick={handleSubmit}>Log in</Button>
-      </section>
+    <section className="login">
+      <h1>Log in</h1>
+      <label>
+          <span>Email</span>
+          <input type="email" name="email" onChange={handleChange} />
+      </label>
+      <label>
+          <span>Password</span>
+          <input type="password" name="password" onChange={handleChange} />
+      </label>
+      <Button handleClick={handleSubmit}>Log in</Button>
+    </section>
   )
 }
