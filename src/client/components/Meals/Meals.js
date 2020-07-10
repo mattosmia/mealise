@@ -13,19 +13,21 @@ import Button from '../elements/Button';
 import mealsReducer from './Meals.reducer';
 import SidebarForm from '../elements/SidebarForm';
 import PageContext from '../../helpers/pageContext';
+import Input from '../elements/Input';
 
 const initialColour = { hex: '#f44336' };
 
 export default function Meals() {
   const page = useContext(PageContext);
+  const [isRequestError, setIsRequestError] = useState(false);
   const [editState, setEditState] = useState(false);
   const [showReorder, setShowReorder] = useState(false);
 
   const [colour, setColour] = useState(initialColour);
   const handleColourChange = colour => setColour(colour);
 
-  // const [mealsList, setMealsList] = useState([]);
   const [mealsState, dispatch] = useReducer(mealsReducer, []);
+
   useEffect(() => {
     axios.get('/api/meal/', authHeaders())
     .then(res => {
@@ -55,11 +57,13 @@ export default function Meals() {
     }))
   }, [colour]);
 
-  const submitCallback = formData => {
+  const submitCallback = (formData, isAddAsNew) => {
+    const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
     page.setIsLoading(true);
-    axios.post(`/api/meal/${formData._id ? 'edit' : 'add'}`, formData, authHeaders())
+    setIsRequestError(false);
+    axios.post(`/api/meal/${requestType}`, formData, authHeaders())
       .then(res => {
-        if (formData._id) {
+        if (requestType === 'edit') {
           dispatch({
             type: 'EDIT_MEAL',
             payload: formData
@@ -74,7 +78,7 @@ export default function Meals() {
         setFormFields(formFieldsSchema)
         setEditState(false)
       }).catch(err => 
-        console.log('error adding meal', err)
+        setIsRequestError(true)
       ).finally(() =>
         page.setIsLoading(false)
       );
@@ -123,6 +127,7 @@ export default function Meals() {
     setFormFields(formFieldsSchema);
     setColour(initialColour);
     setEditState(false);
+    setIsRequestError(false);
   }
 
   const handleReorderMeals = () => {
@@ -134,7 +139,7 @@ export default function Meals() {
       <h1>Meals</h1>
       {! page.isLoading && 
       <div className="meals__wrapper">
-        <div className="meals__main">
+        <div className="meals__main main-content">
           { mealsState.length > 0 ? <>
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable">
@@ -191,10 +196,10 @@ export default function Meals() {
         <SidebarForm classes={['meals__side']}>
           <>
           <h2>{ editState? "Edit" : "Add" } meal</h2>
-          <label>
-            <span>Meal name</span>
-            <input type="text" name="name" value={formFields.name.value} onChange={handleChange} />
-          </label>
+          <div className="form--error" aria-live="assertive">
+            { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
+          </div>
+          <Input label="Meal name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} />
           <p className="label">
             <span>Colour label</span>
           </p>
@@ -205,7 +210,7 @@ export default function Meals() {
 
           <Button handleClick={handleSubmit} isDisabled={!isFormValid}><>{ editState? "Edit" : "Add" } meal</></Button>
           { editState && <>
-            <Button handleClick={handleSubmit} isDisabled={!isFormValid}>Add as new meal</Button>
+            <Button handleClick={e => handleSubmit(e, 'add_as_new')} isDisabled={!isFormValid}>Add as new meal</Button>
             <Button handleClick={handleCancelEdit}>Cancel</Button>
           </>}
           </>

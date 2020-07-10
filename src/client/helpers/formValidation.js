@@ -56,10 +56,10 @@ export default function formValidation(formFieldsSchema, formValidationSchema = 
     }), [formValidationSchema]);
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e, props) => {
     e.preventDefault();
     if (isFormValid) {
-      callback(Object.fromEntries(Object.entries(formFields).map(key => [key[0], key[1].value])));
+      callback(Object.fromEntries(Object.entries(formFields).map(key => [key[0], key[1].value])), props);
     }
   }
 

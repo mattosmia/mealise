@@ -3,7 +3,7 @@ const autoIncrement = require('mongoose-sequence')(mongoose)
 
 const mealSchema = mongoose.Schema({
     userId: { type: String, required: true },
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     colour: { type: String, required: true },
     order: { type: Number },
 })
