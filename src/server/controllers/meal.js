@@ -86,11 +86,20 @@ exports.editMeal = [
 exports.deleteMeal = [
   function (req, res) {
     try {
-       return apiResponse.success(res, 'Success')
-    } catch (err) {
-      return apiResponse.serverError(res, err);
-    }
-  }
+      Meal.deleteOne(
+        {
+          _id: req.body._id,
+          userId: req.user.userId
+        }
+      ).then(() => 
+          apiResponse.success(res, 'Meal deleted successfully')
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
+		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+	}
 ];
 
 /**
@@ -100,7 +109,28 @@ exports.deleteMeal = [
 exports.reorderMeals = [
   function (req, res) {
     try {
-       return apiResponse.success(res, 'Success')
+      const allUpdates = req.body.meals.map((meal, order) => (
+          Meal.findOneAndUpdate(
+            {
+              _id: meal._id,
+              userId: req.user.userId
+            },
+            {
+              $set:
+                {
+                  order
+                }
+            }
+          )
+        )
+      ) 
+      
+      Promise.all(allUpdates)
+        .then(() =>
+          apiResponse.success(res, 'Meals reordered successfully')
+        ).catch(() =>
+          apiResponse.serverError(res, err)
+        )
     } catch (err) {
       return apiResponse.serverError(res, err);
     }

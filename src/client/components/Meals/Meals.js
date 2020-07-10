@@ -20,6 +20,8 @@ const initialColour = { hex: '#f44336' };
 export default function Meals() {
   const page = useContext(PageContext);
   const [isRequestError, setIsRequestError] = useState(false);
+  const [isRequestSuccess, setIsRequestSuccess] = useState(false);
+  const [isSidebarRequestError, setIsSidebarRequestError] = useState(false);
   const [editState, setEditState] = useState(false);
   const [showReorder, setShowReorder] = useState(false);
 
@@ -60,7 +62,8 @@ export default function Meals() {
   const submitCallback = (formData, isAddAsNew) => {
     const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
     page.setIsLoading(true);
-    setIsRequestError(false);
+    setIsSidebarRequestError(false);
+    setIsRequestSuccess(false);
     axios.post(`/api/meal/${requestType}`, formData, authHeaders())
       .then(res => {
         if (requestType === 'edit') {
@@ -77,8 +80,9 @@ export default function Meals() {
         }
         setFormFields(formFieldsSchema)
         setEditState(false)
+        setIsRequestSuccess(true)
       }).catch(err => 
-        setIsRequestError(true)
+        setIsSidebarRequestError(true)
       ).finally(() =>
         page.setIsLoading(false)
       );
@@ -90,6 +94,9 @@ export default function Meals() {
     if (!result.destination) {
       return // if dropped outside the list
     }
+
+    setIsRequestError(false);
+    setIsRequestSuccess(false);
 
     const reorderedMealsList = Array.from(mealsState);
     const [removed] = reorderedMealsList.splice(result.source.index, 1);
@@ -104,6 +111,9 @@ export default function Meals() {
   };
 
   const handleEditMeal = meal => {
+    setIsRequestError(false);
+    setIsRequestSuccess(false);
+    setIsSidebarRequestError(false);
     setEditState(true);
     setFormFields({
       _id: { value: meal._id, error: '', isValid: true },
@@ -115,23 +125,43 @@ export default function Meals() {
   }
 
   const handleDeleteMeal = meal => {
-    console.log('delete meal', meal)
-
-    dispatch({
-      type: 'DELETE_MEAL',
-      payload: meal
-    })
+    page.setIsLoading(true);
+    setIsRequestSuccess(false);
+    setIsRequestError(false);
+    axios.post("/api/meal/delete", { _id: meal._id }, authHeaders())
+      .then(res => 
+        setIsRequestSuccess(true),
+        dispatch({
+          type: 'DELETE_MEAL',
+          payload: meal
+        })
+      ).catch(err => 
+        setIsRequestError(true)
+      ).finally(() =>
+        page.setIsLoading(false)
+      );
   }
 
   const handleCancelEdit = () => {
     setFormFields(formFieldsSchema);
     setColour(initialColour);
     setEditState(false);
-    setIsRequestError(false);
+    setIsSidebarRequestError(false);
   }
 
   const handleReorderMeals = () => {
-    console.log('reorder meals')
+    page.setIsLoading(true);
+    setIsRequestError(false);
+    setIsRequestSuccess(false);
+    axios.post("/api/meal/reorder", { meals: mealsState }, authHeaders())
+      .then(res => 
+        setShowReorder(false),
+        setIsRequestSuccess(true)
+      ).catch(err => 
+        setIsRequestError(true)
+      ).finally(() =>
+        page.setIsLoading(false)
+      );
   }
 
   return (
@@ -140,6 +170,8 @@ export default function Meals() {
       {! page.isLoading && 
       <div className="meals__wrapper">
         <div className="meals__main main-content">
+          { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
+          { isRequestSuccess && <p className="p--success">Your meal list has been successfully updated!</p>}
           { mealsState.length > 0 ? <>
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable">
@@ -197,7 +229,7 @@ export default function Meals() {
           <>
           <h2>{ editState? "Edit" : "Add" } meal</h2>
           <div className="form--error" aria-live="assertive">
-            { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
+            { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
           <Input label="Meal name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} />
           <p className="label">
