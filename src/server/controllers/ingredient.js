@@ -8,16 +8,90 @@ function IngredientData(data) {
 }
 
 /**
-  * List ingredient information
+  * List ingredients
   * @returns {Object}
 **/
-exports.getIngredient = [
+exports.getIngredients = [
+	function (req, res) {
+    try {
+      Ingredient.find({ userId: req.user.userId }).sort('name').then(ingredients =>
+      apiResponse.success(res, 'Success', ingredients))
+    } catch (err) {
+      return apiResponse.serverError(res, err);
+    }
+	}
+];
+
+
+/**
+  * Add new ingredient
+  * @returns {Object}
+**/
+exports.addIngredient = [
 	function (req, res) {
 		try {
-			const rows = {
+			const ingredient = new Ingredient({
+        userId: req.user.userId,
+        name: req.body.name,
+        unit: req.body.unit,
+      })
+      ingredient.save().then(result => {
+			  return apiResponse.success(res, 'Ingredient added successfully', { result })}
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
+		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+	}
+];
 
-			}
-            return apiResponse.success(res, 'Success', rows);
+/**
+  * Edit ingredient
+  * @returns {Object}
+**/
+exports.editIngredient = [
+	function (req, res) {
+		try {
+      Ingredient.updateOne(
+        {
+          _id: req.body._id,
+          userId: req.user.userId
+        },
+        { $set:
+          { 
+            name: req.body.name,
+            colour: req.body.colour
+          }
+        }
+      ).then(() => 
+          apiResponse.success(res, 'Ingredient updated successfully')
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
+		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+	}
+];
+
+/**
+  * delete ingredient
+  * @returns {Object}
+**/
+exports.deleteIngredient = [
+  function (req, res) {
+    try {
+      Ingredient.deleteOne(
+        {
+          _id: req.body._id,
+          userId: req.user.userId
+        }
+      ).then(() => 
+          apiResponse.success(res, 'Ingredient deleted successfully')
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
 		} catch (err) {
 			return apiResponse.serverError(res, err);
 		}
