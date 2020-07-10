@@ -6,14 +6,6 @@
     text-shadow: 2px 2px 0 $pink50;
   }
 
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    @include desktop {
-      flex-direction: row;
-    }
-  }
-
   &__side {
     @include desktop {
       box-shadow: 2px 2px 0 $pink50;

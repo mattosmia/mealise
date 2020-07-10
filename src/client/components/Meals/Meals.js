@@ -33,12 +33,13 @@ export default function Meals() {
 
   useEffect(() => {
     axios.get(endpointRoot, authHeaders())
-    .then(res =>
+    .then(res => {
+      const mealList = res.data.data || [];
       dispatch({
         type: 'GET_MEAL_LIST',
-        payload: res.data.data || []
+        payload: mealList
       })
-    ).catch(err => 
+    }).catch(err => 
       console.log('Error fetching meals', err)
     ).finally(() =>
       page.setIsLoading(false)
@@ -165,7 +166,7 @@ export default function Meals() {
     <section className="meals">
       <h1>Meals</h1>
       {! page.isLoading && 
-      <div className="meals__wrapper">
+      <div className="meals__wrapper main-wrapper">
         <div className="meals__main main-content">
           { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           { isRequestSuccess && <p className="p--success">Your meals have been successfully updated!</p>}
