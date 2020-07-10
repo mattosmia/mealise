@@ -23,8 +23,10 @@ export default function Ingredients() {
   const [editState, setEditState] = useState(false);
 
   const [ingredientsState, dispatch] = useReducer(ingredientsReducer, []);
+  
 
   useEffect(() => {
+    if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoot, authHeaders())
     .then(res => {
       const ingredientList = res.data.data || [];
@@ -118,16 +120,16 @@ export default function Ingredients() {
           { isRequestSuccess && <p className="p--success">Your ingredients have been successfully updated!</p>}
           { ingredientsState.length > 0 ? 
             <ul
-              className="ingredients__list"
+              className="ingredients__list list"
             >
               {ingredientsState.map(ingredient => (
                     <li
-                      className="ingredients__list__item"
+                      className="ingredients__list__item list__item"
                       key={ingredient._id}
                     >
-                      <div className="ingredients__list__item__inner">
+                      <div className="ingredients__list__item__inner list__item__inner">
                         {ingredient.name} ({ingredient.unit})
-                        <span className="ingredients__list__item__buttons">
+                        <span className="ingredients__list__item__buttons list__item__buttons">
                           <Button classes="button--icon icon--edit"
                             handleClick={() => handleEditIngredient(ingredient)}
                           >

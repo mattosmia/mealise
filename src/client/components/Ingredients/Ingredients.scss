@@ -11,32 +11,7 @@
       }
     }
 
-  &__list {
-    margin: 0;
-    padding: 2rem 0;
-    &__item {
-      list-style: none;
-      display: block;
-      margin-bottom: 0.75rem;
-      background-color: $yellow50;
-      &__inner {
-        background-color: $white40;
-        padding: 0.5rem;
-        margin: 0 0 0 0.75rem;
-        display: flex;
-        align-items: center;
-        word-break: break-word;
-      }
-      &__buttons {
-        margin-left: auto;
-        width: 15rem;
-        text-align: right;
-        button {
-          margin-left: 1rem;
-          width: 3rem;
-          height: 3rem;
-        }
-      }
-    }
+  &__list__item {
+    background-color: $yellow50;
   }
 }

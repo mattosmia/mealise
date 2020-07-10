@@ -32,6 +32,7 @@ export default function Meals() {
   const [mealsState, dispatch] = useReducer(mealsReducer, []);
 
   useEffect(() => {
+    if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoot, authHeaders())
     .then(res => {
       const mealList = res.data.data || [];
@@ -177,7 +178,7 @@ export default function Meals() {
                 <ul
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="meals__list"
+                  className="meals__list list"
                 >
                   {mealsState.map((meal, index) => (
                     <Draggable key={meal._id} draggableId={meal._id} index={index}>
@@ -186,15 +187,15 @@ export default function Meals() {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="meals__list__item"
+                          className="meals__list__item list__item"
                           style={{
                             ...provided.draggableProps.style,
                             backgroundColor: meal.colour
                           }}
                         >
-                          <div className="meals__list__item__inner">
+                          <div className="meals__list__item__inner list__item__inner">
                             {meal.name}
-                            <span className="meals__list__item__buttons">
+                            <span className="meals__list__item__buttons list__item__buttons">
                               <Button classes="button--icon icon--edit"
                                 handleClick={() => handleEditMeal(meal)}
                               >
