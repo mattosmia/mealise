@@ -1,5 +1,4 @@
 export default function mealsReducer(state, action) {
-  console.log('state',state, 'action', action)
   switch (action.type) {
     case 'GET_MEAL_LIST':
       return ([
@@ -11,7 +10,12 @@ export default function mealsReducer(state, action) {
       return action.payload
 
     case 'EDIT_MEAL':
-    break;
+      const idx = state.findIndex(m => m._id === action.payload._id)
+      state[idx] = {
+        ...state[idx],
+        ...action.payload
+      }
+      return state
 
     case 'DELETE_MEAL':
       return state.filter(m => m._id !== action.payload._id)

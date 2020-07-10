@@ -57,14 +57,19 @@ exports.addMeal = [
 exports.editMeal = [
 	function (req, res) {
 		try {
-			const meal = new Meal({
-        userId: req.user.userId,
-        name: req.body.name,
-        colour: req.body.colour,
-        order: req.body.order,
-      })
-      meal.save().then(result => {
-			  return apiResponse.success(res, 'Meal added successfully', { result })}
+      Meal.updateOne(
+        {
+          _id: req.body._id,
+          userId: req.user.userId
+        },
+        { $set:
+          { 
+            name: req.body.name,
+            colour: req.body.colour
+          }
+        }
+      ).then(() => 
+          apiResponse.success(res, 'Meal updated successfully')
 		  ).catch(err => 
         apiResponse.serverError(res, err)
 		  )

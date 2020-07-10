@@ -26,7 +26,6 @@ export default function Meals() {
 
   // const [mealsList, setMealsList] = useState([]);
   const [mealsState, dispatch] = useReducer(mealsReducer, []);
- 
   useEffect(() => {
     axios.get('/api/meal/', authHeaders())
     .then(res => {
@@ -59,17 +58,25 @@ export default function Meals() {
   const submitCallback = formData => {
     page.setIsLoading(true);
     axios.post(`/api/meal/${formData._id ? 'edit' : 'add'}`, formData, authHeaders())
-      .then(res =>
-        dispatch({
-          type: 'ADD_MEAL',
-          payload: res.data.data.result
-        }),
+      .then(res => {
+        if (formData._id) {
+          dispatch({
+            type: 'EDIT_MEAL',
+            payload: formData
+          })
+        }
+        else {
+          dispatch({
+            type: 'ADD_MEAL',
+            payload: res.data.data.result
+          })
+        }
         setFormFields(formFieldsSchema)
-      ).catch(err => 
+        setEditState(false)
+      }).catch(err => 
         console.log('error adding meal', err)
       ).finally(() =>
-        page.setIsLoading(false),
-        setEditState(false)
+        page.setIsLoading(false)
       );
   }
 
