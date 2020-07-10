@@ -171,7 +171,7 @@ export default function Meals() {
       <div className="meals__wrapper">
         <div className="meals__main main-content">
           { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-          { isRequestSuccess && <p className="p--success">Your meal list has been successfully updated!</p>}
+          { isRequestSuccess && <p className="p--success">Your meals have been successfully updated!</p>}
           { mealsState.length > 0 ? <>
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable">
