@@ -16,6 +16,7 @@ import PageContext from '../../helpers/pageContext';
 import Input from '../elements/Input';
 
 const initialColour = { hex: '#f44336' };
+const endpointRoot = '/api/meal/'
 
 export default function Meals() {
   const page = useContext(PageContext);
@@ -31,17 +32,13 @@ export default function Meals() {
   const [mealsState, dispatch] = useReducer(mealsReducer, []);
 
   useEffect(() => {
-    axios.get('/api/meal/', authHeaders())
-    .then(res => {
-      const orderedMealList = res.data.data.length > 0 ?
-        res.data.data.sort(function(a, b){
-          return a.order - b.order
-        }) : [];
+    axios.get(endpointRoot, authHeaders())
+    .then(res =>
       dispatch({
         type: 'GET_MEAL_LIST',
-        payload: orderedMealList
+        payload: res.data.data || []
       })
-    }).catch(err => 
+    ).catch(err => 
       console.log('Error fetching meals', err)
     ).finally(() =>
       page.setIsLoading(false)
@@ -64,7 +61,7 @@ export default function Meals() {
     page.setIsLoading(true);
     setIsSidebarRequestError(false);
     setIsRequestSuccess(false);
-    axios.post(`/api/meal/${requestType}`, formData, authHeaders())
+    axios.post(`${endpointRoot}${requestType}`, formData, authHeaders())
       .then(res => {
         if (requestType === 'edit') {
           dispatch({
@@ -128,7 +125,7 @@ export default function Meals() {
     page.setIsLoading(true);
     setIsRequestSuccess(false);
     setIsRequestError(false);
-    axios.post("/api/meal/delete", { _id: meal._id }, authHeaders())
+    axios.post(`${endpointRoot}delete`, { _id: meal._id }, authHeaders())
       .then(res => 
         setIsRequestSuccess(true),
         dispatch({
@@ -153,7 +150,7 @@ export default function Meals() {
     page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
-    axios.post("/api/meal/reorder", { meals: mealsState }, authHeaders())
+    axios.post(`${endpointRoot}reorder`, { meals: mealsState }, authHeaders())
       .then(res => 
         setShowReorder(false),
         setIsRequestSuccess(true)

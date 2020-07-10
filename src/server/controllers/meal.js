@@ -18,7 +18,7 @@ function MealData(data) {
 exports.getMeals = [
   function (req, res) {
     try {
-      Meal.find({ userId: req.user.userId }).then(meals =>
+      Meal.find({ userId: req.user.userId }).sort('order').then(meals =>
         apiResponse.success(res, 'Success', meals))
     } catch (err) {
       return apiResponse.serverError(res, err);
