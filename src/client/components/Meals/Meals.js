@@ -166,9 +166,9 @@ export default function Meals() {
   return (
     <section className="meals">
       <h1>Meals</h1>
-      {! page.isLoading && 
       <div className="meals__wrapper main-wrapper">
         <div className="meals__main main-content">
+        {! page.isLoading && <>
           { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           { isRequestSuccess && <p className="p--success">Your meals have been successfully updated!</p>}
           { mealsState.length > 0 ? <>
@@ -223,6 +223,7 @@ export default function Meals() {
           :
           <p>You haven't added any meals yet.</p>
           }
+        </>}
         </div>
         <SidebarForm classes={['meals__side']}>
           <>
@@ -246,7 +247,7 @@ export default function Meals() {
           </>}
           </>
         </SidebarForm>
-      </div>}
+      </div>
     </section>
   )
 }

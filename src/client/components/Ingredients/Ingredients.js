@@ -113,9 +113,9 @@ export default function Ingredients() {
   return (
     <section className="ingredients">
       <h1>Ingredients</h1>
-      {! page.isLoading && 
       <div className="ingredients__wrapper main-wrapper">
         <div className="ingredients__main main-content">
+        {! page.isLoading && <>
           { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           { isRequestSuccess && <p className="p--success">Your ingredients have been successfully updated!</p>}
           { ingredientsState.length > 0 ? 
@@ -149,6 +149,7 @@ export default function Ingredients() {
             :
             <p>You haven't added any ingredients yet.</p>
           }
+        </>}
         </div>
         <SidebarForm classes={['ingredients__side']}>
           <>
@@ -166,7 +167,7 @@ export default function Ingredients() {
           </>}
           </>
         </SidebarForm>
-      </div>}
+      </div>
     </section>
   )
 }
