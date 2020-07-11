@@ -3,16 +3,17 @@ import axios from 'axios';
 import { CirclePicker } from 'react-color';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import mealsReducer from './Meals.reducer';
+import PageContext from '../../helpers/pageContext';
+
 import { formFieldsSchema, formValidationSchema } from './Meals.validation';
 import formValidation from '../../helpers/formValidation';
 import { authHeaders } from '../../helpers/auth';
 
 import './Meals.scss';
-import Button from '../elements/Button';
 
-import mealsReducer from './Meals.reducer';
 import SidebarForm from '../elements/SidebarForm';
-import PageContext from '../../helpers/pageContext';
+import Button from '../elements/Button';
 import Input from '../elements/Input';
 
 const initialColour = { hex: '#f44336' };

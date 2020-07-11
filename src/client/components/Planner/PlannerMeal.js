@@ -7,7 +7,8 @@ export default function PlannerMeal({ plannedMeal }) {
   }
 
   return (
-    <div className="planner__wrapper__card__meal" style={{backgroundColor: plannedMeal.mealColour}}>
+    <div className="planner__wrapper__card__meal" style={{backgroundColor: plannedMeal.colour}}>
+      <div className="planner__wrapper__card__meal__name">{plannedMeal.name}</div> 
       {plannedMeal.recipeName?
         <div className="planner__wrapper__card__meal__details">
           {plannedMeal.recipeName}
