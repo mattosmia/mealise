@@ -1,4 +1,5 @@
-switch (action.type) {
+export default function recipesReducer(state, action) {
+  switch (action.type) {
     case 'EDIT_RECIPE':
     break;
 
@@ -9,4 +10,6 @@ switch (action.type) {
     break;
 
     default:
+      return state
+  }
 }
