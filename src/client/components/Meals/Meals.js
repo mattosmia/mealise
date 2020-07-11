@@ -232,9 +232,9 @@ export default function Meals() {
           <div className="form--error" aria-live="assertive">
             { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
-          <Input label="Meal name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} />
+          <Input label="Meal name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} isRequired={formValidationSchema.name.required} />
           <p className="label">
-            <span>Colour label</span>
+            <span className="label--required">Meal colour label</span>
           </p>
           <CirclePicker color={colour} onChangeComplete={handleColourChange} />
 

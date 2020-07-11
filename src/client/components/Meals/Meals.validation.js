@@ -1,4 +1,4 @@
-import { extendedNameRegex, colourRegex, intRegex } from '../../helpers/formValidationPatterns';
+import { requiredMsg, extendedNameRegex, extendedNameRegexMsg, colourRegex, colourRegexMsg, intRegex, intRegexMsg } from '../../helpers/formValidationPatterns';
 
 export const formFieldsSchema = {
   _id: { value: '', error: '', isValid: true },
@@ -10,19 +10,19 @@ export const formFieldsSchema = {
 export const formValidationSchema = {
   name: {
     required: true,
-    requiredError: 'Meal name is required',
+    requiredError: requiredMsg('Meal name'),
     pattern: extendedNameRegex,
-    patternError: 'Meal name is not valid',
+    patternError: extendedNameRegexMsg('Meal name')
   },
   colour: {
     required: true,
-    requiredError: 'Colour label is required',
+    requiredError: requiredMsg('Meal colour label'),
     pattern: colourRegex,
-    patternError: 'Colour label is not valid',
+    patternError: colourRegexMsg('Meal colour label')
   },
   order: {
     required: false,
     pattern: intRegex,
-    patternError: 'Order is not valid',
+    patternError: intRegexMsg('Order'),
   },
 };

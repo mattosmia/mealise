@@ -223,12 +223,13 @@ button {
       padding: 0.5rem;
       margin: 0 0 0 0.75rem;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      line-height: 3rem;
       word-break: break-word;
     }
     &__buttons {
       margin-left: auto;
-      width: 15rem;
+      width: 9rem;
       text-align: right;
       white-space: nowrap;
       button {
@@ -270,6 +271,12 @@ label {
     margin-bottom: 0.5rem;
     display: inline-block;
   }
+}
+
+.label--required:after {
+  content: '*';
+  color: $error-fg;
+  margin-left: 0.5rem;
 }
 
 input {

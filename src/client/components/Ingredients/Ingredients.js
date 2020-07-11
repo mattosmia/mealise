@@ -157,8 +157,8 @@ export default function Ingredients() {
           <div className="form--error" aria-live="assertive">
             { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
-          <Input label="Ingredient name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} />
-          <Input label="Ingredient unit" name="unit" value={formFields.unit.value} handleChange={handleChange} errorMsg={formFields.unit.error} />
+          <Input label="Ingredient name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} isRequired={formValidationSchema.name.required} />
+          <Input label="Ingredient unit" name="unit" value={formFields.unit.value} handleChange={handleChange} errorMsg={formFields.unit.error} isRequired={formValidationSchema.unit.required} />
 
           <Button handleClick={handleSubmit} isDisabled={!isFormValid}><>{ editState? "Edit" : "Add" } ingredient</></Button>
           { editState && <>

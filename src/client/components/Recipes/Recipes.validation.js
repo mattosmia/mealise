@@ -1,20 +1,23 @@
-import { extendedNameRegex } from '../../helpers/formValidationPatterns';
+import { requiredMsg, extendedNameRegex, extendedNameRegexMsg } from '../../helpers/formValidationPatterns';
 
 export const formFieldsSchema = {
   _id: { value: '', error: '', isValid: true },
   name: { value: '', error: '', isValid: false },
-  unit: { value: '', error: '', isValid: false }
+  description: { value: '', error: '', isValid: true },
+  instructions: { value: '', error: '', isValid: true }
 }
 
 export const formValidationSchema = {
   name: {
     required: true,
-    requiredError: 'Ingredient name is required',
+    requiredError: requiredMsg('Recipe name'),
     pattern: extendedNameRegex,
-    patternError: 'Ingredient name is not valid',
+    patternError: extendedNameRegexMsg('Recipe name'),
   },
-  unit: {
-    required: true,
-    requiredError: 'Ingredient unit is required',
+  description: {
+    required: false
+  },
+  instructions: {
+    required: false
   },
 };
