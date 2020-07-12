@@ -13,7 +13,7 @@ import SidebarForm from '../elements/SidebarForm';
 import PageContext from '../../helpers/pageContext';
 import Input from '../elements/Input';
 
-const endpointRoot = '/api/ingredient/'
+import { endpointRoots } from '../../helpers/endpointRoots';
 
 export default function Ingredients() {
   const page = useContext(PageContext);
@@ -27,7 +27,7 @@ export default function Ingredients() {
 
   useEffect(() => {
     if (!page.isLoading) page.setIsLoading(true);
-    axios.get(endpointRoot, authHeaders())
+    axios.get(endpointRoots.ingredient, authHeaders())
     .then(res => {
       const ingredientList = res.data.data || [];
       dispatch({
@@ -46,7 +46,7 @@ export default function Ingredients() {
     page.setIsLoading(true);
     setIsSidebarRequestError(false);
     setIsRequestSuccess(false);
-    axios.post(`${endpointRoot}${requestType}`, formData, authHeaders())
+    axios.post(`${endpointRoots.ingredient}${requestType}`, formData, authHeaders())
       .then(res => {
         if (requestType === 'edit') {
           dispatch({
@@ -89,7 +89,7 @@ export default function Ingredients() {
     page.setIsLoading(true);
     setIsRequestSuccess(false);
     setIsRequestError(false);
-    axios.post(`${endpointRoot}delete`, { _id: ingredient._id }, authHeaders())
+    axios.post(`${endpointRoots.ingredient}delete`, { _id: ingredient._id }, authHeaders())
       .then(res => 
         setIsRequestSuccess(true),
         dispatch({

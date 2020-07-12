@@ -17,7 +17,8 @@ import Button from '../elements/Button';
 import Input from '../elements/Input';
 
 const initialColour = { hex: '#f44336' };
-const endpointRoot = '/api/meal/'
+
+import { endpointRoots } from '../../helpers/endpointRoots';
 
 export default function Meals() {
   const page = useContext(PageContext);
@@ -34,7 +35,7 @@ export default function Meals() {
 
   useEffect(() => {
     if (!page.isLoading) page.setIsLoading(true);
-    axios.get(endpointRoot, authHeaders())
+    axios.get(endpointRoots.meal, authHeaders())
     .then(res => {
       const mealList = res.data.data || [];
       dispatch({
@@ -64,7 +65,7 @@ export default function Meals() {
     page.setIsLoading(true);
     setIsSidebarRequestError(false);
     setIsRequestSuccess(false);
-    axios.post(`${endpointRoot}${requestType}`, formData, authHeaders())
+    axios.post(`${endpointRoots.meal}${requestType}`, formData, authHeaders())
       .then(res => {
         if (requestType === 'edit') {
           dispatch({
@@ -128,7 +129,7 @@ export default function Meals() {
     page.setIsLoading(true);
     setIsRequestSuccess(false);
     setIsRequestError(false);
-    axios.post(`${endpointRoot}delete`, { _id: meal._id }, authHeaders())
+    axios.post(`${endpointRoots.meal}delete`, { _id: meal._id }, authHeaders())
       .then(res => 
         setIsRequestSuccess(true),
         dispatch({
@@ -153,7 +154,7 @@ export default function Meals() {
     page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
-    axios.post(`${endpointRoot}reorder`, { meals: mealsState }, authHeaders())
+    axios.post(`${endpointRoots.meal}reorder`, { meals: mealsState }, authHeaders())
       .then(res => 
         setShowReorder(false),
         setIsRequestSuccess(true)
@@ -228,7 +229,7 @@ export default function Meals() {
               Save meal order
             </Button>
           }
-          
+
           </>
           :
           <p>You haven't added any meals yet.</p>
