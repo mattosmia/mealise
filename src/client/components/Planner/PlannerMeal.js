@@ -14,7 +14,10 @@ export default function PlannerMeal({ plannedMeal }) {
           {plannedMeal.recipeName}
         </div>
       :
-        <Button handleClick={handleAddMeal} classes="planner__wrapper__card__meal__add-button">
+        <Button
+          handleClick={handleAddMeal}
+          classes="planner__wrapper__card__meal__add-button icon--add"
+        >
           <span className="vh">Plan meal</span>
         </Button>
       }
