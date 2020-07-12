@@ -44,6 +44,12 @@ export default function formValidation(formFieldsSchema, formValidationSchema = 
       }
     }
 
+    if (formValidationSchema[fieldName].minLength) {
+      if (value && value.length < minLength) {
+        error = formValidationSchema[fieldName].minLengthError || 'Field length is too short';
+      }
+    }
+
     // if (formValidationSchema[name].match) {
     //   if (value && formFields[formValidationSchema[name].match].value) {
     //     error = formValidationSchema[name].patternError || 'Field format is invalid';

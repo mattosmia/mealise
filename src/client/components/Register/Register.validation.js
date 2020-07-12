@@ -1,4 +1,4 @@
-import { nameRegex, emailRegex, passwordRegex } from '../../helpers/formValidationPatterns';
+import { requiredMsg, minLengthMsg, nameRegex, emailRegex, passwordRegex } from '../../helpers/formValidationPatterns';
 
 export const formFieldsSchema = {
   firstName: { value: '', error: '', isValid: false },
@@ -43,15 +43,17 @@ export const formValidationSchema = {
   },
   password: {
     required: true,
-    requiredError: 'Password is required',
+    requiredError: requiredMsg('Password'),
     pattern: passwordRegex,
     patternError: 'Passwords must contain at least one lowercase character, one uppercase character and one digit',
     match: 'passwordConfirmation',
     matchError: 'Passwords do not match',
+    minLength: 8,
+    minLengthError: minLengthMsg('Password', 8)
   },
   passwordConfirmation: {
     required: true,
-    requiredError: 'Password confirmation is required',
+    requiredError: requiredMsg('Password confirmation'),
     pattern: passwordRegex,
     patternError: 'Passwords must contain at least one lowercase character, one uppercase character and one digit',
     match: 'password',

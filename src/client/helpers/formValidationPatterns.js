@@ -12,3 +12,5 @@ export const extendedNameRegexMsg = fieldName => `${fieldName} can only contain:
 export const nameRegexMsg = fieldName => `${fieldName} can only contain: letters, spaces, full stops and apostrophes`;
 export const intRegexMsg = fieldName => `${fieldName} can only contain digits`;
 export const colourRegexMsg = fieldName => `${fieldName} must be a valid hex code, e.g. #000000`;
+export const passwordRegexMsg = () => `Password must contain at least one lowercase letter, one uppercase letter and one digit`;
+export const minLengthMsg = (fieldName, minLength) => `${fieldName} must be at least ${minLength} characters long`;
