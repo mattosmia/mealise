@@ -197,7 +197,8 @@ export default function Meals() {
                           <div className="meals__list__item__inner list__item__inner">
                             {meal.name}
                             <span className="meals__list__item__buttons list__item__buttons">
-                              <Button classes="button--icon icon--edit"
+                              <Button
+                                classes="button--icon icon--edit"
                                 handleClick={() => handleEditMeal(meal)}
                               >
                                 <span className="vh">Edit</span>
@@ -219,7 +220,15 @@ export default function Meals() {
               )}
             </Droppable>
           </DragDropContext>
-          { showReorder && <Button handleClick={handleReorderMeals}>Save meal order</Button> }
+
+          { showReorder &&
+            <Button
+              handleClick={handleReorderMeals}
+            >
+              Save meal order
+            </Button>
+          }
+          
           </>
           :
           <p>You haven't added any meals yet.</p>
@@ -228,11 +237,20 @@ export default function Meals() {
         </div>
         <SidebarForm classes={['meals__side']}>
           <>
-          <h2>{ editState? "Edit" : "Add" } meal</h2>
+          <h2>{ editState ? "Edit" : "Add" } meal</h2>
           <div className="form--error" aria-live="assertive">
             { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
-          <Input label="Meal name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} isRequired={formValidationSchema.name.required} />
+
+          <Input
+            label="Meal name"
+            name="name"
+            value={formFields.name.value}
+            handleChange={handleChange}
+            errorMsg={formFields.name.error}
+            isRequired={formValidationSchema.name.required}
+          />
+
           <p className="label">
             <span className="label--required">Meal colour label</span>
           </p>
@@ -241,10 +259,25 @@ export default function Meals() {
           <input type="hidden" name="colour" value={formFields.colour.value} />
           <input type="hidden" name="order" value={formFields.order.value || '0'} />
 
-          <Button handleClick={handleSubmit} isDisabled={!isFormValid}><>{ editState? "Edit" : "Add" } meal</></Button>
+          <Button
+            handleClick={handleSubmit}
+            isDisabled={!isFormValid}
+          >
+            { editState ? "Update meal" : "Add meal" }
+          </Button>
+
           { editState && <>
-            <Button handleClick={e => handleSubmit(e, 'add_as_new')} isDisabled={!isFormValid}>Add as new meal</Button>
-            <Button handleClick={handleCancelEdit}>Cancel</Button>
+            <Button
+              handleClick={e => handleSubmit(e, 'add_as_new')}
+              isDisabled={!isFormValid}
+            >
+              Add as new meal
+            </Button>
+            <Button
+              handleClick={handleCancelEdit}
+            >
+              Cancel
+            </Button>
           </>}
           </>
         </SidebarForm>

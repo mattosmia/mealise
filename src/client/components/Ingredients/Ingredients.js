@@ -130,7 +130,8 @@ export default function Ingredients() {
                       <div className="ingredients__list__item__inner list__item__inner">
                         {ingredient.name} ({ingredient.unit})
                         <span className="ingredients__list__item__buttons list__item__buttons">
-                          <Button classes="button--icon icon--edit"
+                          <Button
+                            classes="button--icon icon--edit"
                             handleClick={() => handleEditIngredient(ingredient)}
                           >
                             <span className="vh">Edit</span>
@@ -153,17 +154,46 @@ export default function Ingredients() {
         </div>
         <SidebarForm classes={['ingredients__side']}>
           <>
-          <h2>{ editState? "Edit" : "Add" } ingredient</h2>
+          <h2>{ editState ? "Edit" : "Add" } ingredient</h2>
           <div className="form--error" aria-live="assertive">
             { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
-          <Input label="Ingredient name" name="name" value={formFields.name.value} handleChange={handleChange} errorMsg={formFields.name.error} isRequired={formValidationSchema.name.required} />
-          <Input label="Ingredient unit" name="unit" value={formFields.unit.value} handleChange={handleChange} errorMsg={formFields.unit.error} isRequired={formValidationSchema.unit.required} />
+          <Input
+            label="Ingredient name"
+            name="name"
+            value={formFields.name.value}
+            handleChange={handleChange}
+            errorMsg={formFields.name.error}
+            isRequired={formValidationSchema.name.required}
+          />
+          <Input
+            label="Ingredient unit"
+            name="unit"
+            value={formFields.unit.value} 
+            handleChange={handleChange}
+            errorMsg={formFields.unit.error}
+            isRequired={formValidationSchema.unit.required}
+          />
 
-          <Button handleClick={handleSubmit} isDisabled={!isFormValid}><>{ editState? "Edit" : "Add" } ingredient</></Button>
+          <Button
+            handleClick={handleSubmit}
+            isDisabled={!isFormValid}
+          >
+            { editState ? "Update ingredient" : "Add ingredient" }
+          </Button>
+
           { editState && <>
-            <Button handleClick={e => handleSubmit(e, 'add_as_new')} isDisabled={!isFormValid}>Add as new ingredient</Button>
-            <Button handleClick={handleCancelEdit}>Cancel</Button>
+            <Button
+              handleClick={e => handleSubmit(e, 'add_as_new')}
+              isDisabled={!isFormValid}
+            >
+              Add as new ingredient
+            </Button>
+            <Button
+              handleClick={handleCancelEdit}
+            >
+              Cancel
+            </Button>
           </>}
           </>
         </SidebarForm>
