@@ -56,21 +56,6 @@ exports.details = [
 ];
 
 /**
-  * Log user out
-  * @returns {Object}
-**/
-exports.logout = [
-  function (req, res) {
-    try {
-      console.log('logging out....');
-      return apiResponse.success(res, 'Logged out!');
-    } catch (err) {
-      return apiResponse.serverError(res, err);
-    }
-  }
-];
-
-/**
   * Register new user
   * @returns {Object}
 **/
