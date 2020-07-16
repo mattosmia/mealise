@@ -9,7 +9,10 @@ export default function Landing() {
       <section className="landing">
         <div className="landing__hero" role="img" aria-label="Image Description">
           <h2>
-            Mealise helps you plan your daily meals and provides you with a handy and fully customisable shopping list.<br /><span>Flexible and helpful.<br /><Link to="/register">Sign up now!</Link></span>
+            <span>
+              Mealise helps you plan your daily meals and provides you with a handy and fully customisable shopping list.<br />
+              <span className="sub">Flexible and helpful.<br /><Link to="/register">Sign up now!</Link></span>
+            </span>
           </h2>
         </div>
         <div className="landing__columns">
