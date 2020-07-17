@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
@@ -60,6 +60,7 @@ export default function Login() {
   return (
     <section className="login">
       <h1>Log in</h1>
+      <p>Don't have an account yet? <Link to={'/register'}>Sign up now</Link></p>
       <label>
           <span>Email</span>
           <input type="email" name="email" onChange={handleChange} />
@@ -68,7 +69,7 @@ export default function Login() {
           <span>Password</span>
           <input type="password" name="password" onChange={handleChange} />
       </label>
-      <Button handleClick={handleSubmit}>Log in</Button>
+      <Button handleClick={handleSubmit}>Log in</Button> <Link to={'/forgot-password'}>Forgot password?</Link>
     </section>
   )
 }
