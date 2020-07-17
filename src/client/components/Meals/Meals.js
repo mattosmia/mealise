@@ -25,7 +25,7 @@ export default function Meals() {
   const [isRequestError, setIsRequestError] = useState(false);
   const [isRequestSuccess, setIsRequestSuccess] = useState(false);
   const [isSidebarRequestError, setIsSidebarRequestError] = useState(false);
-  const [editState, setEditState] = useState(false);
+  const [isEditingForm, setIsEditingForm] = useState(false);
   const [showReorder, setShowReorder] = useState(false);
 
   const [colour, setColour] = useState(initialColour);
@@ -80,7 +80,7 @@ export default function Meals() {
           })
         }
         setFormFields(formFieldsSchema)
-        setEditState(false)
+        setIsEditingForm(false)
         setIsRequestSuccess(true)
       }).catch(err => 
         setIsSidebarRequestError(true)
@@ -115,7 +115,7 @@ export default function Meals() {
     setIsRequestError(false);
     setIsRequestSuccess(false);
     setIsSidebarRequestError(false);
-    setEditState(true);
+    setIsEditingForm(true);
     setFormFields({
       _id: { value: meal._id, error: '', isValid: true },
       name: { value: meal.name, error: '', isValid: true },
@@ -146,7 +146,7 @@ export default function Meals() {
   const handleCancelEdit = () => {
     setFormFields(formFieldsSchema);
     setColour(initialColour);
-    setEditState(false);
+    setIsEditingForm(false);
     setIsSidebarRequestError(false);
   }
 
@@ -238,7 +238,7 @@ export default function Meals() {
         </div>
         <SidebarForm classes={['meals__side']}>
           <>
-          <h2>{ editState ? "Edit" : "Add" } meal</h2>
+          <h2>{ isEditingForm ? "Edit" : "Add" } meal</h2>
           <div className="form--error" aria-live="assertive">
             { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
@@ -264,10 +264,10 @@ export default function Meals() {
             handleClick={handleSubmit}
             isDisabled={!isFormValid}
           >
-            { editState ? "Update meal" : "Add meal" }
+            { isEditingForm ? "Update meal" : "Add meal" }
           </Button>
 
-          { editState && <>
+          { isEditingForm && <>
             <Button
               handleClick={e => handleSubmit(e, 'add_as_new')}
               isDisabled={!isFormValid}
