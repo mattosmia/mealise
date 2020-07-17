@@ -4,7 +4,8 @@ export const formFieldsSchema = {
   _id: { value: '', error: '', isValid: true },
   name: { value: '', error: '', isValid: false },
   description: { value: '', error: '', isValid: true },
-  instructions: { value: '', error: '', isValid: true }
+  instructions: { value: '', error: '', isValid: true },
+  ingredients: { value: [], error: '', isValid: true }
 }
 
 export const formValidationSchema = {
@@ -18,6 +19,9 @@ export const formValidationSchema = {
     required: false
   },
   instructions: {
+    required: false
+  },
+  ingredients: {
     required: false
   },
 };
