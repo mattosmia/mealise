@@ -61,7 +61,7 @@ exports.editIngredient = [
         { $set:
           { 
             name: req.body.name,
-            colour: req.body.colour
+            unit: req.body.unit
           }
         }
       ).then(() => 

@@ -12,19 +12,20 @@ import ingredientsReducer from './Ingredients.reducer';
 import SidebarForm from '../elements/SidebarForm';
 import PageContext from '../../helpers/pageContext';
 import Input from '../elements/Input';
+import Select from '../elements/Select';
 
 import { endpointRoots } from '../../helpers/endpointRoots';
+import { units } from '../../helpers/units';
 
 export default function Ingredients() {
   const page = useContext(PageContext);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isRequestSuccess, setIsRequestSuccess] = useState(false);
   const [isSidebarRequestError, setIsSidebarRequestError] = useState(false);
-  const [editState, setEditState] = useState(false);
+  const [isEditingForm, setIsEditingForm] = useState(false);
 
   const [ingredientsState, dispatch] = useReducer(ingredientsReducer, []);
   
-
   useEffect(() => {
     if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoots.ingredient, authHeaders())
@@ -61,7 +62,7 @@ export default function Ingredients() {
           })
         }
         setFormFields(formFieldsSchema)
-        setEditState(false)
+        setIsEditingForm(false)
         setIsRequestSuccess(true)
       }).catch(err => 
         setIsSidebarRequestError(true)
@@ -72,12 +73,11 @@ export default function Ingredients() {
 
   const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
 
-
   const handleEditIngredient = ingredient => {
     setIsRequestError(false);
     setIsRequestSuccess(false);
     setIsSidebarRequestError(false);
-    setEditState(true);
+    setIsEditingForm(true);
     setFormFields({
       _id: { value: ingredient._id, error: '', isValid: true },
       name: { value: ingredient.name, error: '', isValid: true },
@@ -105,8 +105,7 @@ export default function Ingredients() {
 
   const handleCancelEdit = () => {
     setFormFields(formFieldsSchema);
-    setColour(initialColour);
-    setEditState(false);
+    setIsEditingForm(false);
     setIsSidebarRequestError(false);
   }
 
@@ -154,7 +153,7 @@ export default function Ingredients() {
         </div>
         <SidebarForm classes={['ingredients__side']}>
           <>
-          <h2>{ editState ? "Edit" : "Add" } ingredient</h2>
+          <h2>{ isEditingForm ? "Edit" : "Add" } ingredient</h2>
           <div className="form--error" aria-live="assertive">
             { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
           </div>
@@ -166,23 +165,24 @@ export default function Ingredients() {
             errorMsg={formFields.name.error}
             isRequired={formValidationSchema.name.required}
           />
-          <Input
+          <Select
             label="Ingredient unit"
             name="unit"
-            value={formFields.unit.value} 
+            options={units}
+            selectedOption={formFields.unit.value}
+            placeholderOption="Select an option"
             handleChange={handleChange}
             errorMsg={formFields.unit.error}
             isRequired={formValidationSchema.unit.required}
           />
-
           <Button
             handleClick={handleSubmit}
             isDisabled={!isFormValid}
           >
-            { editState ? "Update ingredient" : "Add ingredient" }
+            { isEditingForm ? "Update ingredient" : "Add ingredient" }
           </Button>
 
-          { editState && <>
+          { isEditingForm && <>
             <Button
               handleClick={e => handleSubmit(e, 'add_as_new')}
               isDisabled={!isFormValid}
