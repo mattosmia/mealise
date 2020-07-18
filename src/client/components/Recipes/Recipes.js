@@ -214,14 +214,30 @@ export default function Recipes() {
   }
 
   const handleIngredientSuggestionChange = (e, { newValue }) => {
+    if (recipeFormIngredientFields.current._id !== '') {
+      setRecipeFormIngredientFields({
+        ...recipeFormIngredientFields, 
+        current: {
+          ...recipeFormIngredientFields.current,
+          _id: ''
+        }
+      })
+    }
     setIngredientSuggestionValue(newValue)
-  };
+  }
+
+  const handleIngredientSuggestionBlur = () => {
+    if (recipeFormIngredientFields.current._id === '') {
+      setIngredientSuggestionValue('')
+    }
+  }
 
   const inputProps = {
     placeholder: 'Start typing ingredient',
     value: ingredientSuggestionValue,
-    onChange: handleIngredientSuggestionChange
-  };
+    onChange: handleIngredientSuggestionChange,
+    onBlur: handleIngredientSuggestionBlur
+  }
 
   return (
     <section className="recipes">
