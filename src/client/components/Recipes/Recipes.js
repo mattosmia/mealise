@@ -11,12 +11,13 @@ import './Recipes.scss';
 import Button from '../elements/Button';
 
 import recipesReducer from './Recipes.reducer';
-import recipeIngredientsReducer from './RecipeIngredients.reducer';
 import SidebarForm from '../elements/SidebarForm';
 import PageContext from '../../helpers/pageContext';
 import Input from '../elements/Input';
 
 import { endpointRoots } from '../../helpers/endpointRoots';
+import Tooltip from '../elements/Tooltip';
+import { floatRegex } from '../../helpers/formValidationPatterns';
 
 export default function Recipes() {
   const page = useContext(PageContext);
@@ -39,11 +40,6 @@ export default function Recipes() {
     ingredientList: [],
     recipeList: []
   });
-
-  // const [recipeIngredientsState, dispatchRecipeIngredients] = useReducer(recipeIngredientsReducer, {
-  //   ingredientList: [],
-  //   recipeList: []
-  // });
 
   const [ingredientSuggestions, setIngredientSuggestions] = useState([]);
   const [ingredientSuggestionValue, setIngredientSuggestionValue] = useState('');
@@ -129,6 +125,7 @@ export default function Recipes() {
   }
 
   const handleAddRecipeIngredient = () => {
+    if (! recipeFormIngredientFields.current._id || ! recipeFormIngredientFields.current.qty) return;
     handleIngredientSuggestionChange(null, {newValue: ''}); // resets value
     setRecipeFormIngredientFields({
       isAdded: [
@@ -216,7 +213,7 @@ export default function Recipes() {
     }
   }
 
-  const handleIngredientSuggestionChange = (event, { newValue, method }) => {
+  const handleIngredientSuggestionChange = (e, { newValue }) => {
     setIngredientSuggestionValue(newValue)
   };
 
@@ -276,7 +273,7 @@ export default function Recipes() {
                                   <li
                                     key={ingredient._id}
                                   >
-                                    {ingredient.qty}{recipesState.ingredientList.find(ing => ing._id === ingredient._id).unit}  {recipesState.ingredientList.find(ing => ing._id === ingredient._id).name}
+                                    {ingredient.qty} {recipesState.ingredientList.find(ing => ing._id === ingredient._id).unit} of {recipesState.ingredientList.find(ing => ing._id === ingredient._id).name}
                                   </li>
                                 )}
                               </ul>
@@ -346,28 +343,8 @@ export default function Recipes() {
             isRequired={formValidationSchema.instructions.required}
           />
 
-          <h3>Ingredients</h3>
+          <h3>Ingredients <Tooltip>Start typing the ingredient name and select the option from the dropdown. Quantity should be a number, with up to 3 decimal points</Tooltip></h3>
           <div className="recipes__ingredient-form">
-            {/* <Input
-              label="Name"
-              name="ingredientName"
-              value={recipeFormIngredientFields.name.value}
-              handleChange={null}
-              errorMsg={recipeFormIngredientFields.name.error}
-              isRequired={true}
-            /> */}
-            {/* <select
-              id="ingredients-autocomplete"
-            >
-              { recipesState.ingredientList.map(ingredient =>
-                <option
-                  key={ingredient._id}
-                  value={ingredient._id}
-                >
-                  { ingredient.name }
-                </option>
-              )} 
-            </select> */}
             <label>
               <span className="label--required">Name</span>
               <Autosuggest
@@ -376,7 +353,7 @@ export default function Recipes() {
                 onSuggestionsFetchRequested={({ value }) =>
                   setIngredientSuggestions(getIngredientSuggestions(value))
                 }
-                onSuggestionsClearRequested={() =>
+                onSuggestionsClearRequested={() => 
                   setIngredientSuggestions([])
                 }
                 getSuggestionValue={ingredient => {
@@ -390,7 +367,7 @@ export default function Recipes() {
                     return ingredient.name
                 }}
                 renderSuggestion={ingredient =>
-                    <span>{ ingredient.name }</span>
+                    <span>{ ingredient.name } ({ ingredient.unit })</span>
                 }
                 inputProps={inputProps}
                 highlightFirstSuggestion={true}
@@ -399,15 +376,18 @@ export default function Recipes() {
             <Input
               label="Qty"
               name="ingredientQty"
-              handleChange={e => 
-                setRecipeFormIngredientFields({
-                  ...recipeFormIngredientFields, 
-                  current: {
-                    ...recipeFormIngredientFields.current,
-                    qty: e.target.value
-                  }
-                })
-              }
+              handleChange={e => {
+                let newQty = e.target.value.replace(/[^\d\.]/g,'');
+                if (!newQty || floatRegex.test(newQty)) {
+                  setRecipeFormIngredientFields({
+                    ...recipeFormIngredientFields, 
+                    current: {
+                      ...recipeFormIngredientFields.current,
+                      qty: newQty
+                    }
+                  })
+                }
+              }}
               value={recipeFormIngredientFields.current.qty}
               isRequired={true}
               isDisabled={false}
@@ -415,7 +395,7 @@ export default function Recipes() {
             <Button
               classes="button--icon icon--add"
               handleClick={handleAddRecipeIngredient}
-              isDisabled={false}
+              isDisabled={!(recipeFormIngredientFields.current._id !== '' && recipeFormIngredientFields.current.qty !== '')}
             >
               <span className="vh">Add ingredient</span>
             </Button>
@@ -427,7 +407,7 @@ export default function Recipes() {
                 <li
                   key={ingredient._id}
                 >
-                  {ingredient.qty}{ingredient.unit} {ingredient.name}
+                  {ingredient.qty} {ingredient.unit} of {ingredient.name}
                 </li>
               )}
             </ul>
