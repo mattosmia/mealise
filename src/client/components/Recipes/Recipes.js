@@ -116,15 +116,15 @@ export default function Recipes() {
 
   const handleCollapseAll = () => {
     const accordionItems = document.querySelectorAll('.recipes__list__item__expand');
-    for (let idx = 0; idx < accordionItems.length; idx++) {
-      accordionItems[idx].classList.remove('expanded')
+    for (let accordionItem of accordionItems) {
+      accordionItem.classList.remove('expanded')
     }
   }
 
   const handleExpandAll = () => {
     const accordionItems = document.querySelectorAll('.recipes__list__item__expand');
-    for (let idx = 0; idx < accordionItems.length; idx++) {
-      accordionItems[idx].classList.add('expanded')
+    for (let accordionItem of accordionItems) {
+      accordionItem.classList.add('expanded')
     }
   }
 
