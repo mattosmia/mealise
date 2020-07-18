@@ -141,6 +141,13 @@ export default function Recipes() {
     });
   }
 
+  const handleDeleteRecipeIngredient = ingredient => {
+    setRecipeFormIngredientFields({
+      ...recipeFormIngredientFields,
+      isAdded: recipeFormIngredientFields.isAdded.filter(i => i._id !== ingredient._id)
+    })
+  }
+
   const handleEditRecipe = recipe => {
     setIsRequestError(false);
     setIsRequestSuccess(false);
@@ -423,7 +430,13 @@ export default function Recipes() {
                 <li
                   key={ingredient._id}
                 >
-                  {ingredient.qty} {ingredient.unit} of {ingredient.name}
+                  {ingredient.qty} {ingredient.unit} of {ingredient.name} 
+                  <Button
+                    classes="button--icon icon--delete"
+                    handleClick={() => handleDeleteRecipeIngredient(ingredient)}
+                  >
+                    <span className="vh">Delete</span>
+                  </Button>
                 </li>
               )}
             </ul>
