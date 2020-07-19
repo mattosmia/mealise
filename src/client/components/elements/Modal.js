@@ -1,44 +1,55 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, createContext } from 'react';
+import { createPortal } from 'react-dom';
 
 // credit: https://codepen.io/siffogh/pen/gOaXvyQ
+// with tweaks to make it work with mealise
 
-const modalContext = React.createContext();
+const modalContext = createContext();
+const selectableElements = 'a[href], button:not([disabled]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select';
 
 export default function Modal({ children, onModalClose }) {
-  React.useEffect(() => {
-    function keyListener(e) {
-    const listener = keyListenersMap.get(e.keyCode);
-    return listener && listener(e);
-    }
-    document.addEventListener("keydown", keyListener);
-
-    return () => document.removeEventListener("keydown", keyListener);
-  });
-
   const modalRef = React.createRef();
-  const handleTabKey = e => {
-      const focusableModalElements = modalRef.current.querySelectorAll(
-      'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-      );
-      const firstElement = focusableModalElements[0];
-      const lastElement =
-      focusableModalElements[focusableModalElements.length - 1];
 
-      if (!e.shiftKey && document.activeElement !== firstElement) {
-      firstElement.focus();
-      return e.preventDefault();
+  useEffect(() => {
+    const focusableModalElements = modalRef.current.querySelectorAll(selectableElements);
+    const firstElement = focusableModalElements[0];
+    if (firstElement) {
+      firstElement.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    function keyListener(e) {
+      const listener = keyListenersMap.get(e.keyCode);
+      return listener && listener(e);
+    }
+
+    document.addEventListener("keydown", keyListener, true);
+
+    return () => document.removeEventListener("keydown", keyListener, true);
+  }, []);
+
+  const handleTabKey = e => {
+      const focusableModalElements = modalRef.current.querySelectorAll(selectableElements);
+      const firstElement = focusableModalElements[0];
+      const lastElement = focusableModalElements[focusableModalElements.length - 1];
+      // if (!e.shiftKey && document.activeElement !== firstElement) {
+        if (!e.shiftKey && document.activeElement === lastElement) {
+        console.log('000active',document.activeElement,'first',firstElement)
+        firstElement.focus();
+        return e.preventDefault();
       }
 
-      if (e.shiftKey && document.activeElement !== lastElement) {
-      lastElement.focus();
-      e.preventDefault();
+      if (e.shiftKey && document.activeElement === firstElement) {
+        console.log('111 active',document.activeElement,'last',lastElement)
+        lastElement.focus();
+        return e.preventDefault();
       }
   };
 
   const keyListenersMap = new Map([[27, onModalClose], [9, handleTabKey]]);
 
-  return ReactDOM.createPortal(
+  return createPortal(
       <div className="modal" role="dialog" aria-modal="true">
       <div className="modal__content" ref={modalRef}>
           <modalContext.Provider value={{ onModalClose }}>
