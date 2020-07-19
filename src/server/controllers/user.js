@@ -60,7 +60,6 @@ exports.details = [
   * @returns {Object}
 **/
 exports.register = (req, res) => {
-
   bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT,10)).then(
     encryptedPassword => {
       const user = new User({
@@ -86,7 +85,7 @@ exports.register = (req, res) => {
   * @returns {Object}
 **/
 exports.login = (req, res) => {
-  User.findOne({ email: req.body.email }).then(
+  User.findOne({ email: { $regex: new RegExp('^' + req.body.email + '$','i') }}).then(
     user => {
       if (!user) {
         return apiResponse.unauthorised(res, 'User not found')
