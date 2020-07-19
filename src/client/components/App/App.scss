@@ -13,8 +13,9 @@
 }
 
 *:focus {
-  outline: 1px solid $black;
-  outline-offset: -1px;
+  outline: 1px dashed $black40;
+  outline-offset: 0px;
+  box-shadow: inset 0 0.25rem 0.25rem $black10, 0 0 1rem 0 $black40;
 }
 
 footer *:focus {
