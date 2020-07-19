@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Button from './Button';
 
 export default function Tooltip({ children }) {
   const [showcontent, setShowContent] = useState(false);
   return (
     <div className={`tooltip${showcontent? ' show' : ''}`}>
-      <button className="tooltip__icon" onClick={() => setShowContent(!showcontent)}>
+      <Button
+        classes="button--icon tooltip__icon"
+        handleClick={() => setShowContent(!showcontent)}
+      >
         <span className="vh">Help</span>
-      </button>
-      <div  className="tooltip__content">
+      </Button>
+      <div className="tooltip__content">
         { children }
       </div>
     </div>
