@@ -33,8 +33,8 @@ export default function Modal({ children, onModalClose }) {
       const focusableModalElements = modalRef.current.querySelectorAll(selectableElements);
       const firstElement = focusableModalElements[0];
       const lastElement = focusableModalElements[focusableModalElements.length - 1];
-      // if (!e.shiftKey && document.activeElement !== firstElement) {
-        if (!e.shiftKey && document.activeElement === lastElement) {
+      
+      if (!e.shiftKey && document.activeElement === lastElement) {
         firstElement.focus();
         return e.preventDefault();
       }
