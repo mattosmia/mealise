@@ -25,7 +25,7 @@ const localStorageKeys = {
 export default function Planner() {
   const page = useContext(PageContext);
 
-  const [plannerState, dispatch] = useReducer(plannerReducer, { mealList: [], recipeList: [] });
+  const [plannerState, dispatch] = useReducer(plannerReducer, { mealList: [], recipeList: [], plannerList: [] });
 
   const initialEndDate = new Date();
   initialEndDate.setDate(initialEndDate.getDate() + 6); // today + 6 days = 1 week :)
