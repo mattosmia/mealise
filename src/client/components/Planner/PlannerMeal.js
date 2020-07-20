@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Button from '../elements/Button';
 
-export default function PlannerMeal({ plannedMeal }) {
+export default function PlannerMeal({ plannedMeal, date, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings }) {
   const handleAddMeal = () => {
-    console.log('add meal')
+    setPlannerModalSettings({
+      ...plannerModalSettings,
+      plannedMeal,
+      date,
+      isOpen: true
+    })
   }
 
-  return (
+  return (<>
+    {( plannedMeal.recipeName || (!plannedMeal.recipeName && !hideEmptyMeals)) &&
     <div className="planner__wrapper__card__meal" style={{backgroundColor: plannedMeal.colour}}>
-      <div className="planner__wrapper__card__meal__name">{plannedMeal.name}</div> 
+      { !hideMealNames && <div className="planner__wrapper__card__meal__name">{plannedMeal.name}</div> }
       {plannedMeal.recipeName?
         <div className="planner__wrapper__card__meal__details">
           {plannedMeal.recipeName}
@@ -22,5 +29,16 @@ export default function PlannerMeal({ plannedMeal }) {
         </Button>
       }
     </div>
-  )
+    }
+  </>)
 }
+
+
+PlannerMeal.propTypes = {
+  plannedMeal: PropTypes.object,
+  date: PropTypes.object,
+  hideEmptyMeals: PropTypes.bool,
+  hideMealNames: PropTypes.bool,
+  plannerModalSettings: PropTypes.object,
+  setPlannerModalSettings: PropTypes.func
+};
