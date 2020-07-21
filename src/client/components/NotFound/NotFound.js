@@ -6,7 +6,10 @@ import './NotFound.scss';
 function NotFound() {
 	return (
 		<section className="not-found" role="alert">
-            Sorry, we couldn't find the page you're looking for! <Link to="/">Go back to the homepage</Link>
+			<div>
+            	<h2>Page not found</h2>
+				<p>Sorry, we couldn't find the page you're looking for!<br/><Link to="/">Go back to the homepage</Link></p>
+			</div>
 		</section>
 	);
 }
