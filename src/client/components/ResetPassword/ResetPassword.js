@@ -103,12 +103,12 @@ export default function ResetPassword(props) {
       <h1>Reset Password</h1>
         {! page.isLoading && <>
           { tokenData.isValid ? <>
-            <p>Enter your new password below</p>
              { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
               { isRequestSuccess ?
               <AlertMessage type="success">Your password has been successfully reset. Click <Link to={'/login'}>here</Link> to log into your account.</AlertMessage>
               :
               <>
+                <p>Enter your new password below</p>
                 <Input
                   label="New password"
                   type="password"
