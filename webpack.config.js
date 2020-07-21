@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 module.exports = {
   mode: 'development',
   entry: [
@@ -10,6 +9,7 @@ module.exports = {
     './src/client/index.js'
   ],
   output: {
+    publicPath: '/',
     path: path.join(__dirname, './dist'),
     filename: 'bundle.js'
   },

@@ -43,15 +43,16 @@ const navItems = [
 
 export default function Header() {
   const thisPage = useLocation();
+  const thisPathnameRoot = thisPage.pathname.match(/(\/[^\/]+)/) || [];
 
   const toggleMobileNav = () => {
     document.getElementById('main-nav').classList.toggle('show');
   }
 
-  const selectedNavItem = navItems.find(navItem => navItem.path === thisPage.pathname);
+  const selectedNavItem = navItems.find(navItem => navItem.path === thisPathnameRoot[0]);
 
   return (
-    <header className={`auth ${selectedNavItem.themeCls || ''}`}>
+    <header className={`auth ${(selectedNavItem && selectedNavItem.themeCls) || ''}`}>
         <h1 className="header__logo">
           <span className="logo-icon" aria-hidden="true"></span>
           <span className="vh">Mealise</span>
