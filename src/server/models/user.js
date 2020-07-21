@@ -10,8 +10,8 @@ const userSchema = mongoose.Schema({
   acceptMkt: { type: Boolean, required: true },
   registrationDate: { type: Date, default: Date.now },
   lastLogin: { type: Date, required: false },
-  forgotPasswordToken: { type: String, required: false },
-  forgotPasswordTokenExpiry: { type: Date, required: false },
+  resetToken: { type: String, required: false },
+  resetTokenExpiry: { type: Date, required: false },
 });
 
 userSchema.plugin(uniqueValidator);
