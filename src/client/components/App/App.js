@@ -32,6 +32,8 @@ import Spinner from '../Spinner/Spinner';
 
 import { isAuth } from '../../helpers/auth';
 import AppProvider from './App.provider';
+import ResetPassword from '../ResetPassword/ResetPassword';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +65,12 @@ export default function App() {
             </Route>
             <Route exact path="/register">
               <BrochureView><Register /></BrochureView>
+            </Route>
+            <Route exact path="/forgot-password">
+              <BrochureView><ForgotPassword /></BrochureView>
+            </Route>
+            <Route exact path="/reset-password/:token" render={(props) => 
+              <BrochureView><ResetPassword {...props} /></BrochureView>}>
             </Route>
             <Route exact path="/planner">
               <AuthorisedView><Planner /></AuthorisedView>

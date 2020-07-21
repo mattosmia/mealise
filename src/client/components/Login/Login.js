@@ -4,72 +4,69 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 
 import './Login.scss';
+import Input from '../elements/Input';
 import Button from '../elements/Button';
+
+import { formFieldsSchema, formValidationSchema } from './Login.validation';
+import formValidation from '../../helpers/formValidation';
 
 import { jwtCookieName } from '../../helpers/cookies';
 import PageContext from '../../helpers/pageContext';
+import { endpointRoots } from '../../helpers/endpointRoots';
 
 export default function Login() {
   const page = useContext(PageContext);
-  const [requestStatus, setRequestStatus] = useState('');
-  const [formFieldValues, setFormFieldValues] = useState({});
+  const [isRequestError, setIsRequestError] = useState(false);
 
   const history = useHistory();
 
-  const handleChange = e => {
-    e.persist();
-    
-		const fieldName = e.target.name;
-		let fieldValue;
-		
-		switch (e.target.type) {
-			case 'checkbox':
-				fieldValue = e.target.checked;
-			break;
-			default:
-				fieldValue = e.target.value;
-		}
-
-    setRequestStatus('');
-    setFormFieldValues({
-      ...formFieldValues,
-      [fieldName]: fieldValue
-    })
-  }
-  const handleSubmit = () => {
+  const submitCallback = formData => {
     page.setIsLoading(true);
-    axios.post('/api/user/login', formFieldValues)
+    setIsRequestError(false);
+    axios.post(`${endpointRoots.user}login`, formData)
 			.then(res => {
 				cookie.save(jwtCookieName, res.data.data.token, { path: '/' });
-        setRequestStatus('success');
+        history.push({
+          pathname:  "/planner"
+        })
       }).catch(err => 
-        setRequestStatus('error')
+        setIsRequestError(true)
 			).finally(() => 
         page.setIsLoading(false)
       )
   }
-  
-  useEffect(() => {
-    if (requestStatus === 'success') {
-      history.push({
-        pathname:  "/planner"
-      })
-    }
-  }, [requestStatus])
 
+  const { formFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
+  
   return (
-    <section className="login">
+    <section className="login centred-form">
       <h1>Log in</h1>
       <p>Don't have an account yet? <Link to={'/register'}>Sign up now</Link></p>
-      <label>
-          <span>Email</span>
-          <input type="email" name="email" onChange={handleChange} />
-      </label>
-      <label>
-          <span>Password</span>
-          <input type="password" name="password" onChange={handleChange} />
-      </label>
-      <Button handleClick={handleSubmit}>Log in</Button> <Link to={'/forgot-password'}>Forgot password?</Link>
+        { isRequestError && <p className="p--error">Please check your email and password and try again.</p>}
+        <Input
+          label="Email"
+          name="email"
+          value={formFields.email.value}
+          handleChange={handleChange}
+          errorMsg={formFields.email.error}
+          isRequired={formValidationSchema.email.required}
+        />
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          value={formFields.password.value}
+          handleChange={handleChange}
+          errorMsg={formFields.password.error}
+          isRequired={formValidationSchema.password.required}
+        />
+        <Button
+          handleClick={handleSubmit}
+          isDisabled={! isFormValid}
+        >
+          Log in
+        </Button> 
+        <Link to={'/forgot-password'}>Forgot password?</Link>
     </section>
   )
 }
