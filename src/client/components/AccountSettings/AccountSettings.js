@@ -144,7 +144,12 @@ export default function AccountSettings() {
               errorMsg={passwordForm.formFields.newPasswordConfirmation.error}
               isRequired={passwordFormValidationSchema.newPasswordConfirmation.required}
             />
-            <Button handleClick={passwordForm.handleSubmit} isDisabled={! passwordForm.isFormValid}>Update password</Button>
+            <Button
+              handleClick={passwordForm.handleSubmit}
+              isDisabled={! passwordForm.isFormValid}
+            >
+              Update password
+            </Button>
           </div>
         </>}
       </div>
