@@ -12,6 +12,7 @@ import Input from '../elements/Input';
 
 import { endpointRoots } from '../../helpers/endpointRoots';
 import { Link } from 'react-router-dom';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function ResetPassword(props) {
   const page = useContext(PageContext);
@@ -103,9 +104,9 @@ export default function ResetPassword(props) {
         {! page.isLoading && <>
           { tokenData.isValid ? <>
             <p>Enter your new password below</p>
-             { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
+             { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
               { isRequestSuccess ?
-              <p className="p--success">Your password has been successfully reset. Click <Link to={'/login'}>here</Link> to log into your account.</p>
+              <AlertMessage type="success">Your password has been successfully reset. Click <Link to={'/login'}>here</Link> to log into your account.</AlertMessage>
               :
               <>
                 <Input
@@ -136,7 +137,7 @@ export default function ResetPassword(props) {
             }
           </>
           :
-            <p className="p--error">The token provided is invalid. Please double check you copied the token correctly from your email, or generate a new one <Link to={'/forgot-password'}>here</Link>.</p>
+            <AlertMessage>The token provided is invalid. Please double check you copied the token correctly from your email, or generate a new one <Link to={'/forgot-password'}>here</Link>.</AlertMessage>
           }
         </>}
     </section>

@@ -12,6 +12,7 @@ import { endpointRoots } from '../../helpers/endpointRoots';
 import { authHeaders } from '../../helpers/auth';
 import Button from '../elements/Button';
 import Checkbox from '../elements/Checkbox';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function AccountSettings() {
   const page = useContext(PageContext);
@@ -81,8 +82,8 @@ export default function AccountSettings() {
       <div className="account-settings__main">
         {! page.isLoading && <>
           <div className="account-settings__form">
-            { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-            { isRequestSuccess && <p className="p--success">Your account has been successfully updated!</p>}
+            { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+            { isRequestSuccess && <AlertMessage type="success">Your account has been successfully updated!</AlertMessage>}
             <Input
               label="First name"
               name="firstName"
@@ -119,8 +120,8 @@ export default function AccountSettings() {
           </div>
           <div className="account-settings__form">
             <h2>Update password</h2>
-            { isPasswordRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-            { isPasswordRequestSuccess && <p className="p--success">Your password has been successfully updated!</p>}
+            { isPasswordRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+            { isPasswordRequestSuccess && <AlertMessage type="success">Your password has been successfully updated!</AlertMessage>}
             <Input
               label="Current password"
               type="password"

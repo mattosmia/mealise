@@ -16,6 +16,7 @@ import Select from '../elements/Select';
 
 import { endpointRoots } from '../../helpers/endpointRoots';
 import { units } from '../../helpers/units';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function Ingredients() {
   const page = useContext(PageContext);
@@ -115,8 +116,8 @@ export default function Ingredients() {
       <div className="ingredients__wrapper main-wrapper">
         <div className="ingredients__main main-content">
         {! page.isLoading && <>
-          { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-          { isRequestSuccess && <p className="p--success">Your ingredients have been successfully updated!</p>}
+          { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+          { isRequestSuccess && <AlertMessage type="success">Your ingredients have been successfully updated!</AlertMessage>}
           { ingredientsState.length > 0 ? 
             <ul
               className="ingredients__list list"
@@ -154,9 +155,7 @@ export default function Ingredients() {
         <SidebarForm classes={['ingredients__side']}>
           <>
           <h2>{ isEditingForm ? "Edit" : "Add" } ingredient</h2>
-          <div className="form--error" aria-live="assertive">
-            { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-          </div>
+            { isSidebarRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
           <Input
             label="Ingredient name"
             name="name"

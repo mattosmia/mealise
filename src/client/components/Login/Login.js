@@ -13,6 +13,7 @@ import formValidation from '../../helpers/formValidation';
 import { jwtCookieName } from '../../helpers/cookies';
 import PageContext from '../../helpers/pageContext';
 import { endpointRoots } from '../../helpers/endpointRoots';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function Login() {
   const page = useContext(PageContext);
@@ -42,7 +43,7 @@ export default function Login() {
     <section className="login centred-form">
       <h1>Log in</h1>
       <p>Don't have an account yet? <Link to={'/register'}>Sign up now</Link></p>
-        { isRequestError && <p className="p--error">Please check your email and password and try again.</p>}
+        { isRequestError && <AlertMessage>Please check your email and password and try again.</AlertMessage>}
         <Input
           label="Email"
           name="email"

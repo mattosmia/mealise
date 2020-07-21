@@ -18,6 +18,7 @@ import Input from '../elements/Input';
 import { endpointRoots } from '../../helpers/endpointRoots';
 import Tooltip from '../elements/Tooltip';
 import { floatRegex } from '../../helpers/formValidationPatterns';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function Recipes() {
   const page = useContext(PageContext);
@@ -252,8 +253,8 @@ export default function Recipes() {
       <div className="recipes__wrapper main-wrapper">
         <div className="recipes__main main-content">
         {! page.isLoading && <>
-          { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-          { isRequestSuccess && <p className="p--success">Your recipes have been successfully updated!</p>}
+          { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+          { isRequestSuccess && <AlertMessage type="success">Your recipes have been successfully updated!</AlertMessage>}
           { recipesState.recipeList.length > 0 ? <>
             <div className="recipes__list__controls">
               <Button
@@ -339,7 +340,7 @@ export default function Recipes() {
           <>
           <h2>{ isEditingForm ? "Edit" : "Add" } recipe</h2>
           <div className="form--error" aria-live="assertive">
-            { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
+            { isSidebarRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
           </div>
           <Input
             label="Recipe name"

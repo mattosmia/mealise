@@ -19,6 +19,7 @@ import Input from '../elements/Input';
 const initialColour = { hex: '#f44336' };
 
 import { endpointRoots } from '../../helpers/endpointRoots';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function Meals() {
   const page = useContext(PageContext);
@@ -171,8 +172,8 @@ export default function Meals() {
       <div className="meals__wrapper main-wrapper">
         <div className="meals__main main-content">
         {! page.isLoading && <>
-          { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-          { isRequestSuccess && <p className="p--success">Your meals have been successfully updated!</p>}
+          { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+          { isRequestSuccess && <AlertMessage type="success">Your meals have been successfully updated!</AlertMessage>}
           { mealsState.length > 0 ? <>
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="droppable">
@@ -239,9 +240,7 @@ export default function Meals() {
         <SidebarForm classes={['meals__side']}>
           <>
           <h2>{ isEditingForm ? "Edit" : "Add" } meal</h2>
-          <div className="form--error" aria-live="assertive">
-            { isSidebarRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
-          </div>
+          { isSidebarRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
 
           <Input
             label="Meal name"

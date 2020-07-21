@@ -13,7 +13,7 @@ import './Planner.scss';
 
 import PlannerDayCard from './PlannerDayCard';
 import PlannerModal from './PlannerModal';
-import AlertMessage from '../_AlertMessage/AlertMessage';
+import AlertMessage from '../elements/AlertMessage';
 import Button from '../elements/Button';
 import Modal from '../elements/Modal';
 

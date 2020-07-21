@@ -11,6 +11,7 @@ import './Register.scss';
 import Button from '../elements/Button';
 import Checkbox from '../elements/Checkbox';
 import Input from '../elements/Input';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function Register() {
   const page = useContext(PageContext);
@@ -45,8 +46,8 @@ export default function Register() {
     <section className="register centred-form">
       <h1>Sign up</h1>
       <p>If you already have an account, please <Link to="/login">log in here</Link>.</p>
-      { userExists && <p className="p--error">This email address is already registered - <Link to="/login">log in instead</Link> or use another email address below</p>}
-      { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
+      { userExists && <AlertMessage>This email address is already registered - <Link to="/login">log in instead</Link> or use another email address below</AlertMessage>}
+      { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
       <Input
         label="First name"
         name="firstName"

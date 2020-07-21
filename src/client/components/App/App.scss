@@ -126,24 +126,6 @@ h6 {
 p {
   line-height: 1.5;
   margin-bottom: 1rem;
-  &.p--error {
-    padding: 1rem;
-    background-color: $error-bg;
-    color: $error-fg;
-    border: 1px solid $error-fg;
-    border-radius: $border-rounded;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-  }
-  &.p--success {
-    padding: 1rem;
-    background-color: $success-bg;
-    color: $success-fg;
-    border: 1px solid $success-fg;
-    border-radius: $border-rounded;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-  }
 }
 
 a {

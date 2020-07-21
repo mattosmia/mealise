@@ -1,0 +1,19 @@
+@import '../variables.scss';
+
+.alert-message {
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: $border-rounded;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    &--error {
+      background-color: $error-bg;
+      color: $error-fg;
+      border-color: $error-fg;
+    }
+    &--success {
+      background-color: $success-bg;
+      color: $success-fg;
+      border-color: $success-fg;
+    }
+}
