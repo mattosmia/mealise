@@ -45,7 +45,7 @@ export const passwordFormValidationSchema = {
   newPassword: {
     required: true,
     pattern: passwordRegex,
-    patternError: 'Passwords must contain at least one lowercase character, one uppercase character and one digit',
+    patternError: passwordRegexMsg(),
     match: 'newPasswordConfirmation',
     matchError: 'Passwords do not match',
     minLength: 8,
