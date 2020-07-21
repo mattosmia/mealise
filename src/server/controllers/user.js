@@ -42,13 +42,12 @@ exports.check = [
   * List user information
   * @returns {Object}
 **/
-exports.details = [
+exports.getUser = [
   function (req, res) {
     try {
-      const rows = {
-
-      }
-      return apiResponse.success(res, 'Success', rows);
+      User.findOne({ _id: req.user.userId }).then(user => {
+        return apiResponse.success(res, 'Success', { id: user._id, email: user.email, firstName: user.firstName, lastName: user.lastName, acceptMkt: user.acceptMkt })
+      })
     } catch (err) {
       return apiResponse.serverError(res, err);
     }
@@ -110,3 +109,74 @@ exports.login = (req, res) => {
     apiResponse.serverError(res, 'Error logging user in')
   )
 }
+
+/**
+  * Edit user - update profile
+  * @returns {Object}
+**/
+exports.editUser = [
+	function (req, res) {
+		try {
+      User.updateOne(
+        {
+          _id: req.user.userId
+        },
+        { $set:
+          { 
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            acceptMkt: (req.body.acceptMkt? true : false)
+          }
+        }
+      ).then(() => 
+          apiResponse.success(res, 'User updated successfully')
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
+		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+	}
+];
+
+/**
+  * Edit user - update password
+  * @returns {Object}
+**/
+exports.editUserPassword = [
+	function (req, res) {
+		try {
+      User.findOne({ _id: req.user.userId }).then(
+        user => {
+          if (!user) {
+            return apiResponse.unauthorised(res, 'User not found')
+          }
+          bcrypt.compare(req.body.currentPassword, user.password).then(
+            isValid => {
+            if (!isValid) return apiResponse.serverError(res, 'Current password is incorrect')
+
+            bcrypt.hash(req.body.newPassword, parseInt(process.env.BCRYPT_SALT,10)).then(
+              encryptedPassword => {
+                User.updateOne(
+                  {
+                    _id: req.user.userId
+                  },
+                  { $set:
+                    { 
+                      password: encryptedPassword,
+                    }
+                  }
+                ).then(() => 
+                    apiResponse.success(res, 'User updated successfully')
+                ).catch(err => 
+                  apiResponse.serverError(res, err)
+                )
+            }).catch (err => apiResponse.serverError(res, err))
+          }).catch (err => apiResponse.serverError(res, err))
+      })
+    } catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+  }
+];

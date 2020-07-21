@@ -6,4 +6,5 @@ export const endpointRoots = {
     'ingredient': `${commonRoot}/ingredient/`,
     'planner': `${commonRoot}/planner/`,
     'shoppinglist': `${commonRoot}/shoppinglist/`,
+    'user': `${commonRoot}/user/`,
 }

@@ -45,7 +45,7 @@ export default function formValidation(formFieldsSchema, formValidationSchema = 
     }
 
     if (formValidationSchema[fieldName].minLength) {
-      if (value && value.length < minLength) {
+      if (value && value.length < formValidationSchema[fieldName].minLength) {
         error = formValidationSchema[fieldName].minLengthError || 'Field length is too short';
       }
     }

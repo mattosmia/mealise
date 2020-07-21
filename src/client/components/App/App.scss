@@ -295,6 +295,11 @@ input, select {
   &[type='checkbox'],
   &[type='radio'] {
     width: auto;
+    display: inline;
+    & ~ span {
+      display: inline;
+      margin-left: 1rem;
+    }
   }
 }
 
