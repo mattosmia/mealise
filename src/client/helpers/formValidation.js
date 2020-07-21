@@ -32,6 +32,15 @@ export default function formValidation(formFieldsSchema, formValidationSchema = 
 
     let error = '';
 
+    if (formValidationSchema[fieldName].match) {
+      if (value && formFields[formValidationSchema[fieldName].match].value && value !== formFields[formValidationSchema[fieldName].match].value) {
+        error = formValidationSchema[fieldName].matchError || 'Field format is invalid';
+      } else {
+        error = '';
+        formFields[formValidationSchema[fieldName].match].error = '';
+      }
+    }
+
     if (formValidationSchema[fieldName].required) {
       if (!value) {
         error = formValidationSchema[fieldName].requiredError || 'This field is required';
@@ -49,12 +58,6 @@ export default function formValidation(formFieldsSchema, formValidationSchema = 
         error = formValidationSchema[fieldName].minLengthError || 'Field length is too short';
       }
     }
-
-    // if (formValidationSchema[name].match) {
-    //   if (value && formFields[formValidationSchema[name].match].value) {
-    //     error = formValidationSchema[name].patternError || 'Field format is invalid';
-    //   }
-    // }
 
     setFormFields(prevState => ({
       ...prevState,
