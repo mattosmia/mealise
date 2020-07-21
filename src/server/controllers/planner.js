@@ -14,12 +14,14 @@ function PlannerData(data) {
 exports.getPlanner = [
 	function (req, res) {
 		try {
+		const dateRange = req.query.plannerRange.split('|');
 		Planner.find({
 			userId: req.user.userId,
 			date: {
-				$in: req.query.plannerRange.split('|')
+				$gte: new Date(new Date(dateRange[0]).setHours(0,0,0,0)),
+				$lte: new Date(new Date(dateRange[(dateRange.length - 1)]).setHours(23,59,59,999))
 			}
-		}).sort('order').then(planner =>
+		}).then(planner =>
 			apiResponse.success(res, 'Success', planner))
 		} catch (err) {
 			console.log(err)
