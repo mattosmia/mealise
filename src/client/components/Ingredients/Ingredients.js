@@ -44,7 +44,7 @@ export default function Ingredients() {
 
   const submitCallback = (formData, isAddAsNew) => {
     const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsSidebarRequestError(false);
     setIsRequestSuccess(false);
     axios.post(`${endpointRoots.ingredient}${requestType}`, formData, authHeaders())
@@ -86,7 +86,7 @@ export default function Ingredients() {
   }
 
   const handleDeleteIngredient = ingredient => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestSuccess(false);
     setIsRequestError(false);
     axios.post(`${endpointRoots.ingredient}delete`, { _id: ingredient._id }, authHeaders())

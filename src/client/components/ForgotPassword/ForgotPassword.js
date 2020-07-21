@@ -18,7 +18,7 @@ export default function ForgotPassword() {
   const [isRequestSuccess, setIsRequestSuccess] = useState(false);
 
   const submitCallback = formData => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
     axios.post(`${endpointRoots.user}forgotpassword`, formData)

@@ -21,7 +21,7 @@ export default function Login() {
   const history = useHistory();
 
   const submitCallback = formData => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestError(false);
     axios.post(`${endpointRoots.user}login`, formData)
 			.then(res => {

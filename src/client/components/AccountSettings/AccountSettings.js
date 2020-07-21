@@ -11,6 +11,7 @@ import './AccountSettings.scss';
 import { endpointRoots } from '../../helpers/endpointRoots';
 import { authHeaders } from '../../helpers/auth';
 import Button from '../elements/Button';
+import Checkbox from '../elements/Checkbox';
 
 export default function AccountSettings() {
   const page = useContext(PageContext);
@@ -20,7 +21,7 @@ export default function AccountSettings() {
   const [isPasswordRequestSuccess, setIsPasswordRequestSuccess] = useState(false);
 
   const submitCallback = formData => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
     setIsPasswordRequestError(false);
@@ -32,11 +33,11 @@ export default function AccountSettings() {
         setIsRequestError(true)
       ).finally(() =>
         page.setIsLoading(false)
-      );
+      )
   }
 
   const submitPasswordCallback = formData => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
     setIsPasswordRequestError(false);
@@ -106,11 +107,14 @@ export default function AccountSettings() {
               errorMsg={formFields.email.error}
               isRequired={formValidationSchema.email.required}
             />
-            <label>
-              <input type="checkbox" name="acceptMkt" value="true" checked={formFields.acceptMkt.value === true} onChange={handleChange} />
-              <span>I would like to receive emails with promotions and other communications from Mealise</span>
-              <span aria-live="assertive"></span>
-            </label>
+            <Checkbox
+              label="I would like to receive emails with promotions and other communications from Mealise"
+              name="acceptMkt"
+              isChecked={formFields.acceptMkt.value === true}
+              handleChange={handleChange}
+              errorMsg={formFields.acceptMkt.error}
+              isRequired={formValidationSchema.acceptMkt.required}
+            />
             <Button handleClick={handleSubmit} isDisabled={! isFormValid}>Update account</Button>
           </div>
           <div className="account-settings__form">

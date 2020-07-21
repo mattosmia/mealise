@@ -62,7 +62,7 @@ export default function Meals() {
 
   const submitCallback = (formData, isAddAsNew) => {
     const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsSidebarRequestError(false);
     setIsRequestSuccess(false);
     axios.post(`${endpointRoots.meal}${requestType}`, formData, authHeaders())
@@ -126,7 +126,7 @@ export default function Meals() {
   }
 
   const handleDeleteMeal = meal => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestSuccess(false);
     setIsRequestError(false);
     axios.post(`${endpointRoots.meal}delete`, { _id: meal._id }, authHeaders())
@@ -151,7 +151,7 @@ export default function Meals() {
   }
 
   const handleReorderMeals = () => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
     axios.post(`${endpointRoots.meal}reorder`, { meals: mealsState }, authHeaders())

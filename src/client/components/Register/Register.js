@@ -1,93 +1,131 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from "axios";
 
 import { formFieldsSchema, formValidationSchema } from './Register.validation';
 import formValidation from '../../helpers/formValidation';
 import PageContext from '../../helpers/pageContext';
+import { endpointRoots } from '../../helpers/endpointRoots';
 
 import './Register.scss';
 import Button from '../elements/Button';
+import Checkbox from '../elements/Checkbox';
+import Input from '../elements/Input';
 
 export default function Register() {
   const page = useContext(PageContext);
+  const [userExists, setUserExists] = useState(false);
+  const [isRequestError, setIsRequestError] = useState(false);
 
-  const submitCallback = formFields => {
-		page.setIsLoading(true);
-		setIsFormSubmitted(true);
-    setRequestStatus('');
-    
-		axios.post('/api/user/register', formFields)
+  const history = useHistory();
+
+  const submitCallback = formData => {
+		if (!page.isLoading) page.setIsLoading(true);
+    setIsRequestError(false);
+    setUserExists(false);
+		axios.post(`${endpointRoots.user}register`, formData)
 			.then(res => {
-        setRequestStatus('success');
-        setUserExists(false);
+        history.push({
+          pathname:  "/login"
+        })
 			}).catch(err => {
-        setRequestStatus('error');
-        setIsFormSubmitted(false);
         setUserExists(err.response && err.response.data && err.response.data.message && err.response.data.message.error && err.response.data.message.error.email && err.response.data.message.error.email.kind === 'unique');
+        setIsRequestError(true);
       }).finally(() =>
         page.setIsLoading(false)
       )
 	}
   const { formFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  const [userExists, setUserExists] = useState(false);
-  const [requestStatus, setRequestStatus] = useState('');
 
   return (
-      <section className="register">
-        <h1>Sign up</h1>
-        <p>If you already have an account, please <Link to="/login">log in here</Link>.</p>
-        { userExists && <p className="p--error">This email address is already registered with Mealise - <Link to="/login">log in instead</Link> or use another email address below</p>}
-        <div>
-          <label>
-            <span>First name</span>
-            <input type="text" name="firstName" onChange={handleChange} />
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <span>Last name</span>
-            <input type="text" name="lastName" onChange={handleChange} />
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <span>Email</span>
-            <input type="email" name="email" onChange={handleChange} />
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <span>Email confirmation</span>
-            <input type="email" name="emailConfirmation" onChange={handleChange} />
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <span>Password</span>
-            <input type="password" name="password" onChange={handleChange} />
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <span>Password confirmation</span>
-            <input type="password" name="passwordConfirmation" onChange={handleChange} />
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <input type="checkbox" name="acceptOver18" onChange={handleChange} />
-            <span>I confirm that I am over 18 years of age</span>
-            <span aria-live="assertive"></span>
-          </label>
-          <label>
-            <input type="checkbox" name="acceptTerms" onChange={handleChange} />
-            <span>I have read and accept the Terms & Conditions</span>
-            <span aria-live="assertive"></span>
-          </label>
-          <p>Read our <Link to="/terms-conditions">Terms & Conditions</Link> here</p>
-          <label>
-            <input type="checkbox" name="acceptMkt" onChange={handleChange} />
-            <span>I would like to receive emails with promotions and other communications from Mealise</span>
-            <span aria-live="assertive"></span>
-          </label>
-          <Button handleClick={handleSubmit} isDisabled={! isFormValid && ! isFormSubmitted}>Sign up</Button>
-        </div>
-      </section>
+    <section className="register centred-form">
+      <h1>Sign up</h1>
+      <p>If you already have an account, please <Link to="/login">log in here</Link>.</p>
+      { userExists && <p className="p--error">This email address is already registered - <Link to="/login">log in instead</Link> or use another email address below</p>}
+      { isRequestError && !userExists && <p className="p--error">Something went wrong. Please try again.</p>}
+      <Input
+        label="First name"
+        name="firstName"
+        value={formFields.firstName.value}
+        handleChange={handleChange}
+        errorMsg={formFields.firstName.error}
+        isRequired={formValidationSchema.firstName.required}
+      />
+      <Input
+        label="Last name"
+        name="lastName"
+        value={formFields.lastName.value}
+        handleChange={handleChange}
+        errorMsg={formFields.lastName.error}
+        isRequired={formValidationSchema.lastName.required}
+      />
+      <Input
+        label="Email"
+        type="email"
+        name="email"
+        value={formFields.email.value}
+        handleChange={handleChange}
+        errorMsg={formFields.email.error}
+        isRequired={formValidationSchema.email.required}
+      />
+      <Input
+        label="Email confirmation"
+        type="email"
+        name="emailConfirmation"
+        value={formFields.emailConfirmation.value}
+        handleChange={handleChange}
+        errorMsg={formFields.emailConfirmation.error}
+        isRequired={formValidationSchema.emailConfirmation.required}
+      />
+      <Input
+        label="Password"
+        type="password"
+        name="password"
+        value={formFields.password.value}
+        handleChange={handleChange}
+        errorMsg={formFields.password.error}
+        isRequired={formValidationSchema.password.required}
+      />
+      <Input
+        label="Password confirmation"
+        type="password"
+        name="passwordConfirmation"
+        value={formFields.passwordConfirmation.value}
+        handleChange={handleChange}
+        errorMsg={formFields.passwordConfirmation.error}
+        isRequired={formValidationSchema.passwordConfirmation.required}
+      />
+      <Checkbox
+        label="I confirm that I am over 18 years of age"
+        name="acceptOver18"
+        isChecked={formFields.acceptOver18.value === true}
+        handleChange={handleChange}
+        errorMsg={formFields.acceptOver18.error}
+        isRequired={formValidationSchema.acceptOver18.required}
+      />
+      <Checkbox
+        label="I have read and accept the Terms & Conditions"
+        name="acceptTerms"
+        isChecked={formFields.acceptTerms.value === true}
+        handleChange={handleChange}
+        errorMsg={formFields.acceptTerms.error}
+        isRequired={formValidationSchema.acceptTerms.required}
+      />
+      <p>Read our <Link to="/terms-conditions">Terms & Conditions</Link> here</p>
+      <Checkbox
+        label="I would like to receive emails with promotions and other communications from Mealise"
+        name="acceptMkt"
+        isChecked={formFields.acceptMkt.value === true}
+        handleChange={handleChange}
+        errorMsg={formFields.acceptMkt.error}
+        isRequired={formValidationSchema.acceptMkt.required}
+      />
+      <Button
+        handleClick={handleSubmit}
+        isDisabled={! isFormValid}
+      >
+        Sign up
+      </Button>
+    </section>
   )
 }

@@ -75,16 +75,16 @@ exports.register = (req, res) => {
           to: req.body.email,
           from: 'noreply@mealise.com',
           subject: 'Welcome to Mealise',
-          text: `Hello ${req.body.firstName},
-Thanks for joining Mealise - we're happy to have you!
-To start adding your recipes and planning your meals, go to https://mealise.com/login.
-Have a great day!
-- the Mealise team`,
-          html: `Hello ${req.body.firstName},
-Thanks for joining Mealise - we're happy to have you!
-To start adding your recipes and planning your meals, click <a href="https://mealise.com/login">here</a>.
-Have a great day!
-<em>- the Mealise team</em>`,
+          text: 'Hello ' + req.body.firstName + '\n\n'+
+          'Thanks for joining Mealise - we\'re happy to have you!\n\n'+
+          'To start adding your recipes and planning your meals, go to https://mealise.com/login\n\n'+
+          'Have a great day!\n'+
+          '- the Mealise team',
+          html: 'Hello ' + req.body.firstName + '<br><br>'+
+          'Thanks for joining Mealise - we\'re happy to have you!<br><br>'+
+          'To start adding your recipes and planning your meals, click <a href="https://mealise.com/login">here</a>.<br><br>'+
+          'Have a great day!<br>'+
+          '- the Mealise team'
         }
         sgMail.send(msg);
         return apiResponse.success(res, 'Registration successful')
@@ -192,14 +192,15 @@ exports.editUserPassword = [
                     to: user.email,
                     from: 'noreply@mealise.com',
                     subject: 'Mealise - Password updated',
-                    text: `Hello ${user.firstName},
-Your password has been successfully updated.
-If you didn't make this change, please reset your password now at https://mealise.com/forgot-password
-- the Mealise team`,
-                    html: `Hello ${user.firstName},
-Your password has been successfully updated.
-If you didn't make this change, please reset your password now by clicking <a href="https://mealise.com/forgot-password">here</a>
-- the Mealise team`,
+                    text: 'Hello ' + user.firstName + '\n\n'+
+                    'Your password has been successfully updated.\n\n'+
+                    'If you didn\'t make this change, please reset your password now at https://mealise.com/forgot-password\n\n' +
+                    '- the Mealise team',
+                    html: 'Hello ' + user.firstName + '<br><br>'+
+                    'Your password has been successfully updated.<br><br>'+
+                    'Please note this token will only last <strong>24h</strong> - after this time you will need to reset your password again.<br><br>' +
+                    'If you didn\'t make this change, please reset your password now by clicking <a href="https://mealise.com/forgot-password">here</a><br><br>'+
+                    '- the Mealise team',
                   }
                   sgMail.send(msg);
                   return apiResponse.success(res, 'User updated successfully')

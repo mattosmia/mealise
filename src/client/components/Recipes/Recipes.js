@@ -67,7 +67,7 @@ export default function Recipes() {
   const submitCallback = (formData, isAddAsNew) => {
     const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
     formData.ingredients = recipeFormIngredientFields.isAdded;
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsSidebarRequestError(false);
     setIsRequestSuccess(false);
     axios.post(`${endpointRoots.recipe}${requestType}`, formData, authHeaders())
@@ -178,7 +178,7 @@ export default function Recipes() {
   }
 
   const handleDeleteRecipe = recipe => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestSuccess(false);
     setIsRequestError(false);
     axios.post(`${endpointRoots.recipe}delete`, { _id: recipe._id }, authHeaders())

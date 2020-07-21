@@ -75,7 +75,7 @@ export default function ResetPassword(props) {
   }, []);
 
   const submitCallback = formData => {
-    page.setIsLoading(true);
+    if (!page.isLoading) page.setIsLoading(true);
     setIsRequestError(false);
     setIsRequestSuccess(false);
     formData = {
