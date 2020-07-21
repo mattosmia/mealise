@@ -29,8 +29,12 @@ export default function Register() {
           pathname:  "/login"
         })
 			}).catch(err => {
-        setUserExists(err.response && err.response.data && err.response.data.message && err.response.data.message.error && err.response.data.message.error.email && err.response.data.message.error.email.kind === 'unique');
-        setIsRequestError(true);
+        window.scrollTo(0, 0);
+        if (err.response && err.response.data && err.response.data.message && err.response.data.message.errors && err.response.data.message.errors.email && err.response.data.message.errors.email.kind === 'unique') {
+          setUserExists(true)
+        } else {
+          setIsRequestError(true)
+        }
       }).finally(() =>
         page.setIsLoading(false)
       )
@@ -42,7 +46,7 @@ export default function Register() {
       <h1>Sign up</h1>
       <p>If you already have an account, please <Link to="/login">log in here</Link>.</p>
       { userExists && <p className="p--error">This email address is already registered - <Link to="/login">log in instead</Link> or use another email address below</p>}
-      { isRequestError && !userExists && <p className="p--error">Something went wrong. Please try again.</p>}
+      { isRequestError && <p className="p--error">Something went wrong. Please try again.</p>}
       <Input
         label="First name"
         name="firstName"

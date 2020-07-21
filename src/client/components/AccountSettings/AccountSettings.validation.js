@@ -28,9 +28,9 @@ export const formValidationSchema = {
   },
   email: {
     required: true,
-    requiredError: requiredMsg('Email address'),
+    requiredError: requiredMsg('Email'),
     pattern: emailRegex,
-    patternError: emailRegexMsg('Email address'),
+    patternError: emailRegexMsg('Email'),
   },
   acceptMkt: {
     required: false,
