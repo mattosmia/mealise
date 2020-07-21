@@ -24,6 +24,7 @@ export default function PlannerModal({ date, plannerState, plannedMeal, plannerM
 
   const submitCallback = (formData, isAddAsNew) => {
     const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
+    formData.date = new Date(new Date(formData.date).setHours(0,0,0,0));
     if (!page.isLoading) page.setIsLoading(true);
     axios.post(`${endpointRoots.planner}${requestType}`, formData, authHeaders())
       .then(res => {
