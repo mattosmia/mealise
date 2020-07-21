@@ -48,19 +48,3 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 app.listen(port, () => console.log("Server started on port " + port))
-
-
-// using Twilio SendGrid's v3 Node.js Library
-// https://github.com/sendgrid/sendgrid-nodejs
-// app.get('/sendgridtest', (request, response) => {
-// 	const sgMail = require('@sendgrid/mail');
-// 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-// 	const msg = {
-// 	  to: 'mattosmia@gmail.com',
-// 	  from: 'noreply@mealise.com',
-// 	  subject: 'Sending with Twilio SendGrid is Fun',
-// 	  text: 'and easy to do anywhere, even with Node.js',
-// 	  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-// 	};
-// 	sgMail.send(msg);
-// })
