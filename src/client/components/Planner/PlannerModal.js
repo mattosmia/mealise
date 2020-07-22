@@ -14,7 +14,7 @@ import formValidation from '../../helpers/formValidation';
 import { formFieldsSchema, formValidationSchema } from './Planner.validation';
 import { authHeaders } from '../../helpers/auth';
 
-export default function PlannerModal({ date, plannerState, plannedMeal, plannerModalSettings, setPlannerModalSettings }) {
+export default function PlannerModal({ date, plannerState, meal, plannerModalSettings, setPlannerModalSettings }) {
   const page = useContext(PageContext);
   
   const handleClose = () => setPlannerModalSettings({
@@ -44,8 +44,7 @@ export default function PlannerModal({ date, plannerState, plannedMeal, plannerM
       }).catch(err => 
         console.log('ERROR',err)
       ).finally(() =>
-        page.setIsLoading(false),
-        handleClose()
+        handleClose(),page.setIsLoading(false)
       );
   }
 
@@ -55,7 +54,7 @@ export default function PlannerModal({ date, plannerState, plannedMeal, plannerM
     setFormFields(prevState => (
       {
         ...prevState,
-        mealId: { value: plannedMeal._id, error: '', isValid: true }
+        mealId: { value: meal._id, error: '', isValid: true }
       }
     ))
   }, [])
@@ -134,42 +133,42 @@ export default function PlannerModal({ date, plannerState, plannedMeal, plannerM
             label="Meal"
             name="mealId"
             options={plannerState.mealList}
-            selectedOption={plannedMeal._id}
+            selectedOption={meal._id}
             placeholderOption="Select an option"
             handleChange={handleChange}
             errorMsg={formFields.mealId.error}
             isRequired={formValidationSchema.mealId.required}
           />
         <label>
-            <span className="label--required">Recipe name</span>
-            <Autosuggest
-                id="recipes-autocomplete"
-                suggestions={recipeSuggestions}
-                onSuggestionsFetchRequested={({ value }) =>
-                  setRecipeSuggestions(getRecipeSuggestions(value))
-                }
-                onSuggestionsClearRequested={() => 
-                  setRecipeSuggestions([])
-                }
-                getSuggestionValue={recipe => {
-                    setFormFields(prevState => (
-                      {
-                        ...prevState,
-                        recipeId: {
-                          value: recipe._id,
-                          error: '',
-                          isValid: true
-                        }
+          <span className="label--required">Recipe name</span>
+          <Autosuggest
+              id="recipes-autocomplete"
+              suggestions={recipeSuggestions}
+              onSuggestionsFetchRequested={({ value }) =>
+                setRecipeSuggestions(getRecipeSuggestions(value))
+              }
+              onSuggestionsClearRequested={() => 
+                setRecipeSuggestions([])
+              }
+              getSuggestionValue={recipe => {
+                  setFormFields(prevState => (
+                    {
+                      ...prevState,
+                      recipeId: {
+                        value: recipe._id,
+                        error: '',
+                        isValid: true
                       }
-                    ))
-                    return recipe.name
-                }}
-                renderSuggestion={recipe =>
-                    <span>{ recipe.name }</span>
-                }
-                inputProps={inputProps}
-                highlightFirstSuggestion={true}
-            />
+                    }
+                  ))
+                  return recipe.name
+              }}
+              renderSuggestion={recipe =>
+                  <span>{ recipe.name }</span>
+              }
+              inputProps={inputProps}
+              highlightFirstSuggestion={true}
+          />
         </label>
         <Button
             handleClick={handleSubmit}
@@ -185,7 +184,7 @@ export default function PlannerModal({ date, plannerState, plannedMeal, plannerM
 PlannerModal.propTypes = {
   date: PropTypes.object,
   plannerState: PropTypes.object,
-  plannedMeal: PropTypes.object,
+  meal: PropTypes.object,
   plannerModalSettings: PropTypes.object,
   setPlannerModalSettings: PropTypes.func,
 }

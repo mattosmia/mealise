@@ -1,24 +1,31 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../elements/Button';
+import planner from '../../../server/models/planner';
 
-export default function PlannerMeal({ plannedMeal, date, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings }) {
+export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings }) {
   const handleAddMeal = () => {
     setPlannerModalSettings({
       ...plannerModalSettings,
-      plannedMeal,
+      meal,
       date,
       isOpen: true
     })
   }
+  const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`;
+  const hasPlannedMeal = plannerData.plannerList && plannerData.plannerList[dateKey] && plannerData.plannerList[dateKey][meal._id];
 
   return (<>
-    {( plannedMeal.recipeName || (!plannedMeal.recipeName && !hideEmptyMeals)) &&
-    <div className="planner__wrapper__card__meal" style={{backgroundColor: plannedMeal.colour}}>
-      { !hideMealNames && <div className="planner__wrapper__card__meal__name">{plannedMeal.name}</div> }
-      {plannedMeal.recipeName?
+    { (hasPlannedMeal || (! hasPlannedMeal && ! hideEmptyMeals)) &&
+    <div className="planner__wrapper__card__meal" style={{backgroundColor: meal.colour}}>
+      { !hideMealNames && <div className="planner__wrapper__card__meal__name">{meal.name}</div> }
+      { hasPlannedMeal ?
         <div className="planner__wrapper__card__meal__details">
-          {plannedMeal.recipeName}
+          <ul>
+            { plannerData.plannerList[dateKey][meal._id].map(recipeId => 
+              <li key={recipeId}>{plannerData.recipeList.find(r => r._id === recipeId).name}</li>
+            )}
+          </ul>
         </div>
       :
         <Button
@@ -29,14 +36,15 @@ export default function PlannerMeal({ plannedMeal, date, hideEmptyMeals, hideMea
         </Button>
       }
     </div>
-    }
+  }
   </>)
 }
 
 
 PlannerMeal.propTypes = {
-  plannedMeal: PropTypes.object,
+  meal: PropTypes.object,
   date: PropTypes.object,
+  plannerData: PropTypes.object,
   hideEmptyMeals: PropTypes.bool,
   hideMealNames: PropTypes.bool,
   plannerModalSettings: PropTypes.object,

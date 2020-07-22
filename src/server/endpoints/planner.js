@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get('/', auth, PlannerController.getPlanner);
 router.post('/add', auth, PlannerController.addPlanner);
+router.post('/generatelist', auth, PlannerController.generateShoppingList);
 
 module.exports = router;

@@ -40,7 +40,7 @@ export default function Planner() {
   const [plannerModalSettings, setPlannerModalSettings] = useState({
     isOpen: false,
     date: new Date(),
-    plannedMeal: {}
+    meal: {}
   });
 
   useEffect(() => {
@@ -64,6 +64,7 @@ export default function Planner() {
   }, []);
 
   useEffect(() => {
+    if (plannerRange.length === 0) return
     if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoots.planner, {
       ...authHeaders(),
@@ -93,6 +94,25 @@ export default function Planner() {
     setPlannerRange(newDateRange);
   }, [startDate, endDate]);
 
+  const handleGenerateShoppingList = () => {
+    if (!page.isLoading) page.setIsLoading(true);
+    axios.post(`${endpointRoots.planner}generatelist`, {
+      recipeIds: [plannerList]
+    }, authHeaders())
+    .then(res => {
+      const plannerList = res.data.data || [];
+      console.log('plannerList',plannerList)
+      dispatch({
+        type: 'GET_PLANNER_LIST',
+        payload: plannerList
+      })
+    }).catch(err => 
+      console.log('Error fetching planner', err)
+    ).finally(() =>
+      page.setIsLoading(false)
+    )
+  }
+
   return (
     <section className="planner">
       <h1>Planner</h1>
@@ -104,7 +124,7 @@ export default function Planner() {
         })}>
           <PlannerModal
             date={plannerModalSettings.date}
-            plannedMeal={plannerModalSettings.plannedMeal}
+            meal={plannerModalSettings.meal}
             plannerState={plannerState}
             plannerModalSettings={plannerModalSettings}
             setPlannerModalSettings={setPlannerModalSettings}
@@ -163,6 +183,11 @@ export default function Planner() {
               :
                 'Hide meal names'
               }
+            </Button>
+            <Button
+              handleClick={handleGenerateShoppingList}
+            >
+              Generate shopping list
             </Button>
           </div>
           <div className="planner__wrapper">
