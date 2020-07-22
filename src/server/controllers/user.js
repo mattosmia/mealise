@@ -3,6 +3,9 @@ const apiResponse = require('../helpers/responses');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+const templates = require('../helpers/emailTemplate');
+
 // const { body,validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
 
@@ -75,16 +78,18 @@ exports.register = (req, res) => {
           to: req.body.email,
           from: 'noreply@mealise.com',
           subject: 'Welcome to Mealise',
-          text: 'Hello ' + req.body.firstName + '\n\n'+
-          'Thanks for joining Mealise - we\'re happy to have you!\n\n'+
-          'To start adding your recipes and planning your meals, go to https://mealise.com/login\n\n'+
-          'Have a great day!\n'+
-          '- the Mealise team',
-          html: 'Hello ' + req.body.firstName + '<br><br>'+
-          'Thanks for joining Mealise - we\'re happy to have you!<br><br>'+
-          'To start adding your recipes and planning your meals, click <a href="https://mealise.com/login">here</a>.<br><br>'+
-          'Have a great day!<br>'+
-          '- the Mealise team'
+          text: templates.text(req.body.firstName,
+            [
+              'Thanks for joining Mealise - we\'re happy to have you!',
+              'To start adding your recipes and planning your meals, go to https://mealise.com/planner'
+            ]
+          ),
+          html: templates.html(req.body.firstName,
+            [
+              'Thanks for joining Mealise - we\'re happy to have you!',
+              'To start adding your recipes and planning your meals, click <a href="https://mealise.com/planner" style="text-decoration: underline; color: #000000;">here</a>.'
+            ]
+          )
         }
         sgMail.send(msg);
         return apiResponse.success(res, 'Registration successful')
@@ -191,16 +196,19 @@ exports.editUserPassword = [
                   const msg = {
                     to: user.email,
                     from: 'noreply@mealise.com',
-                    subject: 'Mealise - Password updated',
-                    text: 'Hello ' + user.firstName + '\n\n'+
-                    'Your password has been successfully updated.\n\n'+
-                    'If you didn\'t make this change, please reset your password now at https://mealise.com/forgot-password\n\n' +
-                    '- the Mealise team',
-                    html: 'Hello ' + user.firstName + '<br><br>'+
-                    'Your password has been successfully updated.<br><br>'+
-                    'Please note this token will only last <strong>24h</strong> - after this time you will need to reset your password again.<br><br>' +
-                    'If you didn\'t make this change, please reset your password now by clicking <a href="https://mealise.com/forgot-password">here</a><br><br>'+
-                    '- the Mealise team',
+                    subject: '[Mealise] Password updated',
+                    text: templates.text(user.firstName,
+                      [
+                        'Your password has been successfully updated.',
+                        'If you didn\'t make this change, please reset your password now at https://mealise.com/forgot-password, or get in touch with our team at help@mealise.com'
+                      ]
+                    ),
+                    html: templates.html(user.firstName,
+                      [
+                        'Your password has been successfully updated.',
+                        'If you didn\'t make this change, please reset your password now by clicking <a href="https://mealise.com/forgot-password" style="text-decoration: underline; color: #000000;">here</a>, or get in touch with our team at <a href="mailto:help@mealise.com" style="text-decoration: underline; color: #000000;">help@mealise.com</a>'
+                      ]
+                    )
                   }
                   sgMail.send(msg);
                   return apiResponse.success(res, 'User updated successfully')
@@ -250,16 +258,19 @@ exports.generateResetToken = [
             const msg = {
               to: user.email,
               from: 'noreply@mealise.com',
-              subject: 'Mealise - Reset Password',
-              text: 'Hello ' + user.firstName + '\n\n'+
-              'To reset your password, copy and paste this link in your browser: ' + emailLink + '.\n\n'+
-              'Please note this token will only last <strong>24h</strong> - after this time you will need to reset your password again.\n\n' +
-              '- the Mealise team',
-              html: 'Hello ' + user.firstName + '<br><br>'+
-              'To reset your password, click <a href="' + emailLink + '">here</a>.<br><br>'+
-              'Please note this token will only last <strong>24h</strong> - after this time you will need to reset your password again.<br><br>' +
-              'If you can\'t click the link above, copy and paste in your browser: ' + emailLink + '<br><br>'+
-              '- the Mealise team',
+              subject: '[Mealise] Reset Password',
+              text: templates.text(user.firstName,
+                [
+                  'To reset your password, copy and paste the following link in your browser: ' + emailLink,
+                  'Please note this token is only valid for 24 hours - after this time you will need to reset your password again.'
+                ]
+              ),
+              html: templates.html(user.firstName,
+                [
+                  'To reset your password, click <a href="' + emailLink + '" style="text-decoration: underline; color: #000000;">here</a>, or copy and paste the following link in your browser: <a href="' + emailLink + '" style="text-decoration: underline; color: #000000;">' + emailLink + '</a>',
+                  'Please note this token is only valid for <strong>24 hours</strong> - after this time you will need to reset your password again.'
+                ]
+              )
             }
             sgMail.send(msg);
             return apiResponse.success(res, 'Password token successfully generated')
@@ -320,15 +331,19 @@ exports.resetPassword = [
             const msg = {
               to: req.body.email,
               from: 'noreply@mealise.com',
-              subject: 'Mealise - Your password was reset',
-              text: 'Hello ' + req.body.firstName + '\n\n'+
-              'Your password has been successfully updated.\n\n'+
-              'If you didn\'t make this change, please reset your password now at https://mealise.com/forgot-password.\n\n'+
-              '- the Mealise team',
-              html: 'Hello ' + req.body.firstName + '<br><br>'+
-              'Your password has been successfully updated.<br><br>'+
-              'If you didn\'t make this change, please reset your password now by clicking <a href="https://mealise.com/forgot-password">here</a><br><br>'+
-              '- the Mealise team',
+              subject: '[Mealise] Your password was successfully reset',
+              text: templates.text(req.body.firstName,
+                [
+                  'Your password has been successfully updated.',
+                  'If you didn\'t make this change, please reset your password now at https://mealise.com/forgot-password, or get in touch with our team at help@mealise.com'
+                ]
+              ),
+              html: templates.html(req.body.firstName,
+                [
+                  'Your password has been successfully updated.',
+                  'If you didn\'t make this change, please reset your password now by clicking <a href="https://mealise.com/forgot-password" style="text-decoration: underline; color: #000000;">here</a>, or get in touch with our team at <a href="mailto:help@mealise.com" style="text-decoration: underline; color: #000000;">help@mealise.com</a>'
+                ]
+              )
             }
             sgMail.send(msg);
             return apiResponse.success(res, 'Password updated successfully')
