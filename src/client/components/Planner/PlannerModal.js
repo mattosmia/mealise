@@ -14,7 +14,7 @@ import formValidation from '../../helpers/formValidation';
 import { formFieldsSchema, formValidationSchema } from './Planner.validation';
 import { authHeaders } from '../../helpers/auth';
 
-export default function PlannerModal({ date, plannerState, meal, plannerModalSettings, setPlannerModalSettings }) {
+export default function PlannerModal({ date, plannerState, dispatch, meal, plannerModalSettings, setPlannerModalSettings }) {
   const page = useContext(PageContext);
   
   const handleClose = () => setPlannerModalSettings({
@@ -184,6 +184,7 @@ export default function PlannerModal({ date, plannerState, meal, plannerModalSet
 PlannerModal.propTypes = {
   date: PropTypes.object,
   plannerState: PropTypes.object,
+  dispatch: PropTypes.func,
   meal: PropTypes.object,
   plannerModalSettings: PropTypes.object,
   setPlannerModalSettings: PropTypes.func,

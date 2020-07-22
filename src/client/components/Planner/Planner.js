@@ -126,6 +126,7 @@ export default function Planner() {
             date={plannerModalSettings.date}
             meal={plannerModalSettings.meal}
             plannerState={plannerState}
+            dispatch={dispatch}
             plannerModalSettings={plannerModalSettings}
             setPlannerModalSettings={setPlannerModalSettings}
           />
@@ -188,6 +189,15 @@ export default function Planner() {
               handleClick={handleGenerateShoppingList}
             >
               Generate shopping list
+            </Button>
+            <Button
+              handleClick={() => setPlannerModalSettings({
+                isOpen: true,
+                date: new Date(),
+                meal: {}
+              })}
+            >
+              Plan meal
             </Button>
           </div>
           <div className="planner__wrapper">
