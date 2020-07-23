@@ -87,21 +87,23 @@ export default function Ingredients() {
   }
 
   const handleDeleteIngredient = ingredient => {
-    if (!page.isLoading) page.setIsLoading(true);
-    setIsRequestSuccess(false);
-    setIsRequestError(false);
-    axios.post(`${endpointRoots.ingredient}delete`, { _id: ingredient._id }, authHeaders())
-      .then(res => 
-        setIsRequestSuccess(true),
-        dispatch({
-          type: 'DELETE_INGREDIENT',
-          payload: ingredient
-        })
-      ).catch(err => 
-        setIsRequestError(true)
-      ).finally(() =>
-        page.setIsLoading(false)
-      );
+    if (confirm("Are you sure you want to delete this ingredient?")) {
+      if (!page.isLoading) page.setIsLoading(true);
+      setIsRequestSuccess(false);
+      setIsRequestError(false);
+      axios.post(`${endpointRoots.ingredient}delete`, { _id: ingredient._id }, authHeaders())
+        .then(res => 
+          setIsRequestSuccess(true),
+          dispatch({
+            type: 'DELETE_INGREDIENT',
+            payload: ingredient
+          })
+        ).catch(err => 
+          setIsRequestError(true)
+        ).finally(() =>
+          page.setIsLoading(false)
+        );
+    }
   }
 
   const handleCancelEdit = () => {

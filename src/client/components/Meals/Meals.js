@@ -127,21 +127,23 @@ export default function Meals() {
   }
 
   const handleDeleteMeal = meal => {
-    if (!page.isLoading) page.setIsLoading(true);
-    setIsRequestSuccess(false);
-    setIsRequestError(false);
-    axios.post(`${endpointRoots.meal}delete`, { _id: meal._id }, authHeaders())
-      .then(res => 
-        setIsRequestSuccess(true),
-        dispatch({
-          type: 'DELETE_MEAL',
-          payload: meal
-        })
-      ).catch(err => 
-        setIsRequestError(true)
-      ).finally(() =>
-        page.setIsLoading(false)
-      );
+    if (confirm("Are you sure you want to delete this meal?")) {
+      if (!page.isLoading) page.setIsLoading(true);
+      setIsRequestSuccess(false);
+      setIsRequestError(false);
+      axios.post(`${endpointRoots.meal}delete`, { _id: meal._id }, authHeaders())
+        .then(res => 
+          setIsRequestSuccess(true),
+          dispatch({
+            type: 'DELETE_MEAL',
+            payload: meal
+          })
+        ).catch(err => 
+          setIsRequestError(true)
+        ).finally(() =>
+          page.setIsLoading(false)
+        );
+    }
   }
 
   const handleCancelEdit = () => {

@@ -143,10 +143,12 @@ export default function Recipes() {
   }
 
   const handleDeleteRecipeIngredient = ingredient => {
-    setRecipeFormIngredientFields({
-      ...recipeFormIngredientFields,
-      isAdded: recipeFormIngredientFields.isAdded.filter(i => i._id !== ingredient._id)
-    })
+    if (confirm("Are you sure you want to delete this ingredient?")) {
+      setRecipeFormIngredientFields({
+        ...recipeFormIngredientFields,
+        isAdded: recipeFormIngredientFields.isAdded.filter(i => i._id !== ingredient._id)
+      })
+    }
   }
 
   const handleEditRecipe = recipe => {
@@ -179,21 +181,23 @@ export default function Recipes() {
   }
 
   const handleDeleteRecipe = recipe => {
-    if (!page.isLoading) page.setIsLoading(true);
-    setIsRequestSuccess(false);
-    setIsRequestError(false);
-    axios.post(`${endpointRoots.recipe}delete`, { _id: recipe._id }, authHeaders())
-      .then(res => 
-        setIsRequestSuccess(true),
-        dispatch({
-          type: 'DELETE_RECIPE',
-          payload: recipe
-        })
-      ).catch(err => 
-        setIsRequestError(true)
-      ).finally(() =>
-        page.setIsLoading(false)
-      );
+    if (confirm("Are you sure you want to delete this recipe?")) {
+      if (!page.isLoading) page.setIsLoading(true);
+      setIsRequestSuccess(false);
+      setIsRequestError(false);
+      axios.post(`${endpointRoots.recipe}delete`, { _id: recipe._id }, authHeaders())
+        .then(res => 
+          setIsRequestSuccess(true),
+          dispatch({
+            type: 'DELETE_RECIPE',
+            payload: recipe
+          })
+        ).catch(err => 
+          setIsRequestError(true)
+        ).finally(() =>
+          page.setIsLoading(false)
+        );
+    }
   }
 
   const handleCancelEdit = () => {
