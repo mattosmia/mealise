@@ -29,7 +29,7 @@ exports.getPlanner = [
         const date = `${p.date.getFullYear()}-${(p.date.getMonth() + 1)}-${p.date.getDate()}`;
         if (!plannerObject[date]) plannerObject[date] = {};
         if (!plannerObject[date][p.mealId]) plannerObject[date][p.mealId] = [];
-        p.recipes.forEach(r => plannerObject[date][p.mealId].push(r._id))
+        plannerObject[date][p.mealId].push(p.recipeId)
       })
       apiResponse.success(res, 'Success', plannerObject)
     })
@@ -41,7 +41,7 @@ exports.getPlanner = [
 ];
 
 /**
-  * Add new planned meal
+  * Add new planned meal (recipe)
   * @returns {Object}
 **/
 exports.addPlanner = [
@@ -51,7 +51,7 @@ exports.addPlanner = [
         userId: req.user.userId,
         date: req.body.date,
         mealId: req.body.mealId,
-        recipes: [{ _id: req.body.recipeId }]
+        recipeId: req.body.recipeId
       })
 
       plannedMeal.save().then(result => {
@@ -62,6 +62,31 @@ exports.addPlanner = [
     } catch (err) {
       return apiResponse.serverError(res, err);
     }
+  }
+];
+
+/**
+  * Delete planned meal (recipe)
+  * @returns {Object}
+**/
+exports.deletePlanner = [
+  function (req, res) {
+    try {
+      Planner.deleteOne(
+        {
+          userId: req.user.userId,
+          date: req.body.date,
+          mealId: req.body.mealId,
+          recipeId: req.body.recipeId
+        }
+      ).then(() => 
+          apiResponse.success(res, 'Planned meal deleted successfully')
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
+		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
   }
 ];
 

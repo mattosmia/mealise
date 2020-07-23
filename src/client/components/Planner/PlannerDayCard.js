@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PlannerMeal from './PlannerMeal';
 
-export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings  }) {
+export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings, handleDeletePlanner  }) {
   return (
     <div className="planner__wrapper__card">
       <div className="planner__wrapper__card__heading">
@@ -18,6 +18,7 @@ export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hide
           hideMealNames={hideMealNames}
           setPlannerModalSettings={setPlannerModalSettings}
           plannerModalSettings={plannerModalSettings}
+          handleDeletePlanner={handleDeletePlanner}
         />
       )}
      </div>
@@ -30,5 +31,6 @@ PlannerDayCard.propTypes = {
   hideEmptyMeals: PropTypes.bool,
   hideMealNames: PropTypes.bool,
   plannerModalSettings: PropTypes.object,
-  setPlannerModalSettings: PropTypes.func
+  setPlannerModalSettings: PropTypes.func,
+  handleDeletePlanner: PropTypes.func
 };

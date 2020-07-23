@@ -22,27 +22,18 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
     isOpen: false
   })
 
-  const submitCallback = (formData, isAddAsNew) => {
-    const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
+  const submitCallback = formData => {
     formData.date = new Date(new Date(formData.date).setHours(0,0,0,0));
     if (!page.isLoading) page.setIsLoading(true);
-    axios.post(`${endpointRoots.planner}${requestType}`, formData, authHeaders())
+    axios.post(`${endpointRoots.planner}add`, formData, authHeaders())
       .then(res => {
-        if (requestType === 'edit') {
-          dispatch({
-            type: 'EDIT_PLANNER',
-            payload: formData
-          })
-        }
-        else {
-          dispatch({
-            type: 'ADD_PLANNER',
-            payload: res.data.data.result
-          })
-        }
+        dispatch({
+          type: 'ADD_PLANNER',
+          payload: res.data.data.result
+        })
         setFormFields(formFieldsSchema)
       }).catch(err => 
-        console.log('ERROR',err)
+        console.log('Error adding planner', err)
       ).finally(() =>
         handleClose(),page.setIsLoading(false)
       );

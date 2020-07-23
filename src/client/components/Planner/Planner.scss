@@ -105,10 +105,14 @@
             width: 100%;
             li {
               list-style: none;
+              display: flex;
               &:not(:first-of-type) {
                 margin-top: 0.5rem;
                 padding-top: 0.5rem;
                 border-top: 1px solid $black40;
+              }
+              button {
+                margin-left: auto;
               }
             }
           }

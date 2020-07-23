@@ -74,7 +74,6 @@ export default function Planner() {
     }, )
     .then(res => {
       const plannerList = res.data.data || [];
-      console.log('plannerList',plannerList)
       dispatch({
         type: 'GET_PLANNER_LIST',
         payload: plannerList
@@ -101,7 +100,6 @@ export default function Planner() {
     }, authHeaders())
     .then(res => {
       const plannerList = res.data.data || [];
-      console.log('plannerList',plannerList)
       dispatch({
         type: 'GET_PLANNER_LIST',
         payload: plannerList
@@ -111,6 +109,28 @@ export default function Planner() {
     ).finally(() =>
       page.setIsLoading(false)
     )
+  }
+
+  const handleDeletePlanner = (date, mealId, recipeId) => {
+    if (confirm("Are you sure you want to delete this planned meal?")) {
+      if (!page.isLoading) page.setIsLoading(true);
+      const formattedDate = new Date(date);
+      axios.post(`${endpointRoots.planner}delete`, { date, mealId, recipeId }, authHeaders())
+        .then(res => {
+          dispatch({
+            type: 'DELETE_PLANNER',
+            payload: {
+              date,
+              mealId,
+              recipeId
+            }
+          })
+        }).catch(err => 
+          console.log('Error deleting planner', err)
+        ).finally(() =>
+          page.setIsLoading(false)
+        );
+    }
   }
 
   return (
@@ -212,6 +232,7 @@ export default function Planner() {
                   hideMealNames={isHideMealNames}
                   plannerModalSettings={plannerModalSettings}
                   setPlannerModalSettings={setPlannerModalSettings}
+                  handleDeletePlanner={handleDeletePlanner}
                 />
               )
             }
