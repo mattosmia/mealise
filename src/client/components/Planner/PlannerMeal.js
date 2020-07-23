@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../elements/Button';
-import planner from '../../../server/models/planner';
 
 export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, hideMealNames, handleAddPlanner, handleDeletePlanner }) {
   const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`;
