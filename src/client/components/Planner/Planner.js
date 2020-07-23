@@ -112,7 +112,7 @@ export default function Planner() {
   }
 
   const handleAddPlanner = (date, meal) => {
-    date = date? new Date(date) : Date.now();
+    date = new Date(date);
     setPlannerModalSettings({
       ...plannerModalSettings,
       meal,
@@ -221,7 +221,7 @@ export default function Planner() {
               Generate shopping list
             </Button>
             <Button
-              handleClick={() => handleAddPlanner('', {})}
+              handleClick={() => handleAddPlanner(Date.now(), {})}
             >
               Plan meal
             </Button>
