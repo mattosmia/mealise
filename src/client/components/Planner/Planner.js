@@ -111,10 +111,20 @@ export default function Planner() {
     )
   }
 
+  const handleAddPlanner = (date, meal) => {
+    date = date? new Date(date) : Date.now();
+    setPlannerModalSettings({
+      ...plannerModalSettings,
+      meal,
+      date,
+      isOpen: true
+    })
+  }
+
   const handleDeletePlanner = (date, mealId, recipeId) => {
     if (confirm("Are you sure you want to delete this planned meal?")) {
       if (!page.isLoading) page.setIsLoading(true);
-      const formattedDate = new Date(date);
+      // const formattedDate = new Date(date);
       axios.post(`${endpointRoots.planner}delete`, { date, mealId, recipeId }, authHeaders())
         .then(res => {
           dispatch({
@@ -211,11 +221,7 @@ export default function Planner() {
               Generate shopping list
             </Button>
             <Button
-              handleClick={() => setPlannerModalSettings({
-                isOpen: true,
-                date: new Date(),
-                meal: {}
-              })}
+              handleClick={() => handleAddPlanner('', {})}
             >
               Plan meal
             </Button>
@@ -233,6 +239,7 @@ export default function Planner() {
                   plannerModalSettings={plannerModalSettings}
                   setPlannerModalSettings={setPlannerModalSettings}
                   handleDeletePlanner={handleDeletePlanner}
+                  handleAddPlanner={handleAddPlanner}
                 />
               )
             }

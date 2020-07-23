@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../elements/Button';
 import planner from '../../../server/models/planner';
 
-export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings, handleDeletePlanner }) {
-  const handleAddMeal = () => {
-    setPlannerModalSettings({
-      ...plannerModalSettings,
-      meal,
-      date,
-      isOpen: true
-    })
-  }
+export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, hideMealNames, handleAddPlanner, handleDeletePlanner }) {
   const dateKey = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`;
   const hasPlannedMeal = plannerData.plannerList && plannerData.plannerList[dateKey] && plannerData.plannerList[dateKey][meal._id];
   return (<>
@@ -22,19 +14,21 @@ export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, h
         <div className="planner__wrapper__card__meal__details">
           <ul>
             { plannerData.plannerList[dateKey][meal._id].map(recipeId => 
-              <li key={recipeId}>{plannerData.recipeList.find(r => r._id === recipeId).name}
-              <Button
-                classes="button--icon icon--delete"
-                handleClick={() => handleDeletePlanner(dateKey,meal._id,recipeId)}
-              >
-                <span className="vh">Delete</span>
-              </Button></li>
+              <li key={recipeId}>
+                {plannerData.recipeList.find(r => r._id === recipeId).name}
+                <Button
+                  classes="button--icon icon--delete"
+                  handleClick={() => handleDeletePlanner(dateKey,meal._id,recipeId)}
+                >
+                  <span className="vh">Delete</span>
+                </Button>
+              </li>
             )}
           </ul>
         </div>
       :
         <Button
-          handleClick={handleAddMeal}
+          handleClick={() => handleAddPlanner(dateKey,meal)}
           classes="planner__wrapper__card__meal__add-button icon--add"
         >
           <span className="vh">Plan meal</span>
@@ -52,7 +46,6 @@ PlannerMeal.propTypes = {
   plannerData: PropTypes.object,
   hideEmptyMeals: PropTypes.bool,
   hideMealNames: PropTypes.bool,
-  plannerModalSettings: PropTypes.object,
-  setPlannerModalSettings: PropTypes.func,
+  handleAddPlanner: PropTypes.func,
   handleDeletePlanner: PropTypes.func
 };

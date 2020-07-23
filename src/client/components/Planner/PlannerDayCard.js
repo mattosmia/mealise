@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PlannerMeal from './PlannerMeal';
+import Button from '../elements/Button';
 
-export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hideMealNames, plannerModalSettings, setPlannerModalSettings, handleDeletePlanner  }) {
+export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hideMealNames, handleAddPlanner, handleDeletePlanner }) {
   return (
     <div className="planner__wrapper__card">
       <div className="planner__wrapper__card__heading">
         {date.toDateString()}
+        <Button
+          classes="button--icon icon--add"
+          handleClick={() => handleAddPlanner(date,{})}
+        >
+          <span className="vh">Add</span>
+        </Button>
       </div>
       { plannerData.mealList.map(meal => 
         <PlannerMeal
@@ -16,8 +23,7 @@ export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hide
           plannerData={plannerData}
           hideEmptyMeals={hideEmptyMeals}
           hideMealNames={hideMealNames}
-          setPlannerModalSettings={setPlannerModalSettings}
-          plannerModalSettings={plannerModalSettings}
+          handleAddPlanner={handleAddPlanner}
           handleDeletePlanner={handleDeletePlanner}
         />
       )}
@@ -30,7 +36,6 @@ PlannerDayCard.propTypes = {
   date: PropTypes.object.isRequired,
   hideEmptyMeals: PropTypes.bool,
   hideMealNames: PropTypes.bool,
-  plannerModalSettings: PropTypes.object,
-  setPlannerModalSettings: PropTypes.func,
+  handleAddPlanner: PropTypes.func,
   handleDeletePlanner: PropTypes.func
 };

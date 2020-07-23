@@ -69,7 +69,9 @@
         min-width: 200px;
       }
       &__heading {
+        display: flex;
         width: 100%;
+        justify-content: space-around;
         font-weight: $fw-bold;
         border-bottom: 1px solid $black;
         text-align: center;
@@ -87,11 +89,9 @@
         }
         &__name {
           background-color: $white40;
-          text-transform: uppercase;
           font-weight: $fw-thin;
-          padding: 0.125rem 0.5rem;
+          padding: 0.25rem 0.5rem;
           font-size: 1.6rem;
-          text-align: center;
         }
         &__details {
           font-size: 1.6rem;
