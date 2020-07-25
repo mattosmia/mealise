@@ -1,0 +1,46 @@
+@import '../variables.scss';
+
+.modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: $white90;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+    color: $black;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: 0;
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 5;
+    width: 100%;
+    max-width: 42rem;
+    background-color: $white;
+    border-radius: $border-rounded;
+    border: 1px solid $black;
+    box-shadow: 2px 2px 0 $violet50;
+  }
+
+  &__content {
+    width: 100%;
+  }
+  
+  &__close {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    background-size: cover;
+  }
+
+  .react-datepicker-wrapper {
+    display: block;
+  }
+}
+  

@@ -23,8 +23,8 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
   })
 
   const submitCallback = formData => {
-    formData.date = new Date(new Date(formData.date).setHours(0,0,0,0));
     if (!page.isLoading) page.setIsLoading(true);
+    formData.date = new Date(new Date(formData.date).setHours(0,0,0,0));
     axios.post(`${endpointRoots.planner}add`, formData, authHeaders())
       .then(res => {
         dispatch({
@@ -102,14 +102,14 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
   }
 
   return (
-    <div className="planner__modal">
+    <>
         <Button
-          classes="planner__modal__close button--icon icon--close"
+          classes="modal__close button--icon icon--close"
           handleClick={handleClose}
         >
           <span className="vh">Close</span>
         </Button>
-      <div className="planner__modal__content">
+      <div className="modal__content">
         <h2>Plan Meal</h2>
         <label onClick={e => e.preventDefault()}>
           <span className="label--required">Date: </span>
@@ -168,7 +168,7 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
             Plan meal
           </Button>
       </div>
-    </div>
+    </>
   )
 }
 

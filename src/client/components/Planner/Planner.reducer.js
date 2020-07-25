@@ -5,7 +5,7 @@ export default function recipesReducer(state, action) {
       return ({
         ...state,
         mealList: action.payload.mealList,
-        recipeList: action.payload.recipeList,
+        recipeList: action.payload.recipeList
       })
 
     case 'GET_PLANNER_LIST':

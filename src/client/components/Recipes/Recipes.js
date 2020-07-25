@@ -371,7 +371,7 @@ export default function Recipes() {
             isRequired={formValidationSchema.instructions.required}
           />
 
-          <h3>Ingredients <Tooltip>Start typing the ingredient name and select the option from the dropdown. Quantity should be a number, with up to 3 decimal points</Tooltip></h3>
+          <h3>Ingredients <Tooltip>Start typing the ingredient name and select the option from the dropdown. Quantity should be a number, with up to 3 decimal points. You can create recipes without ingredients, but they won't be added to your shopping lists.</Tooltip></h3>
           <div className="recipes__ingredient-form">
             <label>
               <span className="label--required">Name</span>

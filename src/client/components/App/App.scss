@@ -175,6 +175,12 @@ button {
   }
 }
 
+ul {
+  li {
+    list-style: square;
+  }
+}
+
 .main {
   &-wrapper {
     display: flex;
@@ -290,15 +296,6 @@ input, select {
   color: $error-fg;
   padding: 1rem 0;
   display: inline-block;
-}
-
-.modal {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: $white90;
 }
 
 .tooltip {

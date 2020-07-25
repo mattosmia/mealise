@@ -97,19 +97,27 @@ exports.deletePlanner = [
 exports.generateShoppingList = [
   function (req, res) {
     try {
-      if (!req.body.recipeIds) return
-      Recipes.find({
-        userId: req.user.userId,
-        _id: {
-          $in: [req.body.recipeIds]
-        }
-      }).then(recipes =>
-        apiResponse.success(res, 'Success', recipes.ingredients))
-      } catch (err) {
-        console.log(err)
-        return apiResponse.serverError(res, err);
+    if (!req.query.plannerRange) return
+    const dateRange = req.query.plannerRange.split('|');
+    Planner.find({
+      userId: req.user.userId,
+      date: {
+        $gte: new Date(new Date(dateRange[0]).setHours(0,0,0,0)),
+        $lte: new Date(new Date(dateRange[(dateRange.length - 1)]).setHours(23,59,59,999))
       }
-
-      aggregate.lookup({ from: 'users', localField: 'userId', foreignField: '_id', as: 'users' });
+    }).then(planner => {
+      const plannerObject = {};
+      planner.forEach(p => {
+        const date = `${p.date.getFullYear()}-${(p.date.getMonth() + 1)}-${p.date.getDate()}`;
+        if (!plannerObject[date]) plannerObject[date] = {};
+        if (!plannerObject[date][p.mealId]) plannerObject[date][p.mealId] = [];
+        plannerObject[date][p.mealId].push(p.recipeId)
+      })
+      apiResponse.success(res, 'Success', plannerObject)
+    })
+    } catch (err) {
+      console.log(err)
+      return apiResponse.serverError(res, err);
+    }
   }
 ];

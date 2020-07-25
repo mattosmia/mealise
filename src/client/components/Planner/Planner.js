@@ -16,6 +16,7 @@ import PlannerModal from './PlannerModal';
 import AlertMessage from '../elements/AlertMessage';
 import Button from '../elements/Button';
 import Modal from '../elements/Modal';
+import ShoppingListModal from '../ShoppingLists/ShoppingListModal';
 
 const localStorageKeys = {
   hideEmptyMeals: 'plannerHideEmptyMeals',
@@ -41,6 +42,12 @@ export default function Planner() {
     isOpen: false,
     date: new Date(),
     meal: {}
+  });
+
+  const [shoppingListModalSettings, setShoppingListModalSettings] = useState({
+    isOpen: false,
+    name: '',
+    shoppingList: []
   });
 
   useEffect(() => {
@@ -71,7 +78,7 @@ export default function Planner() {
       params: {
         plannerRange: plannerRange.join('|')
       }
-    }, )
+    })
     .then(res => {
       const plannerList = res.data.data || [];
       dispatch({
@@ -95,20 +102,49 @@ export default function Planner() {
 
   const handleGenerateShoppingList = () => {
     if (!page.isLoading) page.setIsLoading(true);
-    axios.post(`${endpointRoots.planner}generatelist`, {
-      recipeIds: [plannerList]
-    }, authHeaders())
-    .then(res => {
-      const plannerList = res.data.data || [];
-      dispatch({
-        type: 'GET_PLANNER_LIST',
-        payload: plannerList
+    const ingredients = {};
+    Object.values(plannerState.plannerList).forEach(plannedMeals => {
+      Object.values(plannedMeals).forEach(mealRecipes => {
+        mealRecipes.forEach(recipeId => {
+          plannerState.recipeList.find(r => r._id === recipeId).ingredients.forEach(recipeIngredient => {
+            if (!ingredients[recipeIngredient._id]) ingredients[recipeIngredient._id] = 0;
+            ingredients[recipeIngredient._id] += recipeIngredient.qty;
+          })
+        })
       })
-    }).catch(err => 
-      console.log('Error fetching planner', err)
-    ).finally(() =>
+    })
+    if (Object.keys(ingredients).length) {
+      axios.get(endpointRoots.ingredient, {
+        ...authHeaders(),
+        params: {
+          ingredientList: Object.keys(ingredients).join('|')
+        }
+      })
+      .then(res => {
+        const ingredientData = res.data.data;
+        const shoppingList = Object.keys(ingredients).map(ingredientId => {
+          const ingredientDetails = ingredientData.find(i => i._id === ingredientId);
+          return {
+            _id: ingredientId,
+            name: ingredientDetails['name'],
+            qty: ingredients[ingredientId],
+            unit: ingredientDetails['unit']
+          }
+        })
+        setShoppingListModalSettings({
+          ...shoppingListModalSettings,
+          name: `${startDate.toDateString()} - ${endDate.toDateString()}`,
+          shoppingList,
+          isOpen: true
+        })
+      }).catch(err => 
+        console.log('Error generating shopping list', err)
+      ).finally(() =>
+        page.setIsLoading(false)
+      );
+    } else {
       page.setIsLoading(false)
-    )
+    }  
   }
 
   const handleAddPlanner = (date, meal) => {
@@ -124,7 +160,6 @@ export default function Planner() {
   const handleDeletePlanner = (date, mealId, recipeId) => {
     if (confirm("Are you sure you want to delete this planned meal?")) {
       if (!page.isLoading) page.setIsLoading(true);
-      // const formattedDate = new Date(date);
       axios.post(`${endpointRoots.planner}delete`, { date, mealId, recipeId }, authHeaders())
         .then(res => {
           dispatch({
@@ -159,6 +194,17 @@ export default function Planner() {
             dispatch={dispatch}
             plannerModalSettings={plannerModalSettings}
             setPlannerModalSettings={setPlannerModalSettings}
+          />
+        </Modal>
+      }
+      { shoppingListModalSettings.isOpen &&
+        <Modal onModalClose={() => setShoppingListModalSettings({
+          ...shoppingListModalSettings,
+          isOpen: false
+        })}>
+          <ShoppingListModal
+            shoppingListModalSettings={shoppingListModalSettings}
+            setShoppingListModalSettings={setShoppingListModalSettings}
           />
         </Modal>
       }

@@ -4,4 +4,20 @@
     h1 {
       text-shadow: 2px 2px 0 $green50;
     }
+
+    &__modal {
+      li {
+        margin: 0 0 1rem 2rem;
+      }
+      &__heading {
+        padding-right: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+      &__name {
+        font-size: 1.6rem;
+      }
+    }
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, createContext } from 'react';
 import { createPortal } from 'react-dom';
 
+import './Modal.scss';
+
 // credit: https://codepen.io/siffogh/pen/gOaXvyQ
 // with tweaks to make it work with mealise
 
@@ -49,7 +51,7 @@ export default function Modal({ children, onModalClose }) {
 
   return createPortal(
       <div className="modal" role="dialog" aria-modal="true">
-      <div className="modal__content" ref={modalRef}>
+      <div className="modal__wrapper" ref={modalRef}>
           <modalContext.Provider value={{ onModalClose }}>
           {children}
           </modalContext.Provider>

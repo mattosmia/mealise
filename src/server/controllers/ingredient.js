@@ -1,5 +1,6 @@
 const Ingredient = require('../models/ingredient');
 const apiResponse = require('../helpers/responses');
+const ingredient = require('../models/ingredient');
 // const { body,validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
 
@@ -14,7 +15,18 @@ function IngredientData(data) {
 exports.getIngredients = [
 	function (req, res) {
     try {
-      Ingredient.find({ userId: req.user.userId }).sort('name').then(ingredients =>
+      let ingredientQuery = { userId: req.user.userId };
+      const ingredientList = req.query.ingredientList;
+
+      if (ingredientList) {
+        const ingredientArray = ingredientList.split('|');
+        ingredientQuery = {
+          ...ingredientQuery,
+          _id: { $in: ingredientArray }
+        }
+      }
+
+      Ingredient.find(ingredientQuery).sort('name').then(ingredients =>
       apiResponse.success(res, 'Success', ingredients))
     } catch (err) {
       return apiResponse.serverError(res, err);
