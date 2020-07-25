@@ -1,4 +1,5 @@
 const Recipe = require('../models/recipe');
+const Planner = require('../models/planner');
 const apiResponse = require('../helpers/responses');
 // const { body,validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
@@ -86,16 +87,25 @@ exports.editRecipe = [
 exports.deleteRecipe = [
   function (req, res) {
     try {
-      Recipe.deleteOne(
+      Planner.deleteMany(
         {
-          _id: req.body._id,
-          userId: req.user.userId
+          userId: req.user.userId,
+          recipeId: req.body._id
         }
-      ).then(() => 
-          apiResponse.success(res, 'Recipe deleted successfully')
-		  ).catch(err => 
-        apiResponse.serverError(res, err)
-		  )
+      ).then(() => {
+        Recipe.deleteOne(
+          {
+            _id: req.body._id,
+            userId: req.user.userId
+          }
+        ).then(() => 
+            apiResponse.success(res, 'Recipe deleted successfully')
+        ).catch(err => {console.log('err111',err)
+          apiResponse.serverError(res, err)}
+        )
+      }).catch(err => {console.log('err111',err)
+      apiResponse.serverError(res, err)}
+      )
 		} catch (err) {
 			return apiResponse.serverError(res, err);
 		}

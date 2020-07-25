@@ -158,7 +158,7 @@ export default function Planner() {
   }
 
   const handleDeletePlanner = (date, mealId, recipeId) => {
-    if (confirm("Are you sure you want to delete this planned meal?")) {
+    if (confirm("Are you sure you want to delete this planned meal?\n\nATTENTION: This action CANNOT be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
       axios.post(`${endpointRoots.planner}delete`, { date, mealId, recipeId }, authHeaders())
         .then(res => {

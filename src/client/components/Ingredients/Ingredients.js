@@ -87,18 +87,18 @@ export default function Ingredients() {
   }
 
   const handleDeleteIngredient = ingredient => {
-    if (confirm("Are you sure you want to delete this ingredient?")) {
+    if (confirm("Are you sure you want to delete this ingredient?\n\nIt will also be deleted from any meals that currently use it.\n\nATTENTION: This action cannot be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
       setIsRequestSuccess(false);
       setIsRequestError(false);
       axios.post(`${endpointRoots.ingredient}delete`, { _id: ingredient._id }, authHeaders())
-        .then(res => 
-          setIsRequestSuccess(true),
+        .then(res => {
+          setIsRequestSuccess(true);
           dispatch({
             type: 'DELETE_INGREDIENT',
             payload: ingredient
           })
-        ).catch(err => 
+        }).catch(err => 
           setIsRequestError(true)
         ).finally(() =>
           page.setIsLoading(false)

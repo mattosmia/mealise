@@ -181,7 +181,7 @@ export default function Recipes() {
   }
 
   const handleDeleteRecipe = recipe => {
-    if (confirm("Are you sure you want to delete this recipe?")) {
+    if (confirm("Are you sure you want to delete this recipe?\n\nIt will also be deleted from your planner, including any past of future planned meals.\n\nATTENTION: This action CANNOT be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
       setIsRequestSuccess(false);
       setIsRequestError(false);

@@ -1,6 +1,7 @@
 const Ingredient = require('../models/ingredient');
+const Recipe = require('../models/recipe');
+
 const apiResponse = require('../helpers/responses');
-const ingredient = require('../models/ingredient');
 // const { body,validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
 
@@ -94,14 +95,27 @@ exports.editIngredient = [
 exports.deleteIngredient = [
   function (req, res) {
     try {
-      Ingredient.deleteOne(
+      Recipe.updateMany(
         {
-          _id: req.body._id,
           userId: req.user.userId
+        },
+        {
+          $pull: {
+            ingredients: {
+              _id: req.body._id
+            }
+          }
         }
-      ).then(() => 
+      ).then(() => {
+        Ingredient.deleteOne(
+          {
+            _id: req.body._id,
+            userId: req.user.userId
+          }
+        ).then(() => 
           apiResponse.success(res, 'Ingredient deleted successfully')
-		  ).catch(err => 
+        )
+      }).catch(err => 
         apiResponse.serverError(res, err)
 		  )
 		} catch (err) {
