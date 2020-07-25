@@ -21,6 +21,7 @@ footer {
       flex-direction: row;
     }
     li {
+      list-style: none;
       padding: 1rem 2rem;
       @include desktop {
         display: flex;
