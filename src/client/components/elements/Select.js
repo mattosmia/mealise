@@ -5,7 +5,7 @@ export default function Select({ label, name, options, selectedOption, placehold
   return (
     <label>
       <span className={(isRequired && 'label--required') || null}>{label}</span>
-      <select name={name} onChange={handleChange} onBlur={handleBlur} className={errorMsg && 'input--error'} value={selectedOption}>
+      <select name={name} onChange={handleChange} onBlur={handleBlur} className={errorMsg && 'input--error'} defaultValue={selectedOption || ''}>
         { placeholderOption && <option disabled value="">{placeholderOption}</option> }
         { options.map(option => <option key={option._id} value={option._id}>{option.name}</option>) }
       </select>
