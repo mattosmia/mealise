@@ -20,6 +20,8 @@ import Tooltip from '../elements/Tooltip';
 import { floatRegex } from '../../helpers/formValidationPatterns';
 import AlertMessage from '../elements/AlertMessage';
 
+import { handleToggleExpand, handleCollapseAll, handleExpandAll } from '../../helpers/accordion';
+
 export default function Recipes() {
   const page = useContext(PageContext);
   const [isRequestError, setIsRequestError] = useState(false);
@@ -105,25 +107,6 @@ export default function Recipes() {
   }
 
   const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
-
-  const handleToggleExpand = e => {
-    const button = e.target.closest('button');
-    if (button) button.classList.toggle('expanded')
-  }
-
-  const handleCollapseAll = () => {
-    const accordionItems = document.querySelectorAll('.recipes__list__item__expand');
-    for (let accordionItem of accordionItems) {
-      accordionItem.classList.remove('expanded')
-    }
-  }
-
-  const handleExpandAll = () => {
-    const accordionItems = document.querySelectorAll('.recipes__list__item__expand');
-    for (let accordionItem of accordionItems) {
-      accordionItem.classList.add('expanded')
-    }
-  }
 
   const handleAddRecipeIngredient = () => {
     if (! recipeFormIngredientFields.current._id || ! recipeFormIngredientFields.current.qty) return;
@@ -262,12 +245,12 @@ export default function Recipes() {
           { recipesState.recipeList.length > 0 ? <>
             <div className="recipes__list__controls">
               <Button
-                handleClick={handleExpandAll}
+                handleClick={() => handleExpandAll('.recipes__list__item__expand')}
               >
                 Expand all
               </Button>
               <Button
-                handleClick={handleCollapseAll}
+                handleClick={() => handleCollapseAll('.recipes__list__item__expand')}
               >
                 Collapse all
               </Button>
