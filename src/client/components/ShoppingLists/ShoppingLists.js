@@ -23,9 +23,16 @@ export default function ShoppingLists() {
   const [shoppingListState, dispatch] = useReducer(shoppingListsReducer, []);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isRequestSuccess, setIsRequestSuccess] = useState(false);
+  const [isEmailRequestSuccess, setIsEmailRequestSuccess] = useState(false);
   const [isSidebarRequestError, setIsSidebarRequestError] = useState(false);
   const [isEditingForm, setIsEditingForm] = useState(false);
-
+  const [shoppingListFormItemFields, setShoppingListFormItemFields] = useState({
+    current: {
+      _id: '',
+      name: '',
+    },
+    isAdded: []
+  });
   useEffect(() => {
     if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoots.shoppinglist, authHeaders())
@@ -73,14 +80,35 @@ export default function ShoppingLists() {
 
   const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
 
-  const handleEditShoppingList = () => {
-
+  const handleEditShoppingList = shoppingList => {
+    setIsRequestError(false);
+    setIsRequestSuccess(false);
+    setIsEmailRequestSuccess(false);
+    setIsSidebarRequestError(false);
+    setIsEditingForm(true);
+    const shoppingListItems = [];
+    shoppingList.items.map((item, idx) => shoppingListItems.push({
+        _id: idx,
+        name: item,
+    }))
+    setShoppingListFormItemFields({
+      current: {
+        _id: '',
+        name: ''
+      },
+      isAdded: shoppingListItems
+    })
+    setFormFields({
+      _id: { value: shoppingList._id, error: '', isValid: true },
+      name: { value: shoppingList.name, error: '', isValid: true },
+    });
   }
 
   const handleDeleteShoppingList = shoppingList => {
     if (confirm("Are you sure you want to delete this shopping list?\n\nATTENTION: This action cannot be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
       setIsRequestSuccess(false);
+      setIsEmailRequestSuccess(false);
       setIsRequestError(false);
       axios.post(`${endpointRoots.shoppinglist}delete`, { _id: shoppingList._id }, authHeaders())
         .then(res => {
@@ -97,6 +125,37 @@ export default function ShoppingLists() {
     }
   }
 
+  const handleCancelEdit = () => {
+    setFormFields(formFieldsSchema);
+    setIsEditingForm(false);
+    setIsSidebarRequestError(false);
+  }
+
+  const handleEmailShoppingList = shoppingList => {
+    if (!page.isLoading) page.setIsLoading(true);
+      setIsRequestSuccess(false);
+      setIsEmailRequestSuccess(false);
+      setIsRequestError(false);
+      axios.post(`${endpointRoots.shoppinglist}email`, { shoppingList }, authHeaders())
+        .then(res => {
+          setIsEmailRequestSuccess(true);
+        }).catch(err => 
+          setIsRequestError(true)
+        ).finally(() =>
+          page.setIsLoading(false)
+        );
+  }
+
+  const handleSaveTxtShoppingList = shoppingList => {
+    const element = document.createElement("a");
+    const file = new Blob([shoppingList.items.join('\n')], {type: 'text/plain'}); 
+    element.href = URL.createObjectURL(file);
+    element.download = `${shoppingList.name.replace(/\W/g,'')||'shopping_list'}.txt`;
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+    document.body.removeChild(element)
+  }
+
   return (
     <section className="shopping-lists">
       <h1>Shopping Lists</h1>
@@ -105,6 +164,7 @@ export default function ShoppingLists() {
         {! page.isLoading && <>
           { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
           { isRequestSuccess && <AlertMessage type="success">Your shopping lists have been successfully updated!</AlertMessage>}
+          { isEmailRequestSuccess && <AlertMessage type="success">Your shopping list has been successfully emailed to you!</AlertMessage>}
           { shoppingListState.length > 0 ? 
           <>
             <div className="shopping-lists__list__controls">
@@ -152,6 +212,19 @@ export default function ShoppingLists() {
                       </div>
                       <span className="shopping-lists__list__item__buttons list__item__buttons">
                         <Button
+                          classes="button--icon icon--email"
+                          handleClick={() => handleEmailShoppingList(shoppingList)}
+                        >
+                          <span className="vh">Email list</span>
+                        </Button>
+                        <Button
+                          classes="button--icon icon--txt"
+                          handleClick={() => handleSaveTxtShoppingList(shoppingList)}
+
+                        >
+                          <span className="vh">Download as text file</span>
+                        </Button>
+                        <Button
                           classes="button--icon icon--edit"
                           handleClick={() => handleEditShoppingList(shoppingList)}
                         >
@@ -176,24 +249,49 @@ export default function ShoppingLists() {
         </div>
         <SidebarForm classes={['shopping-lists__side']}>
           <>
-          <h2>{ isEditingForm ? "Edit" : "Add" } shopping list</h2>
-            { isSidebarRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
-          <Input
-            label="Ingredient name"
-            name="name"
-            value={formFields.name.value}
-            handleChange={handleChange}
-            errorMsg={formFields.name.error}
-            isRequired={formValidationSchema.name.required}
-          />
-          <Button
-            handleClick={handleSubmit}
-            isDisabled={!isFormValid}
-          >
-            { isEditingForm ? "Update shopping list" : "Add shopping list" }
-          </Button>
+          <h2>Edit shopping list</h2>
+          { isSidebarRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+          { isEditingForm ? 
+          <>
+            <Input
+              label="Shopping list name"
+              name="name"
+              value={formFields.name.value}
+              handleChange={handleChange}
+              errorMsg={formFields.name.error}
+              isRequired={formValidationSchema.name.required}
+            />
 
-          { isEditingForm && <>
+            { shoppingListFormItemFields.isAdded.length > 0 &&
+              <ul className="shopping-lists__item-form__list">
+                {shoppingListFormItemFields.isAdded.map(item =>
+                  <li
+                    key={item._id}
+                  >
+                    {item.name} 
+                    <Button
+                      classes="button--icon icon--edit"
+                      handleClick={() => handleEditShoppingListItem(shoppingList)}
+                    >
+                      <span className="vh">Edit</span>
+                    </Button>
+                    <Button
+                      classes="button--icon icon--delete"
+                      handleClick={() => handleDeleteShoppingListItem(item)}
+                    >
+                      <span className="vh">Delete</span>
+                    </Button>
+                  </li>
+                )}
+              </ul>
+            }
+            <Button
+              handleClick={handleSubmit}
+              isDisabled={!isFormValid}
+            >
+              Update shopping list
+            </Button>
+
             <Button
               handleClick={e => handleSubmit(e, 'add_as_new')}
               isDisabled={!isFormValid}
@@ -205,7 +303,10 @@ export default function ShoppingLists() {
             >
               Cancel
             </Button>
-          </>}
+          </>
+          :
+            <p>Select a shopping list to edit it</p>
+          }
           </>
         </SidebarForm>
       </div>

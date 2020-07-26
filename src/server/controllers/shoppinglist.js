@@ -1,5 +1,7 @@
 const ShoppingList = require('../models/shoppinglist');
+const User = require('../models/user');
 const apiResponse = require('../helpers/responses');
+const templates = require('../helpers/emailTemplate');
 // const { body,validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
 
@@ -47,6 +49,19 @@ exports.addShoppingList = [
 
 
 /**
+  * edit shopping list
+  * @returns {Object}
+**/
+exports.editShoppingList = [
+  function (req, res) {
+    try {
+		} catch (err) {
+		}
+	}
+];
+
+
+/**
   * delete shopping list
   * @returns {Object}
 **/
@@ -64,6 +79,48 @@ exports.deleteShoppingList = [
         apiResponse.serverError(res, err)
 		  )
 		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+	}
+];
+
+
+/**
+  * email shopping list
+  * @returns {Object}
+**/
+exports.emailShoppingList = [
+  function (req, res) {
+    try {
+      User.findOne({ _id: req.user.userId }).then(
+        user => {
+          if (!user) {
+            return apiResponse.unauthorised(res, 'User not found')
+          }
+          const shoppingListItems = req.body.shoppingList.items.map(item => `- ${item}`);
+          const sgMail = require('@sendgrid/mail');
+          sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+          const msg = {
+            to: user.email,
+            from: 'noreply@mealise.com',
+            subject: `[Mealise] Shopping List - ${req.body.shoppingList.name}`,
+            text: templates.text(user.firstName,
+              [
+                `Here\'s your shopping list ${req.body.shoppingList.name} as requested:`,
+                shoppingListItems.join('\n')
+              ]
+            ),
+            html: templates.html(user.firstName,
+              [
+                `Here\'s your shopping list ${req.body.shoppingList.name} as requested:`,
+                shoppingListItems.join('<br>')
+              ]
+            )
+          }
+          sgMail.send(msg);
+          return apiResponse.success(res, 'Shopping list emailed successfully')
+      })
+    } catch (err) {
 			return apiResponse.serverError(res, err);
 		}
 	}

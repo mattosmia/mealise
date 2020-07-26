@@ -250,6 +250,9 @@ ul {
       }
     }
   }
+  button.button--icon {
+    margin: 0 0 0 0.5rem;
+  }
 }
 
 label {
@@ -267,7 +270,7 @@ label {
   margin-left: 0.5rem;
 }
 
-input, select {
+input, select, textarea {
   width: 100%;
   border: 1px solid $black;
   border-bottom-width: 2px;
