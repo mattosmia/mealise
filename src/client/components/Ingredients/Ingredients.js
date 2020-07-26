@@ -5,18 +5,18 @@ import { formFieldsSchema, formValidationSchema } from './Ingredients.validation
 import formValidation from '../../helpers/formValidation';
 import { authHeaders } from '../../helpers/auth';
 
-import './Ingredients.scss';
-import Button from '../elements/Button';
-
 import ingredientsReducer from './Ingredients.reducer';
 import SidebarForm from '../elements/SidebarForm';
 import PageContext from '../../helpers/pageContext';
 import Input from '../elements/Input';
 import Select from '../elements/Select';
+import Button from '../elements/Button';
 
 import { endpointRoots } from '../../helpers/endpointRoots';
 import { units } from '../../helpers/units';
 import AlertMessage from '../elements/AlertMessage';
+
+import './Ingredients.scss';
 
 export default function Ingredients() {
   const page = useContext(PageContext);

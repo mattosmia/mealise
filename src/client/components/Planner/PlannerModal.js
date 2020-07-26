@@ -4,7 +4,6 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Autosuggest from 'react-autosuggest';
 
-import PageContext from '../../helpers/pageContext';
 import { endpointRoots } from '../../helpers/endpointRoots';
 
 import Button from '../elements/Button';
@@ -13,17 +12,20 @@ import Select from '../elements/Select';
 import formValidation from '../../helpers/formValidation';
 import { formFieldsSchema, formValidationSchema } from './Planner.validation';
 import { authHeaders } from '../../helpers/auth';
+import AlertMessage from '../elements/AlertMessage';
 
-export default function PlannerModal({ date, plannerState, dispatch, meal, plannerModalSettings, setPlannerModalSettings }) {
-  const page = useContext(PageContext);
-  
+export default function PlannerModal({ date, plannerState, dispatch, meal, plannerModalSettings, setPlannerModalSettings }) { 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isRequestError, setIsRequestError] = useState(false);
+
   const handleClose = () => setPlannerModalSettings({
     ...plannerModalSettings,
     isOpen: false
   })
 
   const submitCallback = formData => {
-    if (!page.isLoading) page.setIsLoading(true);
+    setIsSubmitted(true);
+    setIsRequestError(false);
     formData.date = new Date(new Date(formData.date).setHours(0,0,0,0));
     axios.post(`${endpointRoots.planner}add`, formData, authHeaders())
       .then(res => {
@@ -32,11 +34,12 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
           payload: res.data.data.result
         })
         setFormFields(formFieldsSchema)
-      }).catch(err => 
-        console.log('Error adding planner', err)
-      ).finally(() =>
-        handleClose(),page.setIsLoading(false)
-      );
+        handleClose()
+      }).catch(err => {
+        console.log('Error adding planner', err);
+        setIsSubmitted(false);
+        setIsRequestError(true);
+      })
   }
 
   const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
@@ -45,7 +48,7 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
     setFormFields(prevState => (
       {
         ...prevState,
-        mealId: { value: meal._id, error: '', isValid: true }
+        mealId: { value: meal._id, error: '', isValid: !(!meal._id) }
       }
     ))
   }, [])
@@ -103,14 +106,15 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
 
   return (
     <>
-        <Button
-          classes="modal__close button--icon icon--close"
-          handleClick={handleClose}
-        >
-          <span className="vh">Close</span>
-        </Button>
+      <Button
+        classes="modal__close button--icon icon--close"
+        handleClick={handleClose}
+      >
+        <span className="vh">Close</span>
+      </Button>
       <div className="modal__content">
         <h2>Plan Meal</h2>
+        { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
         <label onClick={e => e.preventDefault()}>
           <span className="label--required">Date: </span>
           <DatePicker
@@ -163,7 +167,7 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
         </label>
         <Button
             handleClick={handleSubmit}
-            isDisabled={!isFormValid}
+            isDisabled={!isFormValid || isSubmitted}
           >
             Plan meal
           </Button>

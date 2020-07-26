@@ -1,49 +1,42 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import PageContext from '../../helpers/pageContext';
 import { endpointRoots } from '../../helpers/endpointRoots';
+import { authHeaders } from '../../helpers/auth';
 
 import Button from '../elements/Button';
-import Select from '../elements/Select';
-
-// import formValidation from '../../helpers/formValidation';
-// import { formFieldsSchema, formValidationSchema } from './Planner.validation';
-// import { authHeaders } from '../../helpers/auth';
 
 import './ShoppingLists.scss';
+import AlertMessage from '../elements/AlertMessage';
 
 export default function ShoppingListModal({ shoppingListModalSettings, setShoppingListModalSettings }) {
-  const page = useContext(PageContext);
-  
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isRequestError, setIsRequestError] = useState(false);
+  const [isRequestSuccess, setIsRequestSuccess] = useState(false);
+
   const handleClose = () => setShoppingListModalSettings({
     ...shoppingListModalSettings,
     isOpen: false
   })
 
   const handleSaveList = () => {
-    console.log('save list!')
+    setIsSubmitted(true);
+    setIsRequestError(false);
+    setIsRequestSuccess(false);
+    axios.post(`${endpointRoots.shoppinglist}add`,
+    {
+      name: shoppingListModalSettings.name,
+      items: shoppingListModalSettings.shoppingList.map(item => `${item.qty}${item.unit} ${item.name}`)
+    }, authHeaders())
+    .then(res => {
+      setIsRequestSuccess(true)
+    }).catch(err => {
+      setIsSubmitted(false);
+      setIsRequestError(true);
+    })
   }
-
-  const submitCallback = formData => {
-    // if (!page.isLoading) page.setIsLoading(true);
-    // formData.date = new Date(new Date(formData.date).setHours(0,0,0,0));
-    // axios.post(`${endpointRoots.planner}add`, formData, authHeaders())
-    //   .then(res => {
-    //     dispatch({
-    //       type: 'ADD_SHOPPING_LIST',
-    //       payload: res.data.data.result
-    //     })
-    //     setFormFields(formFieldsSchema)
-    //   }).catch(err => 
-    //     console.log('Error adding planner', err)
-    //   ).finally(() =>
-    //     handleClose(),page.setIsLoading(false)
-    //   );
-  }
-
-  // const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
 
   return (
     <>
@@ -56,19 +49,28 @@ export default function ShoppingListModal({ shoppingListModalSettings, setShoppi
       <div className="modal__content shopping-lists__modal">
         <div className="shopping-lists__modal__heading">
           <h2>Shopping list</h2>
-          <Button
+          { ! isRequestSuccess && <Button
             classes="button--ghost"
             handleClick={handleSaveList}
+            isDisabled={isSubmitted}
           >
             Save list
-          </Button>
+          </Button> }
         </div>
-        <p className="shopping-lists__modal__name">Period: {shoppingListModalSettings.name}</p>
-        <ul>
-        {shoppingListModalSettings.shoppingList.map(item => 
-          <li key={item._id}>{item.qty}{item.unit} <strong>{item.name}</strong></li>
-        )}
-        </ul>
+        { isRequestSuccess ?
+          <AlertMessage type="success">
+            Your shopping list has been successfully saved! Click <Link to={'/shopping-lists'}>here</Link> to view it now.
+          </AlertMessage>
+        :
+        <>
+          { isRequestError && <AlertMessage>Something went wrong. Please try again.</AlertMessage>}
+          <p className="shopping-lists__modal__name">Period: {shoppingListModalSettings.name}</p>
+          <ul>
+          {shoppingListModalSettings.shoppingList.map(item => 
+            <li key={item._id}>{item.qty}{item.unit} <strong>{item.name}</strong></li>
+          )}
+          </ul>
+        </>}
       </div>
     </>
   )
