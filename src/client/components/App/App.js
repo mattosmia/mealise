@@ -34,6 +34,10 @@ import { isAuth } from '../../helpers/auth';
 import AppProvider from './App.provider';
 import ResetPassword from '../ResetPassword/ResetPassword';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
+import ContactUs from '../ContactUs/ContactUs';
+import TermsConditions from '../Policies/TermsConditions';
+import PrivacyPolicy from '../Policies/PrivacyPolicy';
+import CookiePolicy from '../Policies/CookiePolicy';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,6 +72,18 @@ export default function App() {
             </Route>
             <Route exact path="/forgot-password">
               <BrochureView><ForgotPassword /></BrochureView>
+            </Route>
+            <Route exact path="/contact-us">
+              <BrochureView><ContactUs /></BrochureView>
+            </Route>
+            <Route exact path="/terms-conditions">
+              <BrochureView><TermsConditions /></BrochureView>
+            </Route>
+            <Route exact path="/privacy-policy">
+              <BrochureView><PrivacyPolicy /></BrochureView>
+            </Route>
+            <Route exact path="/cookie-policy">
+              <BrochureView><CookiePolicy /></BrochureView>
             </Route>
             <Route exact path="/reset-password/:token" render={(props) => 
               <BrochureView><ResetPassword {...props} /></BrochureView>}>

@@ -1,0 +1,13 @@
+@import '../variables.scss';
+
+.terms-wrapper {
+  text-align: justify;
+  padding: 2rem;
+  @include desktop {
+    padding: 3rem;
+  }
+  li {
+    margin-left: 3rem;
+    margin-bottom: 1rem;
+  }
+}
