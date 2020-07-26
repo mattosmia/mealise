@@ -12,16 +12,14 @@ function ShoppingListData(data) {
   * @returns {Object}
 **/
 exports.getShoppingList = [
-	function (req, res) {
-		try {
-			const rows = {
-
-			}
-      return apiResponse.success(res, 'Success', rows);
-		} catch (err) {
-			return apiResponse.serverError(res, err);
-		}
-	}
+  function (req, res) {
+    try {
+      ShoppingList.find({ userId: req.user.userId }).sort('order').then(shoppingLists =>
+        apiResponse.success(res, 'Success', shoppingLists))
+    } catch (err) {
+      return apiResponse.serverError(res, err);
+    }
+  }
 ];
 
 /**
@@ -41,6 +39,30 @@ exports.addShoppingList = [
       ).catch(err => 
         apiResponse.serverError(res, err)
       )
+		} catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+	}
+];
+
+
+/**
+  * delete shopping list
+  * @returns {Object}
+**/
+exports.deleteShoppingList = [
+  function (req, res) {
+    try {
+      ShoppingList.deleteOne(
+        {
+          _id: req.body._id,
+          userId: req.user.userId
+        }
+      ).then(() => 
+        apiResponse.success(res, 'Shopping list deleted successfully')
+      ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
 		} catch (err) {
 			return apiResponse.serverError(res, err);
 		}
