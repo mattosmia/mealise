@@ -357,3 +357,34 @@ exports.resetPassword = [
 		}
   }
 ];
+
+
+/**
+  * Delete account
+  * @returns {Object}
+**/
+exports.deleteAccount = [
+	function (req, res) {
+		try {
+      User.findOne({ _id: req.user.userId }).then(
+        user => {
+          if (!user) {
+            return apiResponse.unauthorised(res, 'User not found')
+          }
+          bcrypt.compare(req.body.verifyPassword, user.password).then(
+            isValid => {
+            if (!isValid) return apiResponse.serverError(res, 'Current password is incorrect')
+            User.deleteOne(
+              {
+                _id: user.userId
+              }
+            ).then(() => 
+              apiResponse.success(res, 'User deleted successfully')
+            )
+          }).catch (err => apiResponse.serverError(res, err))
+      })
+    } catch (err) {
+			return apiResponse.serverError(res, err);
+		}
+  }
+];

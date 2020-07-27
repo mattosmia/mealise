@@ -10,6 +10,7 @@ router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.post('/edit', auth, UserController.editUser);
 router.post('/editpwd', auth, UserController.editUserPassword);
+router.post('/delete', auth, UserController.deleteAccount);
 router.post('/forgotpassword', UserController.generateResetToken);
 router.get('/resetpassword', UserController.checkResetToken);
 router.post('/resetpassword', UserController.resetPassword);

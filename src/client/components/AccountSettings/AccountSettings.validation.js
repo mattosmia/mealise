@@ -13,6 +13,10 @@ export const passwordFormFieldsSchema = {
   newPasswordConfirmation: { value: '', error: '', isValid: false },
 }
 
+export const deleteFormFieldsSchema = {
+  verifyPassword: { value: '', error: '', isValid: false },
+}
+
 export const formValidationSchema = {
   firstName: {
     required: true,
@@ -57,5 +61,12 @@ export const passwordFormValidationSchema = {
     patternError: passwordRegexMsg(),
     match: 'newPassword',
     matchError: 'Passwords do not match',
+  },
+}
+
+export const deleteFormValidationSchema = {
+  verifyPassword: {
+    required: true,
+    requiredError: 'You must enter your current password in order to delete your account',
   },
 }
