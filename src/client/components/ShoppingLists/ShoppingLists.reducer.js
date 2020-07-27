@@ -6,14 +6,20 @@ export default function shoppingListsReducer(state, action) {
        ...action.payload
      ])
 
-    case 'EDIT_SHOPPINGLIST':
+     case 'EDIT_SHOPPINGLIST':
       const idx = state.findIndex(s => s._id === action.payload._id)
       state[idx] = {
         ...state[idx],
         ...action.payload
       }
-      return orderAlphabetically(state,'name')
+      return state
 
+    case 'ADD_SHOPPINGLIST':
+      return ([
+        ...state,
+        ...[action.payload]
+      ])
+  
     case 'DELETE_SHOPPINGLIST':
       return state.filter(s => s._id !== action.payload._id)
 

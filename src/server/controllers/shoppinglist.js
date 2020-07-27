@@ -55,6 +55,22 @@ exports.addShoppingList = [
 exports.editShoppingList = [
   function (req, res) {
     try {
+      ShoppingList.updateOne(
+        {
+          _id: req.body._id,
+          userId: req.user.userId
+        },
+        { $set:
+          { 
+            name: req.body.name,
+            items: req.body.items
+          }
+        }
+      ).then(() => 
+          apiResponse.success(res, 'Shopping list updated successfully')
+		  ).catch(err => 
+        apiResponse.serverError(res, err)
+		  )
 		} catch (err) {
 		}
 	}

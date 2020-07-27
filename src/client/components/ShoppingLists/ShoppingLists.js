@@ -33,6 +33,7 @@ export default function ShoppingLists() {
     },
     isAdded: []
   });
+  
   useEffect(() => {
     if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoots.shoppinglist, authHeaders())
@@ -50,32 +51,35 @@ export default function ShoppingLists() {
   }, []);
 
   const submitCallback = (formData, isAddAsNew) => {
-    // const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
-    // if (!page.isLoading) page.setIsLoading(true);
-    // setIsSidebarRequestError(false);
-    // setIsRequestSuccess(false);
-    // axios.post(`${endpointRoots.ingredient}${requestType}`, formData, authHeaders())
-    //   .then(res => {
-    //     if (requestType === 'edit') {
-    //       dispatch({
-    //         type: 'EDIT_INGREDIENT',
-    //         payload: formData
-    //       })
-    //     }
-    //     else {
-    //       dispatch({
-    //         type: 'ADD_INGREDIENT',
-    //         payload: res.data.data.result
-    //       })
-    //     }
-    //     setFormFields(formFieldsSchema)
-    //     setIsEditingForm(false)
-    //     setIsRequestSuccess(true)
-    //   }).catch(err => 
-    //     setIsSidebarRequestError(true)
-    //   ).finally(() =>
-    //     page.setIsLoading(false)
-    //   );
+    const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
+    formData.items = shoppingListFormItemFields.isAdded.map(item => item.name) || [];
+    if (!page.isLoading) page.setIsLoading(true);
+    setIsRequestError(false);
+    setIsRequestSuccess(false);
+    setIsEmailRequestSuccess(false);
+    setIsSidebarRequestError(false);
+    axios.post(`${endpointRoots.shoppinglist}${requestType}`, formData, authHeaders())
+      .then(res => {
+        if (requestType === 'edit') {
+          dispatch({
+            type: 'EDIT_SHOPPINGLIST',
+            payload: formData
+          })
+        }
+        else {
+          dispatch({
+            type: 'ADD_SHOPPINGLIST',
+            payload: res.data.data.result
+          })
+        }
+        setFormFields(formFieldsSchema)
+        setIsEditingForm(false)
+        setIsRequestSuccess(true)
+      }).catch(err => 
+        setIsSidebarRequestError(true)
+      ).finally(() =>
+        page.setIsLoading(false)
+      );
   }
 
   const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
