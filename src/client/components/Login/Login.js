@@ -12,14 +12,31 @@ import formValidation from '../../helpers/formValidation';
 
 import { jwtCookieName } from '../../helpers/cookies';
 import PageContext from '../../helpers/pageContext';
+import UserContext from '../../helpers/userContext';
 import { endpointRoots } from '../../helpers/endpointRoots';
 import AlertMessage from '../elements/AlertMessage';
+import { isAuth } from '../../helpers/auth';
 
 export default function Login() {
   const page = useContext(PageContext);
+  const user = useContext(UserContext);
   const [isRequestError, setIsRequestError] = useState(false);
 
   const history = useHistory();
+
+  useEffect(() => {
+    isAuth()
+      .then(res => {
+        if (res.data) {
+          user.setUser(res.data);
+          history.push({
+            pathname:  "/planner"
+          })
+        }
+      })
+      .finally(() => { page.setIsLoading(false) })
+  }, []);
+  
 
   const submitCallback = formData => {
     if (!page.isLoading) page.setIsLoading(true);

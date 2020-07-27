@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../_Footer/Footer';
 import Header from '../_Header/BrochureHeader';
+import PageContext from '../../helpers/pageContext';
 
 export default function BrochureView({ children }) {
+  const page = useContext(PageContext);
+
+  useEffect(() => page.setIsLoading(false), []);
+
   return (
     <>
       <Header />

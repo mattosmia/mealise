@@ -1,24 +1,42 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from "axios";
 
-import { formFieldsSchema, formValidationSchema } from './Register.validation';
-import formValidation from '../../helpers/formValidation';
 import PageContext from '../../helpers/pageContext';
+import UserContext from '../../helpers/userContext';
+import formValidation from '../../helpers/formValidation';
 import { endpointRoots } from '../../helpers/endpointRoots';
+import { isAuth } from '../../helpers/auth';
 
-import './Register.scss';
 import Button from '../elements/Button';
 import Checkbox from '../elements/Checkbox';
 import Input from '../elements/Input';
 import AlertMessage from '../elements/AlertMessage';
 
+import { formFieldsSchema, formValidationSchema } from './Register.validation';
+
+import './Register.scss';
+
 export default function Register() {
   const page = useContext(PageContext);
+  const user = useContext(UserContext);
   const [userExists, setUserExists] = useState(false);
   const [isRequestError, setIsRequestError] = useState(false);
 
   const history = useHistory();
+
+  useEffect(() => {
+    isAuth()
+      .then(res => {
+        if (res.data) {
+          user.setUser(res.data);
+          history.push({
+            pathname:  "/planner"
+          })
+        }
+      })
+      .finally(() => { page.setIsLoading(false) })
+  }, []);
 
   const submitCallback = formData => {
 		if (!page.isLoading) page.setIsLoading(true);

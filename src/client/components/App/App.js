@@ -43,19 +43,12 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
 
-  useEffect(() => {
-    isAuth()
-      .then(res => setUser(res.data))        
-      .finally(() => { setIsLoading(false) })
-  }, []);
-
   return (
-    <AppProvider user={user} isLoading={isLoading} setIsLoading={setIsLoading}>
+    <AppProvider user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading}>
       <Spinner />
       <Router>
           <Switch>
             <Route exact path="/">
-              {/* <Redirect to="/planner" /> */}
               <BrochureView><Landing /></BrochureView>
             </Route>
             <Route exact path="/about-us">
