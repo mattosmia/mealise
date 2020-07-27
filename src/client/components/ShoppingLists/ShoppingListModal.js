@@ -41,7 +41,7 @@ export default function ShoppingListModal({ shoppingListModalSettings, setShoppi
   return (
     <>
       <Button
-        classes="modal__close button--icon icon--close"
+        classes="modal__close button--icon icon--cancel"
         handleClick={handleClose}
       >
         <span className="vh">Close</span>

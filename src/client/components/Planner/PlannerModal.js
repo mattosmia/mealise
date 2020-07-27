@@ -107,7 +107,7 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
   return (
     <>
       <Button
-        classes="modal__close button--icon icon--close"
+        classes="modal__close button--icon icon--cancel"
         handleClick={handleClose}
       >
         <span className="vh">Close</span>

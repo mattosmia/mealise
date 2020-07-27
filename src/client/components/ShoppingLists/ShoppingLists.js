@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 import axios from 'axios';
+import { uuid } from 'uuidv4';
 
 import { formFieldsSchema, formValidationSchema } from './ShoppingLists.validation';
 import formValidation from '../../helpers/formValidation';
@@ -91,8 +92,8 @@ export default function ShoppingLists() {
     setIsSidebarRequestError(false);
     setIsEditingForm(true);
     const shoppingListItems = [];
-    shoppingList.items.map((item, idx) => shoppingListItems.push({
-        _id: idx,
+    shoppingList.items.map(item => shoppingListItems.push({
+        _id: uuid(),
         name: item,
     }))
     setShoppingListFormItemFields({
@@ -159,6 +160,68 @@ export default function ShoppingLists() {
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
     document.body.removeChild(element)
+  }
+
+  const handleSaveAddShoppingListItem = () => {
+    setShoppingListFormItemFields({
+      ...shoppingListFormItemFields,
+      current: {
+        _id: '',
+        name: ''
+      },
+      isAdded: [
+        ...shoppingListFormItemFields.isAdded,
+        {
+          _id: uuid(),
+          name: shoppingListFormItemFields.current.name,
+        }
+      ]
+    })
+  }
+
+  const handleSaveEditShoppingListItem = () => {
+    const idx = shoppingListFormItemFields.isAdded.findIndex(i => i._id === shoppingListFormItemFields.current._id)
+    
+    shoppingListFormItemFields.isAdded[idx] = {
+      _id: shoppingListFormItemFields.current._id,
+      name: shoppingListFormItemFields.current.name
+    }
+    
+    setShoppingListFormItemFields({
+      ...shoppingListFormItemFields,
+      current: {
+        _id: '',
+        name: ''
+      },
+      isAdded: shoppingListFormItemFields.isAdded
+    })
+  }
+
+  const handleCancelEditShoppingListItem = () => {
+    setShoppingListFormItemFields({
+      ...shoppingListFormItemFields,
+      current: {
+        _id: '',
+        name: ''
+      }
+    })
+  }
+  
+  const handleEditShoppingListItem = item => {
+    setShoppingListFormItemFields({
+      ...shoppingListFormItemFields,
+      current: {
+        _id: item._id,
+        name: item.name
+      }
+    })
+  }
+
+  const handleDeleteShoppingListItem = item => {
+    setShoppingListFormItemFields({
+      ...shoppingListFormItemFields,
+      isAdded: shoppingListFormItemFields.isAdded.filter(i => i._id !== item._id)
+    })
   }
 
   return (
@@ -266,7 +329,50 @@ export default function ShoppingLists() {
               errorMsg={formFields.name.error}
               isRequired={formValidationSchema.name.required}
             />
-
+            <div className="shopping-lists__item-form">
+              <Input
+                label={isEditingForm? 'Edit item' : 'Add item'}
+                name="item"
+                handleChange={e => 
+                  setShoppingListFormItemFields({
+                    ...shoppingListFormItemFields,
+                    current: {
+                      ...shoppingListFormItemFields.current,
+                      name: e.target.value
+                    }
+                  })
+                }
+                value={shoppingListFormItemFields.current.name}
+                isRequired={true}
+                isDisabled={false}
+              />
+              { shoppingListFormItemFields.current._id === '' ?
+                <Button
+                  classes="button--icon icon--add"
+                  handleClick={handleSaveAddShoppingListItem}
+                  isDisabled={false}
+                >
+                  <span className="vh">Add item</span>
+                </Button>
+                :
+                <>
+                  <Button
+                    classes="button--icon icon--save"
+                    handleClick={handleSaveEditShoppingListItem}
+                    isDisabled={false}
+                  >
+                    <span className="vh">Edit item</span>
+                  </Button>
+                  <Button
+                    classes="button--icon icon--cancel"
+                    handleClick={handleCancelEditShoppingListItem}
+                    isDisabled={false}
+                  >
+                    <span className="vh">Cancel edit</span>
+                  </Button>
+                </>
+              }
+            </div>
             { shoppingListFormItemFields.isAdded.length > 0 &&
               <ul className="shopping-lists__item-form__list">
                 {shoppingListFormItemFields.isAdded.map(item =>
@@ -276,7 +382,7 @@ export default function ShoppingLists() {
                     {item.name} 
                     <Button
                       classes="button--icon icon--edit"
-                      handleClick={() => handleEditShoppingListItem(shoppingList)}
+                      handleClick={() => handleEditShoppingListItem(item)}
                     >
                       <span className="vh">Edit</span>
                     </Button>
