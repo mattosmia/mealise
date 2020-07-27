@@ -18,10 +18,7 @@ import Button from '../elements/Button';
 import Modal from '../elements/Modal';
 import ShoppingListModal from '../ShoppingLists/ShoppingListModal';
 
-const localStorageKeys = {
-  hideEmptyMeals: 'plannerHideEmptyMeals',
-  hideMealNames: 'plannerHideMealNames'
-}
+import { plannerSettingsKeys } from '../../helpers/localStorage';
 
 export default function Planner() {
   const page = useContext(PageContext);
@@ -35,8 +32,8 @@ export default function Planner() {
   const [endDate, setEndDate] = useState(initialEndDate);
   const [plannerRange, setPlannerRange] = useState([]);
 
-  const [isHideEmptyMeals, setIsHideEmptyMeals] = useState(localStorage.getItem(localStorageKeys.hideEmptyMeals) === 'true');
-  const [isHideMealNames, setIsHideMealNames] = useState(localStorage.getItem(localStorageKeys.hideMealNames) === 'true');
+  const [isHideEmptyMeals, setIsHideEmptyMeals] = useState(localStorage.getItem(plannerSettingsKeys.hideEmptyMeals) === 'true');
+  const [isHideMealNames, setIsHideMealNames] = useState(localStorage.getItem(plannerSettingsKeys.hideMealNames) === 'true');
 
   const [plannerModalSettings, setPlannerModalSettings] = useState({
     isOpen: false,
@@ -212,6 +209,7 @@ export default function Planner() {
         <div className="planner--unavailable">Your planner will be available after you <Link to="/meals">add your first meal</Link>.</div>
         :
         <>
+        <div className="planner__controls">
           <div className="planner__datepicker">
             <label onClick={e => e.preventDefault()}><span>From:</span>
             <DatePicker
@@ -237,40 +235,50 @@ export default function Planner() {
               dateFormat="dd/MM/yyyy"
               closeOnScroll={true}
             /></label>
-            <Button
-              handleClick={() => {
-                localStorage.setItem(localStorageKeys.hideEmptyMeals, !isHideEmptyMeals);
-                setIsHideEmptyMeals(!isHideEmptyMeals);
-              }}
-            >
-              {isHideEmptyMeals ?
-                'Show empty meals'
-              :
-                'Hide empty meals'
-              }
-            </Button>
-            <Button
-              handleClick={() => {
-                localStorage.setItem(localStorageKeys.hideMealNames, !isHideMealNames);
-                setIsHideMealNames(!isHideMealNames);
-              }}
-            >
-              {isHideMealNames ?
-                'Show meal names'
-              :
-                'Hide meal names'
-              }
-            </Button>
-            <Button
-              handleClick={handleGenerateShoppingList}
-            >
-              Generate shopping list
-            </Button>
-            <Button
-              handleClick={() => handleAddPlanner(Date.now(), {})}
-            >
-              Plan meal
-            </Button>
+          </div>
+          <div className="planner__actions">
+            <div>
+              <Button
+                handleClick={() => handleAddPlanner(Date.now(), {})}
+                classes="button--ghost"
+              >
+                Plan meal
+              </Button>
+              <Button
+                handleClick={handleGenerateShoppingList}
+              >
+                Generate shopping list
+              </Button>
+            </div>
+            <div>
+              <Button
+                handleClick={() => {
+                  localStorage.setItem(plannerSettingsKeys.hideEmptyMeals, !isHideEmptyMeals);
+                  setIsHideEmptyMeals(!isHideEmptyMeals);
+                }}
+                classes="button--link"
+              >
+                {isHideEmptyMeals ?
+                  'Show empty meals'
+                :
+                  'Hide empty meals'
+                }
+              </Button>
+              <Button
+                handleClick={() => {
+                  localStorage.setItem(plannerSettingsKeys.hideMealNames, !isHideMealNames);
+                  setIsHideMealNames(!isHideMealNames);
+                }}
+                classes="button--link"
+              >
+                {isHideMealNames ?
+                  'Show meal names'
+                :
+                  'Hide meal names'
+                }
+              </Button>
+            </div>
+            </div>
           </div>
           <div className="planner__wrapper">
             { ! plannerRange.length ?
