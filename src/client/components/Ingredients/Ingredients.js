@@ -89,6 +89,7 @@ export default function Ingredients() {
   const handleDeleteIngredient = ingredient => {
     if (confirm("Are you sure you want to delete this ingredient?\n\nIt will also be deleted from any meals that currently use it.\n\nATTENTION: This action cannot be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
+      if (isEditingForm === true) setIsEditingForm(false)
       setIsRequestSuccess(false);
       setIsRequestError(false);
       axios.post(`${endpointRoots.ingredient}delete`, { _id: ingredient._id }, authHeaders())

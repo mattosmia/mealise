@@ -33,7 +33,7 @@ export default function ShoppingLists() {
     },
     isAdded: []
   });
-  
+
   useEffect(() => {
     if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoots.shoppinglist, authHeaders())
@@ -111,6 +111,7 @@ export default function ShoppingLists() {
   const handleDeleteShoppingList = shoppingList => {
     if (confirm("Are you sure you want to delete this shopping list?\n\nATTENTION: This action cannot be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
+      if (isEditingForm === true) setIsEditingForm(false)
       setIsRequestSuccess(false);
       setIsEmailRequestSuccess(false);
       setIsRequestError(false);

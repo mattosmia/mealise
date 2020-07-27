@@ -129,6 +129,7 @@ export default function Meals() {
   const handleDeleteMeal = meal => {
     if (confirm("Are you sure you want to delete this meal?\n\nIt will also be deleted from your planner, including any past of future planned meals.\n\nATTENTION: This action cannot be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
+      if (isEditingForm === true) setIsEditingForm(false)
       setIsRequestSuccess(false);
       setIsRequestError(false);
       axios.post(`${endpointRoots.meal}delete`, { _id: meal._id }, authHeaders())
