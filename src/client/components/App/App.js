@@ -30,7 +30,6 @@ import NotFound from '../NotFound/NotFound';
 
 import Spinner from '../Spinner/Spinner';
 
-import { isAuth } from '../../helpers/auth';
 import AppProvider from './App.provider';
 import ResetPassword from '../ResetPassword/ResetPassword';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
