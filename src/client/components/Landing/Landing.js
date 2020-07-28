@@ -23,7 +23,7 @@ export default function Landing() {
             <div className="btn btn--secondary">Plan your daily meals with your own recipes</div>
           </div>
           <div className="landing__columns__column">
-            <div className="btn btn--secondary">Review, edit and save your shopping list for when you need</div>
+            <div className="btn btn--secondary">Review, edit and save your shopping list for later</div>
           </div>
         </div>
       </section>
