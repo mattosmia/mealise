@@ -25,6 +25,9 @@ export default function Planner() {
 
   const [plannerState, dispatch] = useReducer(plannerReducer, { mealList: [], recipeList: [], plannerList: [] });
 
+  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const formatDate = date => `${daysOfWeek[date.getDay()]} ${(`0${date.getDate()}`).slice(-2)}/${(`0${(date.getMonth() + 1)}`).slice(-2)}/${date.getFullYear()}`
+
   const initialEndDate = new Date();
   initialEndDate.setDate(initialEndDate.getDate() + 6); // today + 6 days = 1 week :)
 
@@ -130,7 +133,7 @@ export default function Planner() {
         })
         setShoppingListModalSettings({
           ...shoppingListModalSettings,
-          name: `${startDate.toDateString()} - ${endDate.toDateString()}`,
+          name: `${formatDate(startDate)} - ${formatDate(endDate)}`,
           shoppingList,
           isOpen: true
         })
@@ -287,6 +290,7 @@ export default function Planner() {
                 <PlannerDayCard 
                   key={i.getTime()}
                   date={i}
+                  formattedDate={formatDate(i)}
                   plannerData={plannerState}
                   hideEmptyMeals={isHideEmptyMeals}
                   hideMealNames={isHideMealNames}

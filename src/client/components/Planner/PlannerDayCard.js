@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import PlannerMeal from './PlannerMeal';
 import Button from '../elements/Button';
 
-export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hideMealNames, handleAddPlanner, handleDeletePlanner }) {
+export default function PlannerDayCard({ plannerData, date, formattedDate, hideEmptyMeals, hideMealNames, handleAddPlanner, handleDeletePlanner }) {
   return (
     <div className="planner__wrapper__card">
       <div className="planner__wrapper__card__heading">
-        {date.toDateString()}
+        {formattedDate}
         <Button
           classes="button--icon icon--add"
           handleClick={() => handleAddPlanner(date,{})}
@@ -34,6 +34,7 @@ export default function PlannerDayCard({ plannerData, date, hideEmptyMeals, hide
 PlannerDayCard.propTypes = {
   plannerData: PropTypes.object.isRequired,
   date: PropTypes.object.isRequired,
+  formattedDate: PropTypes.string.isRequired,
   hideEmptyMeals: PropTypes.bool,
   hideMealNames: PropTypes.bool,
   handleAddPlanner: PropTypes.func,
