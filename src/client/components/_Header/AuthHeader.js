@@ -54,8 +54,10 @@ export default function Header() {
   return (
     <header className={`auth ${(selectedNavItem && selectedNavItem.themeCls) || ''}`}>
         <h1 className="header__logo">
-          <span className="logo-icon" aria-hidden="true"></span>
-          <span className="vh">Mealise</span>
+          <Link to={'/'} className="header__logo__link">
+            <span className="logo-icon" aria-hidden="true"></span>
+            <span className="vh">Mealise</span>
+          </Link>
           <Button classes="mobile-nav" handleClick={toggleMobileNav}><span className="vh">Main navigation</span></Button>
         </h1>
         <nav id="main-nav">

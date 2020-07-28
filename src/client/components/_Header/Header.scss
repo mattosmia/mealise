@@ -34,11 +34,20 @@ header.auth {
     background-size: auto 50%;
     position: relative;
     background-color: $violet;
+    &__link {
+      width: 15rem;
+      height: 100%;
+      margin: 0 auto;
+      display: block;
+    }
     @include desktop {
       background-color: transparent !important;
       background-position: left calc(#{$mininav-width} + 3rem) bottom;
       background-size: auto 65%;
       margin-bottom: 5rem;
+      &__link {
+        width: 100%;
+      }
     }
     .mobile-nav {
       border: 0;
