@@ -29,6 +29,11 @@ header {
     background-size: auto 50%;
     position: relative;
     background-color: $violet;
+    &__link {
+      width: 15rem;
+      height: 100%;
+      display: block;
+    }
   }
   nav {
     ul {
