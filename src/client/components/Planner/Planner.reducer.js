@@ -19,6 +19,9 @@ export default function recipesReducer(state, action) {
       date = `${action.payload.date.getFullYear()}-${(action.payload.date.getMonth() + 1)}-${action.payload.date.getDate()}`;
       if (!state.plannerList[date]) state.plannerList[date] = {}
       if (!state.plannerList[date][action.payload.mealId]) state.plannerList[date][action.payload.mealId] = []
+      if (state.plannerList[date][action.payload.mealId].length > 0) {
+        state.plannerList[date][action.payload.mealId] = state.plannerList[date][action.payload.mealId].filter(r => r._id !== action.payload.recipeId)
+      }
       state.plannerList[date][action.payload.mealId].push({ _id: action.payload.recipeId, portion: action.payload.recipePortion})
       return state
 

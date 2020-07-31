@@ -47,15 +47,24 @@ exports.getPlanner = [
 exports.addPlanner = [
   function (req, res) {
     try {
-      const plannedMeal = new Planner({
-        userId: req.user.userId,
-        date: req.body.date,
-        mealId: req.body.mealId,
-        recipeId: req.body.recipeId,
-        recipePortion: req.body.recipePortion
-      })
-
-      plannedMeal.save().then(result => {
+      Planner.findOneAndUpdate(
+        {
+          userId: req.user.userId,
+          date: req.body.date,
+          mealId: req.body.mealId,
+          recipeId: req.body.recipeId,
+        },
+        {
+          $set:
+            {
+              recipePortion: req.body.recipePortion
+            }
+        },
+        {
+          new: true,
+          upsert: true
+        }
+      ).then(result => {
         return apiResponse.success(res, 'Planned meal added successfully', { result })}
       ).catch(err => 
         apiResponse.serverError(res, err)
