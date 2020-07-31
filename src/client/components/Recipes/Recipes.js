@@ -68,42 +68,44 @@ export default function Recipes() {
   }, []);
 
   const submitCallback = (formData, isAddAsNew) => {
-    const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
-    formData.ingredients = recipeFormIngredientFields.isAdded;
-    if (!page.isLoading) page.setIsLoading(true);
-    setIsSidebarRequestError(false);
-    setIsRequestSuccess(false);
-    axios.post(`${endpointRoots.recipe}${requestType}`, formData, authHeaders())
-      .then(res => {
-        if (requestType === 'edit') {
-          dispatch({
-            type: 'EDIT_RECIPE',
-            payload: formData
+    if (recipeFormIngredientFields.isAdded.length > 0 || confirm('Are you sure you want to add a recipe with no ingredients?')) {
+      const requestType = formData._id && ! isAddAsNew? 'edit': 'add';
+      formData.ingredients = recipeFormIngredientFields.isAdded;
+      if (!page.isLoading) page.setIsLoading(true);
+      setIsSidebarRequestError(false);
+      setIsRequestSuccess(false);
+      axios.post(`${endpointRoots.recipe}${requestType}`, formData, authHeaders())
+        .then(res => {
+          if (requestType === 'edit') {
+            dispatch({
+              type: 'EDIT_RECIPE',
+              payload: formData
+            })
+          }
+          else {
+            dispatch({
+              type: 'ADD_RECIPE',
+              payload: res.data.data.result
+            })
+          }
+          setFormFields(formFieldsSchema)
+          setRecipeFormIngredientFields({
+            current: {
+              _id: '',
+              name: '',
+              qty: '',
+              unit: ''
+            },
+            isAdded: []
           })
-        }
-        else {
-          dispatch({
-            type: 'ADD_RECIPE',
-            payload: res.data.data.result
-          })
-        }
-        setFormFields(formFieldsSchema)
-        setRecipeFormIngredientFields({
-          current: {
-            _id: '',
-            name: '',
-            qty: '',
-            unit: ''
-          },
-          isAdded: []
-        })
-        setIsEditingForm(false)
-        setIsRequestSuccess(true)
-      }).catch(err => 
-        setIsSidebarRequestError(true)
-      ).finally(() =>
-        page.setIsLoading(false)
-      );
+          setIsEditingForm(false)
+          setIsRequestSuccess(true)
+        }).catch(err => 
+          setIsSidebarRequestError(true)
+        ).finally(() =>
+          page.setIsLoading(false)
+        );
+    }
   }
 
   const { formFields, setFormFields, isFormValid, handleChange, handleSubmit } = formValidation(formFieldsSchema, formValidationSchema, submitCallback);
@@ -285,7 +287,7 @@ export default function Recipes() {
                                   <li
                                     key={ingredient._id}
                                   >
-                                    {ingredient.qty} {recipesState.ingredientList.find(ing => ing._id === ingredient._id).unit} of {recipesState.ingredientList.find(ing => ing._id === ingredient._id).name}
+                                    {ingredient.qty} {recipesState.ingredientList.find(ing => ing._id === ingredient._id).unit !== 'unit' && recipesState.ingredientList.find(ing => ing._id === ingredient._id).unit} {recipesState.ingredientList.find(ing => ing._id === ingredient._id).name}
                                   </li>
                                 )}
                               </ul>
@@ -419,7 +421,7 @@ export default function Recipes() {
                 <li
                   key={ingredient._id}
                 >
-                  {ingredient.qty} {ingredient.unit} of {ingredient.name} 
+                  {ingredient.qty} {ingredient.unit !== 'unit' && ingredient.unit} {ingredient.name} 
                   <Button
                     classes="button--icon icon--delete"
                     handleClick={() => handleDeleteRecipeIngredient(ingredient)}
