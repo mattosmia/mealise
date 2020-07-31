@@ -19,13 +19,13 @@ export default function recipesReducer(state, action) {
       date = `${action.payload.date.getFullYear()}-${(action.payload.date.getMonth() + 1)}-${action.payload.date.getDate()}`;
       if (!state.plannerList[date]) state.plannerList[date] = {}
       if (!state.plannerList[date][action.payload.mealId]) state.plannerList[date][action.payload.mealId] = []
-      state.plannerList[date][action.payload.mealId].push(action.payload.recipeId)
+      state.plannerList[date][action.payload.mealId].push({ _id: action.payload.recipeId, portion: action.payload.recipePortion})
       return state
 
     case 'DELETE_PLANNER':
       action.payload.date = new Date(action.payload.date);
       date = `${action.payload.date.getFullYear()}-${(action.payload.date.getMonth() + 1)}-${action.payload.date.getDate()}`;
-      state.plannerList[date][action.payload.mealId] = state.plannerList[date][action.payload.mealId].filter(r => r !== action.payload.recipeId);
+      state.plannerList[date][action.payload.mealId] = state.plannerList[date][action.payload.mealId].filter(r => r._id !== action.payload.recipeId);
       if (state.plannerList[date][action.payload.mealId].length === 0) delete state.plannerList[date][action.payload.mealId]
       if (Object.values(state.plannerList[date]).length === 0) delete state.plannerList[date]
       return state

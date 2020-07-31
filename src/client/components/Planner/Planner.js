@@ -105,10 +105,10 @@ export default function Planner() {
     const ingredients = {};
     Object.values(plannerState.plannerList).forEach(plannedMeals => {
       Object.values(plannedMeals).forEach(mealRecipes => {
-        mealRecipes.forEach(recipeId => {
-          plannerState.recipeList.find(r => r._id === recipeId).ingredients.forEach(recipeIngredient => {
+        mealRecipes.forEach(recipe => {
+          plannerState.recipeList.find(r => r._id === recipe._id).ingredients.forEach(recipeIngredient => {
             if (!ingredients[recipeIngredient._id]) ingredients[recipeIngredient._id] = 0;
-            ingredients[recipeIngredient._id] += recipeIngredient.qty;
+            ingredients[recipeIngredient._id] += (recipeIngredient.qty * recipe.portion);
           })
         })
       })

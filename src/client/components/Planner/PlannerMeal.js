@@ -12,12 +12,12 @@ export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, h
       { hasPlannedMeal ?
         <div className="planner__wrapper__card__meal__details">
           <ul>
-            { plannerData.plannerList[dateKey][meal._id].map(recipeId => 
-              <li key={recipeId}>
-                {plannerData.recipeList.find(r => r._id === recipeId).name}
+            { plannerData.plannerList[dateKey][meal._id].map(recipe => 
+              <li key={recipe._id}>
+                {plannerData.recipeList.find(r => r._id === recipe._id).name} {recipe.portion !== 1 && <em>({recipe.portion})</em>}
                 <Button
                   classes="button--icon icon--delete"
-                  handleClick={() => handleDeletePlanner(dateKey,meal._id,recipeId)}
+                  handleClick={() => handleDeletePlanner(dateKey,meal._id,recipe._id)}
                 >
                   <span className="vh">Delete</span>
                 </Button>

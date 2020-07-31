@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Autosuggest from 'react-autosuggest';
-
 import { endpointRoots } from '../../helpers/endpointRoots';
 
 import Button from '../elements/Button';
 import Select from '../elements/Select';
+import Tooltip from '../elements/Tooltip';
+import Input from '../elements/Input';
+import { floatRegex } from '../../helpers/formValidationPatterns';
 
 import formValidation from '../../helpers/formValidation';
 import { formFieldsSchema, formValidationSchema } from './Planner.validation';
@@ -165,6 +167,29 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
               highlightFirstSuggestion={true}
           />
         </label>
+        <Input
+          label={<>Portion <Tooltip>You can multiply or divide your original recipe if you're having guests or only cooking for yourself, for example. Simply enter how much we should multiply the ingredients for, e.g 2 doubles them, 0.5 halves them.</Tooltip></>}
+          name="recipePortion"
+          handleChange={e => {
+            let portion = e.target.value.replace(/[^\d\.]/g,'');
+            if (!portion || floatRegex.test(portion)) {
+              setFormFields(prevState => (
+                {
+                  ...prevState,
+                  recipePortion: {
+                    value: portion,
+                    error: '',
+                    isValid: true
+                  }
+                }
+              ))
+            }
+          }}
+          value={formFields.date.recipePortion}
+          isRequired={true}
+          isDisabled={false}
+        />
+        
         <Button
             handleClick={handleSubmit}
             isDisabled={!isFormValid || isSubmitted}

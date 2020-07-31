@@ -29,7 +29,7 @@ exports.getPlanner = [
         const date = `${p.date.getFullYear()}-${(p.date.getMonth() + 1)}-${p.date.getDate()}`;
         if (!plannerObject[date]) plannerObject[date] = {};
         if (!plannerObject[date][p.mealId]) plannerObject[date][p.mealId] = [];
-        plannerObject[date][p.mealId].push(p.recipeId)
+        plannerObject[date][p.mealId].push({ _id: p.recipeId, portion: p.recipePortion})
       })
       apiResponse.success(res, 'Success', plannerObject)
     })
@@ -51,7 +51,8 @@ exports.addPlanner = [
         userId: req.user.userId,
         date: req.body.date,
         mealId: req.body.mealId,
-        recipeId: req.body.recipeId
+        recipeId: req.body.recipeId,
+        recipePortion: req.body.recipePortion
       })
 
       plannedMeal.save().then(result => {
@@ -111,7 +112,7 @@ exports.generateShoppingList = [
         const date = `${p.date.getFullYear()}-${(p.date.getMonth() + 1)}-${p.date.getDate()}`;
         if (!plannerObject[date]) plannerObject[date] = {};
         if (!plannerObject[date][p.mealId]) plannerObject[date][p.mealId] = [];
-        plannerObject[date][p.mealId].push(p.recipeId)
+        plannerObject[date][p.mealId].push({ _id: p.recipeId, portion: p.recipePortion})
       })
       apiResponse.success(res, 'Success', plannerObject)
     })

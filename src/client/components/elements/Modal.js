@@ -1,4 +1,5 @@
 import React, { useEffect, createContext } from 'react';
+import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
 import './Modal.scss';
@@ -60,3 +61,11 @@ export default function Modal({ children, onModalClose }) {
       document.body
   );
 }
+
+Modal.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]).isRequired,
+  onModalClose: PropTypes.func.isRequired,
+};
