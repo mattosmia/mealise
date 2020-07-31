@@ -203,6 +203,7 @@ export default function AccountSettings() {
             <Button
               handleClick={deleteForm.handleSubmit}
               isDisabled={! deleteForm.isFormValid}
+              classes='button--alert'
             >
               Delete account
             </Button>

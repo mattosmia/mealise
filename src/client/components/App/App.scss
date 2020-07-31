@@ -166,6 +166,10 @@ button {
     border-color: transparent;
     background-size: cover;
   }
+  &.button--alert {
+    background-color: $error-fg;
+    border-color: $error-fg;
+  }
   &.button--link {
     background: transparent;
     color: $black;
