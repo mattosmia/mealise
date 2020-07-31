@@ -1,42 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect
+  Route
 } from "react-router-dom";
 
 import './App.scss';
 
-import AuthorisedView from './AuthorisedView';
-import BrochureView from './BrochureView';
+import AppProvider from './App.provider';
 
-import Landing from '../Landing/Landing';
-import AboutUs from '../AboutUs/AboutUs';
-
-import Register from '../Register/Register';
-import Login from '../Login/Login';
-import Logout from '../Logout/Logout';
-
-import Planner from '../Planner/Planner';
-import Ingredients from '../Ingredients/Ingredients';
-import Recipes from '../Recipes/Recipes';
-import Meals from '../Meals/Meals';
-import ShoppingLists from '../ShoppingLists/ShoppingLists';
-import AccountSettings from '../AccountSettings/AccountSettings';
 import CookieNotice from '../CookieNotice/CookieNotice';
-
-import NotFound from '../NotFound/NotFound';
-
 import Spinner from '../Spinner/Spinner';
 
-import AppProvider from './App.provider';
-import ResetPassword from '../ResetPassword/ResetPassword';
-import ForgotPassword from '../ForgotPassword/ForgotPassword';
-import ContactUs from '../ContactUs/ContactUs';
-import TermsConditions from '../Policies/TermsConditions';
-import PrivacyPolicy from '../Policies/PrivacyPolicy';
-import CookiePolicy from '../Policies/CookiePolicy';
+const AuthorisedView = lazy(() => import('./AuthorisedView'));
+const BrochureView = lazy(() => import('./BrochureView'));
+
+const Landing = lazy(() => import('../Landing/Landing'));
+const AboutUs = lazy(() => import('../AboutUs/AboutUs'));
+
+const Register = lazy(() => import('../Register/Register'));
+const Login = lazy(() => import('../Login/Login'));
+const Logout = lazy(() => import('../Logout/Logout'));
+
+const Planner = lazy(() => import('../Planner/Planner'));
+const Ingredients = lazy(() => import('../Ingredients/Ingredients'));
+const Recipes = lazy(() => import('../Recipes/Recipes'));
+const Meals = lazy(() => import('../Meals/Meals'));
+const ShoppingLists = lazy(() => import('../ShoppingLists/ShoppingLists'));
+const AccountSettings = lazy(() => import('../AccountSettings/AccountSettings'));
+
+const ResetPassword = lazy(() => import('../ResetPassword/ResetPassword'));
+const ForgotPassword = lazy(() => import('../ForgotPassword/ForgotPassword'));
+const ContactUs = lazy(() => import('../ContactUs/ContactUs'));
+const TermsConditions = lazy(() => import('../Policies/TermsConditions'));
+const PrivacyPolicy = lazy(() => import('../Policies/PrivacyPolicy'));
+const CookiePolicy = lazy(() => import('../Policies/CookiePolicy'));
+const NotFound = lazy(() => import('../NotFound/NotFound'));
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,6 +43,8 @@ export default function App() {
 
   return (
     <AppProvider user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading}>
+      
+      <Suspense fallback={<Spinner />}>
       <Spinner />
       <Router>
           <Switch>
@@ -105,6 +106,7 @@ export default function App() {
           </Switch>
         <CookieNotice />
       </Router>
+      </Suspense>
     </AppProvider>
   )
 }
