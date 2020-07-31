@@ -47,6 +47,7 @@ header.auth {
       margin-bottom: 5rem;
       &__link {
         width: 100%;
+        height: calc(100% + 2rem);
       }
     }
     .mobile-nav {
@@ -251,6 +252,7 @@ header.auth {
         height: $mininav-height;
         list-style: none;
         @include desktop {
+          max-height: calc(100vh / 10);
           &:hover {
             background: $violet50;
             .nav__icon {
