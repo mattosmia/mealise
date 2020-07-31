@@ -16,7 +16,7 @@ function ShoppingListData(data) {
 exports.getShoppingList = [
   function (req, res) {
     try {
-      ShoppingList.find({ userId: req.user.userId }).sort('order').then(shoppingLists =>
+      ShoppingList.find({ userId: req.user.userId }).sort({created: -1}).then(shoppingLists =>
         apiResponse.success(res, 'Success', shoppingLists))
     } catch (err) {
       return apiResponse.serverError(res, err);
