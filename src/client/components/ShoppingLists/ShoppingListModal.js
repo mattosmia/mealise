@@ -67,7 +67,7 @@ export default function ShoppingListModal({ shoppingListModalSettings, setShoppi
           <p className="shopping-lists__modal__name">Period: {shoppingListModalSettings.name}</p>
           <ul>
           {shoppingListModalSettings.shoppingList.map(item => 
-            <li key={item._id}>{item.qty}{item.unit} <strong>{item.name}</strong></li>
+            <li key={item._id}>{item.qty}{item.unit !== 'unit' && item.unit} <strong>{item.name}</strong></li>
           )}
           </ul>
         </>}
