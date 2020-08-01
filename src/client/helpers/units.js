@@ -4,52 +4,16 @@ export const units = [
     name: 'unit'
   },
   {
-    _id: 'tsp',
-    name: 'teaspoon (tsp)'
-  },
-  {
-    _id: 'tbsp',
-    name: 'tablespoon (tbsp)'
+    _id: 'cup',
+    name: 'cup'
   },
   {
     _id: 'fl oz',
     name: 'fluid ounce (fl oz)'
   },
   {
-    _id: 'cup',
-    name: 'cup'
-  },
-  {
-    _id: 'pint',
-    name: 'pint'
-  },
-  {
     _id: 'gallon',
     name: 'gallon'
-  },
-  {
-    _id: 'ml',
-    name: 'millilitre (ml)'
-  },
-  {
-    _id: 'l',
-    name: 'litre (l)'
-  },
-  {
-    _id: 'cl',
-    name: 'centilitre (c)'
-  },
-  {
-    _id: 'lb',
-    name: 'pound (lb)'
-  },
-  {
-    _id: 'oz',
-    name: 'ounce (oz)'
-  },
-  {
-    _id: 'mg',
-    name: 'milligramme (mg)'
   },
   {
     _id: 'g',
@@ -58,5 +22,37 @@ export const units = [
   {
     _id: 'kg',
     name: 'kilogramme (kg)'
-  }
+  },
+  {
+    _id: 'l',
+    name: 'litre (l)'
+  },
+  {
+    _id: 'ml',
+    name: 'millilitre (ml)'
+  },
+  {
+    _id: 'oz',
+    name: 'ounce (oz)'
+  },
+  {
+    _id: 'pint',
+    name: 'pint'
+  },
+  {
+    _id: 'lb',
+    name: 'pound (lb)'
+  },
+  {
+    _id: 'qt',
+    name: 'quarts (qt)'
+  },
+  {
+    _id: 'tbsp',
+    name: 'tablespoon (tbsp)'
+  },
+  {
+    _id: 'tsp',
+    name: 'teaspoon (tsp)'
+  },
 ]
