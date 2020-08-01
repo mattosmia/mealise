@@ -14,7 +14,7 @@ export default function PlannerMeal({ meal, date, plannerData, hideEmptyMeals, h
           <ul>
             { plannerData.plannerList[dateKey][meal._id].map(recipe => 
               <li key={recipe._id}>
-                {plannerData.recipeList.find(r => r._id === recipe._id).name} {recipe.portion !== 1 && <em>({recipe.portion})</em>}
+                {plannerData.recipeList.find(r => r._id === recipe._id).name} {recipe.portion !== 1 && <em title={`The original recipe has been multiplied by ${recipe.portion}`}>x{recipe.portion}</em>}
                 <Button
                   classes="button--icon icon--delete"
                   handleClick={() => handleDeletePlanner(dateKey,meal._id,recipe._id)}
