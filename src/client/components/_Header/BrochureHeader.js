@@ -17,7 +17,7 @@ export default function Header() {
       <nav id="main-nav">
         <ul>
         { user.user && user.user.id ?
-          <li><Link to={"/planner"} className="nav__cta nav__cta--secondary">Go back to planner &rarr;</Link></li>
+          <li><Link to={"/planner"} className="nav__cta nav__cta--secondary">Back to Planner &rarr;</Link></li>
           :
           <>
           <li><Link to="/login" className="nav__cta nav__cta--secondary">Log in</Link></li>

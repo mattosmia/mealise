@@ -14,7 +14,11 @@ export default function Landing() {
               <span className="sub">Flexible and helpful.<br /><Link to="/register">Sign up now!</Link></span>
             </span>
           </h2>
+          <a href="#benefits" className="landing__hero__arrow">
+            <span className="vh">Continue to see how Mealise can help you</span>
+          </a>
         </div>
+        <a id="benefits" className="landing__anchor"></a>
         <div className="landing__columns">
           <div className="landing__columns__column">
             <div className="btn btn--secondary">Create recipes using your favourite ingredients</div>
