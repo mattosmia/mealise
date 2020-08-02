@@ -66,9 +66,9 @@ export default function ResetPassword(props) {
               isValid: false
             });
           }
-        }).catch(err => 
-          console.log('Error fetching token', err)
-        ).finally(() =>
+        }).catch(err => {
+          // console.log('Error fetching token', err)
+        }).finally(() =>
           page.setIsLoading(false)
         )
       }
@@ -89,9 +89,10 @@ export default function ResetPassword(props) {
     axios.post(`${endpointRoots.user}resetpassword`, formData)
       .then(res => {
         setIsRequestSuccess(true)
-      }).catch(err => {console.log(err)
-        setIsRequestError(true)}
-      ).finally(() =>
+      }).catch(err => {
+        // console.log(err)
+        setIsRequestError(true)
+      }).finally(() =>
         page.setIsLoading(false)
       );
   }

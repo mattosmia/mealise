@@ -23,9 +23,9 @@ export default function AuthorisedView({ children }) {
             pathname: "/login"
           })
         }
-      }).catch(err => 
-        console.log(err)     
-      ).finally(() => page.setIsLoading(false))
+      }).catch(err => {
+        // console.log(err)
+      }).finally(() => page.setIsLoading(false))
   }, []);
 
   return (

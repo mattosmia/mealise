@@ -100,9 +100,9 @@ export default function AccountSettings() {
         email: { value: res.data.data.email, error: '', isValid: true },
         acceptMkt: { value: res.data.data.acceptMkt, error: '', isValid: true },
       })
-    }).catch(err => 
-      console.log('Error fetching user', err)
-    ).finally(() =>
+    }).catch(err => {
+      // console.log('Error fetching user', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, []);

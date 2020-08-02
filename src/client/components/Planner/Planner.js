@@ -63,9 +63,9 @@ export default function Planner() {
         type: 'GET_MEAL_RECIPE_LIST',
         payload: { mealList, recipeList }
       })
-    })).catch(err => 
-      console.log('Error fetching recipes and meals', err)
-    ).finally(() =>
+    })).catch(err => {
+      // console.log('Error fetching recipes and meals', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, []);
@@ -85,9 +85,9 @@ export default function Planner() {
         type: 'GET_PLANNER_LIST',
         payload: plannerList
       })
-    }).catch(err => 
-      console.log('Error fetching planner', err)
-    ).finally(() =>
+    }).catch(err => {
+      // console.log('Error fetching planner', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, [plannerRange])
@@ -137,9 +137,9 @@ export default function Planner() {
           shoppingList,
           isOpen: true
         })
-      }).catch(err => 
-        console.log('Error generating shopping list', err)
-      ).finally(() =>
+      }).catch(err => {
+        // console.log('Error generating shopping list', err)
+      }).finally(() =>
         page.setIsLoading(false)
       );
     } else {
@@ -170,9 +170,9 @@ export default function Planner() {
               recipeId
             }
           })
-        }).catch(err => 
-          console.log('Error deleting planner', err)
-        ).finally(() =>
+        }).catch(err => {
+          // console.log('Error deleting planner', err)
+        }).finally(() =>
           page.setIsLoading(false)
         );
     }

@@ -100,11 +100,11 @@ exports.deleteRecipe = [
           }
         ).then(() => 
             apiResponse.success(res, 'Recipe deleted successfully')
-        ).catch(err => {console.log('err111',err)
-          apiResponse.serverError(res, err)}
+        ).catch(err => 
+          apiResponse.serverError(res, err)
         )
-      }).catch(err => {console.log('err111',err)
-      apiResponse.serverError(res, err)}
+      }).catch(err => 
+        apiResponse.serverError(res, err)
       )
 		} catch (err) {
 			return apiResponse.serverError(res, err);

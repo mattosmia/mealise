@@ -36,9 +36,9 @@ export default function Ingredients() {
         type: 'GET_INGREDIENT_LIST',
         payload: ingredientList
       })
-    }).catch(err => 
-      console.log('Error fetching ingredients', err)
-    ).finally(() =>
+    }).catch(err => {
+      // console.log('Error fetching ingredients', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, []);

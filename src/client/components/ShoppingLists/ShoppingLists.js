@@ -44,9 +44,9 @@ export default function ShoppingLists() {
         type: 'GET_SHOPPINGLIST_LIST',
         payload: shoppingList
       })
-    }).catch(err => 
-      console.log('Error fetching shopping lists', err)
-    ).finally(() =>
+    }).catch(err => {
+      // console.log('Error fetching shopping lists', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, []);

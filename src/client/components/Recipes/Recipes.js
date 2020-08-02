@@ -60,9 +60,9 @@ export default function Recipes() {
         type: 'GET_RECIPE_LIST',
         payload: { recipeList, ingredientList }
       })
-    })).catch(err => 
-      console.log('Error fetching recipes', err)
-    ).finally(() =>
+    })).catch(err => {
+      // console.log('Error fetching recipes', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, []);

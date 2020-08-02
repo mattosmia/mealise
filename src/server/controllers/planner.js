@@ -34,7 +34,6 @@ exports.getPlanner = [
       apiResponse.success(res, 'Success', plannerObject)
     })
     } catch (err) {
-      console.log(err)
       return apiResponse.serverError(res, err);
     }
   }

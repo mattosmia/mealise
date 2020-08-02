@@ -38,7 +38,7 @@ export default function PlannerModal({ date, plannerState, dispatch, meal, plann
         setFormFields(formFieldsSchema)
         handleClose()
       }).catch(err => {
-        console.log('Error adding planner', err);
+        // console.log('Error adding planner', err);
         setIsSubmitted(false);
         setIsRequestError(true);
       })

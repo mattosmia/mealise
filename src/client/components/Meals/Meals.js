@@ -43,9 +43,9 @@ export default function Meals() {
         type: 'GET_MEAL_LIST',
         payload: mealList
       })
-    }).catch(err => 
-      console.log('Error fetching meals', err)
-    ).finally(() =>
+    }).catch(err => {
+      // console.log('Error fetching meals', err)
+    }).finally(() =>
       page.setIsLoading(false)
     )
   }, []);

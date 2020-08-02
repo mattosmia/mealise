@@ -16,9 +16,9 @@ export default function BrochureView({ children }) {
         if (res.data) {
           user.setUser(res.data);
         }
-      }).catch(err => 
-        console.log(err)     
-      ).finally(() => page.setIsLoading(false))
+      }).catch(err => {
+        // console.log(err)
+      }).finally(() => page.setIsLoading(false))
   }, []);
 
   return (
