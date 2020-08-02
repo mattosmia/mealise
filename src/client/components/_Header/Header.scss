@@ -11,7 +11,7 @@ header.auth {
   white-space: nowrap;
   transition: $transition-duration ease-in-out;
   width: 100%;
-  height: auto;
+  height: $mininav-height;
   padding: 0;
   align-items: flex-start;
   @include desktop {
