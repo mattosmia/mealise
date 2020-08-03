@@ -43,7 +43,6 @@ export default function App() {
 
   return (
     <AppProvider user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading}>
-      
       <Suspense fallback={<Spinner />}>
       <Spinner />
       <Router>
