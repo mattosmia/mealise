@@ -36,15 +36,16 @@ app.get('/*', function(req, res) {
   }
 });
 
-mongoose.connect(process.env.MONGODB_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false
+app.listen(port, () => {
+  console.log("Server started on port " + port)
+  mongoose.connect(process.env.MONGODB_URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
+  .then(() => console.log('Connected to MongoDB Atlas!'))
+  .catch(err => {
+    console.error('Unable to connect to MongoDB Atlas!', err);
+  })
 })
-.then(() => console.log('Connected to MongoDB Atlas!'))
-.catch(err => {
-  console.error('Unable to connect to MongoDB Atlas!', err);
-});
-
-app.listen(port, () => console.log("Server started on port " + port))
