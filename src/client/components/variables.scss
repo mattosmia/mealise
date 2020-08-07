@@ -84,6 +84,12 @@ $breakpoint-desktop: 1024px;
   }
 }
 
+// IE11 
+@mixin ie11 {
+  @media screen and (-ms-high-contrast: none) {
+    @content;
+  }
+}
 
 
 /* misc */

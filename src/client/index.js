@@ -1,3 +1,9 @@
+import 'core-js/es/object/entries';
+import "core-js/modules/es.object.from-entries"
+import 'core-js/es/promise';
+import 'core-js/es/symbol/iterator';
+import 'core-js/es/array/find';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App/App';
