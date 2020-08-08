@@ -19,6 +19,7 @@ import Modal from '../elements/Modal';
 import ShoppingListModal from '../ShoppingLists/ShoppingListModal';
 
 import { plannerSettingsKeys } from '../../helpers/localStorage';
+import { generateShoppingList } from '../../../server/controllers/planner';
 
 export default function Planner() {
   const page = useContext(PageContext);
@@ -34,6 +35,8 @@ export default function Planner() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(initialEndDate);
   const [plannerRange, setPlannerRange] = useState([]);
+
+  const [generateShoppingListError, setGenerateShoppingListError] = useState(false);
 
   const [isHideEmptyMeals, setIsHideEmptyMeals] = useState(localStorage.getItem(plannerSettingsKeys.hideEmptyMeals) === 'true');
   const [isHideMealNames, setIsHideMealNames] = useState(localStorage.getItem(plannerSettingsKeys.hideMealNames) === 'true');
@@ -71,6 +74,7 @@ export default function Planner() {
   }, []);
 
   useEffect(() => {
+    setGenerateShoppingListError(false);
     if (plannerRange.length === 0) return
     if (!page.isLoading) page.setIsLoading(true);
     axios.get(endpointRoots.planner, {
@@ -101,6 +105,7 @@ export default function Planner() {
   }, [startDate, endDate]);
 
   const handleGenerateShoppingList = () => {
+    setGenerateShoppingListError(false);
     if (!page.isLoading) page.setIsLoading(true);
     const ingredients = {};
     Object.values(plannerState.plannerList).forEach(plannedMeals => {
@@ -143,12 +148,13 @@ export default function Planner() {
         page.setIsLoading(false)
       );
     } else {
-      alert('Couldn\'t generate shopping list as there are no ingredients available for this date range')
+      setGenerateShoppingListError(true);
       page.setIsLoading(false)
     }  
   }
 
   const handleAddPlanner = (date, meal) => {
+    setGenerateShoppingListError(false);
     date = new Date(date);
     setPlannerModalSettings({
       ...plannerModalSettings,
@@ -159,6 +165,7 @@ export default function Planner() {
   }
 
   const handleDeletePlanner = (date, mealId, recipeId) => {
+    setGenerateShoppingListError(false);
     if (confirm("Are you sure you want to delete this planned meal?\n\nATTENTION: This action CANNOT be undone!")) {
       if (!page.isLoading) page.setIsLoading(true);
       axios.post(`${endpointRoots.planner}delete`, { date, mealId, recipeId }, authHeaders())
@@ -182,6 +189,7 @@ export default function Planner() {
   return (
     <section className="planner">
       <h1>Planner</h1>
+      { generateShoppingListError && <AlertMessage>Couldn't generate shopping list as there are no ingredients available for this date range</AlertMessage> }
       {! page.isLoading && <>
       { plannerModalSettings.isOpen &&
         <Modal onModalClose={() => setPlannerModalSettings({
