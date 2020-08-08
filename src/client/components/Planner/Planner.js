@@ -143,6 +143,7 @@ export default function Planner() {
         page.setIsLoading(false)
       );
     } else {
+      alert('Couldn\'t generate shopping list as there are no ingredients available for this date range')
       page.setIsLoading(false)
     }  
   }
