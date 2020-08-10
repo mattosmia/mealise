@@ -1,0 +1,17 @@
+@import '../variables.scss';
+
+.ingredients {
+    h1 {
+      text-shadow: 2px 2px 0 $yellow50;
+    }
+
+    &__side {
+      @include desktop {
+        box-shadow: 2px 2px 0 $yellow50;
+      }
+    }
+
+  &__list__item {
+    background-color: $yellow50;
+  }
+}

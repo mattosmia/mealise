@@ -1,0 +1,40 @@
+@import '../variables.scss';
+
+footer {
+  background: $black;
+  color: $white;
+  text-align: center;
+  padding: 2rem;
+  @include desktop {
+    padding: 3rem;
+    text-align: right;
+    &.auth {
+      margin-left: $mininav-width;
+    }
+  }
+  ul {
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+    @include desktop {
+      justify-content: flex-end;
+      flex-direction: row;
+    }
+    li {
+      list-style: none;
+      padding: 1rem 2rem;
+      @include desktop {
+        display: flex;
+        align-items: center;
+        padding: 0 2rem;
+        white-space: nowrap;
+        &:not(:last-of-type) {
+          border-right: 1px solid $white;
+        }
+        a {
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+}

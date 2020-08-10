@@ -1,0 +1,99 @@
+/* colours */
+$black: hsl(184, 100%, 3%);
+$white: hsl(300, 100%, 99%);
+$whiter: hsl(0, 0%, 100%);
+$violet: hsl(272, 50%, 70%);
+$pink: hsl(347, 82%, 70%);
+$orange: hsl(18, 84%, 61%);
+$yellow: hsl(39, 91%, 60%);
+$green: hsl(88, 44%, 55%);
+$blue: hsl(219, 43%, 66%);
+
+$error-fg: hsl(350, 86%, 39%);
+$error-bg: hsla(350, 86%, 39%, 0.1);
+
+$success-fg: hsl(110, 87%, 23%);
+$success-bg: hsla(110, 87%, 23%, 0.1);
+
+$black10: hsla(184, 100%, 3%, 0.1);
+$black40: hsla(184, 100%, 3%, 0.4);
+
+$white20: hsla(300, 100%, 99%, 0.2);
+$white40: hsla(300, 100%, 99%, 0.4);
+$white90: hsla(300, 100%, 99%, 0.9);
+
+$violet10: hsl(272, 50%, 70%, 0.1);
+$violet50: hsl(272, 50%, 70%, 0.5);
+$violet90: hsl(272, 50%, 70%, 0.9);
+
+$pink10: hsla(347, 82%, 70%, 0.1);
+$pink50: hsla(347, 82%, 70%, 0.5);
+
+$orange10: hsla(18, 84%, 61%, 0.1);
+$orange50: hsla(18, 84%, 61%, 0.5);
+
+$yellow10: hsla(39, 91%, 60%, 0.1);
+$yellow50: hsla(39, 91%, 60%, 0.5);
+
+$green10: hsla(88, 44%, 55%, 0.1);
+$green50: hsla(88, 44%, 55%, 0.5);
+
+$blue10: hsla(219, 43%, 66%, 0.1);
+$blue50: hsla(219, 43%, 66%, 0.5);
+
+
+/* typography */
+$font-heading: 'Museo Slab', sans-serif;
+$font-body: 'Museo Sans', sans-serif;
+
+$fw-thin: 100;
+$fw-normal: 300;
+$fw-bold: 700;
+
+
+/* navigation */
+$mininav-width: 75px;
+$mininav-height: 75px;
+$fullnav-width: 350px;
+
+// order of menu items
+$planner-nth-child: 1;
+$meals-nth-child: 2;
+$recipes-nth-child: 3;
+$ingredients-nth-child: 4;
+$shoppinglists-nth-child: 5;
+$accountsettings-nth-child: 6;
+$logout-nth-child: 7;
+
+
+/* breakpoints & media query mixins */
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// tablet
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+// small desktop
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// IE11 
+@mixin ie11 {
+  @media screen and (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+
+/* misc */
+$transition-duration: 0.25s;
+
+$border-circle: 50%;
+$border-rounded: 0.5rem;

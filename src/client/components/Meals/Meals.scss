@@ -1,0 +1,20 @@
+@import '../variables.scss';
+
+.meals {
+  h1 {
+    text-shadow: 2px 2px 0 $pink50;
+  }
+
+  &__side {
+    @include desktop {
+      box-shadow: 2px 2px 0 $pink50;
+    }
+  }
+
+  // !important overrides inline styles - injected by module
+  .circle-picker {
+    width: 100% !important;
+    margin-bottom: 2rem !important;
+    margin-top: 0.5rem;
+  }
+}
