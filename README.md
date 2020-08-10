@@ -1,7 +1,7 @@
 # Mealise
 **National College of Ireland - Higher Diploma in Science in Web Technologies - 2019/2020**
 
-This repo contains the source code for [Camila Mattos](https://camila.digital)' Final Project 👩🏻‍🎓
+This repo contains the source code for [Camila Mattos](https://camilamattos.com)' Final Project 👩🏻‍🎓
 
 - **Technologies:** React, NodeJS, Express & MongoDB
 - **3rd Party Tools:** SendGrid
