@@ -30,7 +30,7 @@
     "mongoose": "^5.9.21",
     "mongoose-sequence": "^5.2.2",
     "mongoose-unique-validator": "^2.0.3",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "react": "^16.5.2",
